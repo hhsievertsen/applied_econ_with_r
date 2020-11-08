@@ -412,7 +412,7 @@ analysisdata%>%
   datasummary_skim()
 ```
 
-Let's now change the appearance of the table and export it to Latex. When exporting it to Latex, we can't have histogram', so we disable them. We use the `cat()` function to write the table to a *.tex*. file. 
+Let's now change the appearance of the table and export it to Latex. When exporting it to Latex, we can't have histogram', so we disable them. We specify `output="tab_summary_statistics.tex"` to write to a latex file. We can also export the table to other formats like a Microsoft Word document. 
 
 ```{r ch4-2,eval=F, warning=F,include=T,echo=T,results="asis",message=FALSE}
 # load modelsummary
@@ -899,9 +899,11 @@ logit_results <- glm(summerschool ~letter+parental_lincome+female+parental_schoo
 summary(logit_results)
 ```
 
-Note that the output about covers the beta coefficients. We can use `margins()` to obtain marginal effects, and we can also include these in our table
+Note that the output about covers the beta coefficients. Let's compute the average marginal effects.
 
 ## 8.3 Marginal effects
+
+We can use `margins()` to obtain average marginal effects. We simply use the `margins()` function on the objects storing or probit and logit estimates. We can also include these directly in a nice looking table. 
 
 ```{r ch8-4,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
 ## Load margins package
@@ -1246,6 +1248,7 @@ modelplot(models,coef_map=cm)+
 - **merge**:  An R example is provided in [section 2.5](https://hhsievertsen.github.io/applied_econ_with_r/#25_Merging_the_datasets)
 - **import csv**:  An R example is provided in [section 2.2](https://hhsievertsen.github.io/applied_econ_with_r/#22_Loading_a_csv_data_file)
 - **import xlsx**:  An R example is provided in [section 2.4](https://hhsievertsen.github.io/applied_econ_with_r/#24_Loading_an_xlsx_file)
+- **margins **:  An R example is provided in [section 8.3](https://hhsievertsen.github.io/applied_econ_with_r)
 - **reg y x**:  An R example is provided in [section 7.1](https://hhsievertsen.github.io/applied_econ_with_r/#71_OLS_estimation_with_with_lm())
 - **reghdfe y x,absorb() cluster()**:  An R example is provided in [section 7.2](https://hhsievertsen.github.io/applied_econ_with_r/#72_OlS_with_the_felm()_function)
 - **use "... .dta"**:  An R example is provided in [section 2.3](https://hhsievertsen.github.io/applied_econ_with_r/#23_Loading_a_Stata_data_file)
