@@ -207,7 +207,7 @@ tail(school_data_2,n=8)
 
 
   
-### 2.4 Loading an xlsx file
+## 2.4 Loading an xlsx file
 
 Finally, we'll load the the *xlsx* file *school_data_3.xlsx* for that we'll use the `read.xlsx()` function from the *openxlsx* package. Again, the syntax is very similar to what we've seen before.  This time we will use the `glimpse()` function from the *dplyr* package to get a glimpse of the dataset. 
 
@@ -1237,3 +1237,20 @@ modelplot(models,coef_map=cm)+
 <iframe src="https://giphy.com/embed/mGK1g88HZRa2FlKGbz" width="480" height="400" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/Friends-episode-1-season-9-friends-tv-mGK1g88HZRa2FlKGbz"></a></p>
 
 </center>
+
+
+# Stata keywords
+
+- **bys year: egen x=..** An R example is provided in [section 3.3](https://hhsievertsen.github.io/applied_econ_with_r/#33_Modifying_the_data)
+- **collapse**:  An R example is provided in [section 10.1](https://hhsievertsen.github.io/applied_econ_with_r/#101_Inspecting_the_common_trends)
+- **merge**:  An R example is provided in [section 2.5](https://hhsievertsen.github.io/applied_econ_with_r/#25_Merging_the_datasets)
+- **import csv**:  An R example is provided in [section 2.2](https://hhsievertsen.github.io/applied_econ_with_r/#22_Loading_a_csv_data_file)
+- **import xlsx**:  An R example is provided in [section 2.4](https://hhsievertsen.github.io/applied_econ_with_r/#24_Loading_an_xlsx_file)
+- **reg y x**:  An R example is provided in [section 7.1](https://hhsievertsen.github.io/applied_econ_with_r/#71_OLS_estimation_with_with_lm())
+- **reghdfe y x,absorb() cluster()**:  An R example is provided in [section 7.2](https://hhsievertsen.github.io/applied_econ_with_r/#72_OlS_with_the_felm()_function)
+- **use "... .dta"**:  An R example is provided in [section 2.3](https://hhsievertsen.github.io/applied_econ_with_r/#23_Loading_a_Stata_data_file)
+
+
+
+
+
