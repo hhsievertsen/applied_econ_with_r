@@ -44,6 +44,7 @@ Welcome to this introduction to Applied Economics with R. This tutorial is writt
 - All data used is directly downloadable (see the next section).You should therefore be able to download and reproduce all results. 
 - The tutorial is mainly consists of code blocks  and the resulting output.  Every now and then I include some references to how I would do the same task in Stata or key differences to Stata. 
 - This tutorial is a work in progress project, so please let me know if you find mistakes, a particularly unclear sections, or if you have suggestions for improvements (just send an email to h.h.sievertsen@bristol.ac.uk).
+- For source files check the github repository [github.com/hhsievertsen/applied_econ_with_r](https://github.com/hhsievertsen/applied_econ_with_r)
 
 
 
@@ -101,20 +102,20 @@ The  **fictitious** setting is as follows:
 
 We have three datasets to study the research question:
   
-  1.  [school_data_1.csv](https://raw.githubusercontent.com/hhsievertsen/applied_econ_with_r/master/data/school_data_1.csv) 
+  1.  [school_data_1.csv](https://github.com/hhsievertsen/applied_econ_with_r/blob/main/data/school_data_1.csv) 
 
 - We use this as example on how to **load data stored in a csv format**.
 - This dataset contains information about person id, school id, an indicator variable that takes the value of 1 if the individual participated in the summer school, information about gender, parental income and parental schooling, and test scores in year 5 (before the treatment) and year 6. 
 
 
-2.  [school_data_2.dta](https://raw.githubusercontent.com/hhsievertsen/applied_econ_with_r/master/data/school_data_2.xlsx) 
+2.  [school_data_2.dta](https://github.com/hhsievertsen/applied_econ_with_r/raw/main/data/school_data_2.dta) 
 
 - We use this as example on **how to load data stored in a Stata format**.
 - This dataset contains information about person id, which enables us to link it to the first dataset. We will use this to practice **merging** data.
 - The dataset also contains information about whether the individual received a reminder letter. 
 
 
-3.  [school_data_3.xlsx](https://raw.githubusercontent.com/hhsievertsen/applied_econ_with_r/master/data/school_data_3.dta) 
+3.  [school_data_3.xlsx](https://github.com/hhsievertsen/applied_econ_with_r/raw/main/data/school_data_3.xlsx) 
 
 - We use this as example on how to **load data stored in a Microsoft Excel format**.
 - This dataset contains information about person id, which enables us to link it to the first dataset. 
