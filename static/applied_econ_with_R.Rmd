@@ -483,6 +483,7 @@ In the example above we
 </center>
 
 <br>
+
 ## 4.3 Variable names in tables
 
 So far we've used variable names as labels in our table. In contrast to Stata, R allows for labels with white space, and we could therefore rename the variables to give nicer looking names in our table. However, we can also just assign a "label" when creating the table as shown below:
