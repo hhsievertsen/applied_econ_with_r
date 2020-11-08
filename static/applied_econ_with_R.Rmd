@@ -40,11 +40,19 @@ knitr::opts_chunk$set(echo = FALSE)
 
 Welcome to this introduction to Applied Economics with R. This tutorial is written for economics students at the University of Bristol, but everyone is welcome to use it. 
 
+
+**How this works**
+
 - The tutorial is structured as a complete research project starting with loading the raw data and ending with a chart comparing the estimates across approaches. 
 - All data used is directly downloadable (see the next section).You should therefore be able to download and reproduce all results. 
 - The tutorial is mainly consists of code blocks  and the resulting output.  Every now and then I include some references to how I would do the same task in Stata or key differences to Stata. 
 - This tutorial is a work in progress project, so please let me know if you find mistakes, a particularly unclear sections, or if you have suggestions for improvements (just send an email to h.h.sievertsen@bristol.ac.uk).
 - For source files check the github repository [github.com/hhsievertsen/applied_econ_with_r](https://github.com/hhsievertsen/applied_econ_with_r)
+
+
+**Other tutorials**
+
+- I highly recommend the tutorials by Grant McDermott. For example [The R Intro (mainly for Stata users)](https://raw.githack.com/grantmcdermott/R-intro/master/rIntro.html) and [The R regression intro](https://raw.githack.com/grantmcdermott/R-intro/master/regression-intro.html).
 
 
 
