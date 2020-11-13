@@ -65,7 +65,7 @@ Welcome to this introduction to Applied Economics with R. This tutorial is writt
 
 I appreciate feedback, thanks.
 
-Hans  (version 0.1 - November, 2020)
+Hans  (version 0.2 - November, 2020)
 
 
 <br><br><br><br><br><br>
