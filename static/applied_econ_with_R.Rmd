@@ -543,6 +543,7 @@ data_for_stargazer<-analysisdata%>%
 stargazer(data_for_stargazer,type="html")
 ```
 
+<br>
 For more details about Stargazer [check the documentation here](https://cran.r-project.org/web/packages/stargazer/vignettes/stargazer.pdf). 
 <br><br><br><br><br><br>
 
@@ -854,7 +855,9 @@ modelsummary(models, stars = TRUE,statistic = 'std.error',
               coef_omit= '(Intercept)', output = 'flextable')
 ```
 
-Just like in earlier examples, we can output our table to Microsoft Word or Latex with `output=..`. Note that we specify the type of standard errors in the `modelsummary()` function. Brilliant!  The results show that those received a letter have a 0.2SD higher test score in year 6. There are many other settings that we can specify to polish our table. But let us  move on.
+Just like in earlier examples, we can output our table to Microsoft Word or Latex with `output=..`. Note that we specify the type of standard errors in the `modelsummary()` function. Note that you can also use  [Stargazer](https://cran.r-project.org/web/packages/stargazer/vignettes/stargazer.pdf) for regression tables.
+<br><br>
+Brilliant!  The results show that those received a letter have a 0.2SD higher test score in year 6. There are many other settings that we can specify to polish our table. But let us  move on.
 
 <br><br><br><br><br><br>
 
