@@ -1,7 +1,12 @@
 /******
 newjellies
 *******/
-
+#TOC::after {
+    content: "NOTE: All Data Used In This Tutorial is Fictitious. ";
+    font-size: 10px;
+    color: #022e1f;
+    margin: 10px;
+}
 
 /*-------- Google font imports --------*/
 
@@ -13,7 +18,7 @@ newjellies
 body {
     background-color: white;
     font-family: 'Jost', sans-serif;
-    color: dimgray;
+      color: #022e1f;
     font-size: 16px;
 }
 

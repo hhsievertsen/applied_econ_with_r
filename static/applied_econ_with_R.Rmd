@@ -47,12 +47,12 @@ Welcome to this introduction to Applied Economics with R. This tutorial is writt
 - All data used is directly downloadable (see the next section).You should therefore be able to download and reproduce all results. 
 - The tutorial is mainly consists of code blocks  and the resulting output.  Every now and then I include some references to how I would do the same task in Stata or key differences to Stata. 
 - This tutorial is a work in progress project, so please let me know if you find mistakes, a particularly unclear sections, or if you have suggestions for improvements (just send an email to h.h.sievertsen@bristol.ac.uk).
-- For source files check the github repository [github.com/hhsievertsen/applied_econ_with_r](https://github.com/hhsievertsen/applied_econ_with_r)
+- For source files check the github repository [github.com/hhsievertsen/applied_econ_with_r](https://github.com/hhsievertsen/applied_econ_with_r).
 
 
 **Other tutorials**
 
-- I highly recommend the tutorials by Grant McDermott. For example [The R Intro (mainly for Stata users)](https://raw.githack.com/grantmcdermott/R-intro/master/rIntro.html) and [The R regression intro](https://raw.githack.com/grantmcdermott/R-intro/master/regression-intro.html).
+- I highly recommend the tutorials by Grant McDermott. For example [The R Intro (mainly for Stata users)](https://raw.githack.com/grantmcdermott/R-intro/master/rIntro.html) and [The R regression intro](https://raw.githack.com/grantmcdermott/R-intro/master/regression-intro.html). Grant has a also developed an impressive online resource of slides, notes, and examples on R, github, & Programming here: [Data science for economists](https://github.com/uo-ec607/lectures).
 
 
 
@@ -526,6 +526,24 @@ datasummary((`Female`=female)+
             output = 'tab_descriptive_statistics.docx')
 ```
 
+
+## 4.4 Tables with Stargazer
+
+Before I met the datasummary package in R I created my Latex tables with `stargazer()` from the *stargazer* package. This function is super easy to use. Let us try it! To create a table of summary statistics we simply provide `stargazer()` with a data frame. The only challenge now is that so far we have worked with so called [tibble](https://blog.rstudio.com/2016/03/24/tibble-1-0-0/#:~:text=There%20are%20two%20main%20differences,to%20work%20with%20large%20data) and not data frames. We therefore first have to convert it into a data frame which we do with `as.data.frame()` as shown below.
+
+```{r ch4-7,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
+# load stargazer
+library("stargazer")
+# prepare data for stargazer
+data_for_stargazer<-analysisdata%>%
+                    select(female,parental_schooling,parental_lincome,letter,test_score)%>%
+                    filter(year==2)%>%
+                    as.data.frame()
+# create a summary stat table
+stargazer(data_for_stargazer,type="html")
+```
+
+For more details about Stargazer [check the documentation here](https://cran.r-project.org/web/packages/stargazer/vignettes/stargazer.pdf). 
 <br><br><br><br><br><br>
 
 # 5 Descriptive Charts
@@ -813,13 +831,11 @@ Brilliant. We let's now try to output such regressions to a nice looking table. 
 
 3. Specify that `modelsummary()` excludes the coefficient on the intercept.
 
-4. Specify the standard errors to use with `statistic_override=vcov`. 
+4. Specify that parentheses should include standard errors with `statistic='std.error'`.
 
-5. Specify that parentheses should include standard errors with `statistic='std.error'`.
+5. Specify the formatting of the numbers with `fmt=..`.
 
-6. Specify the formatting of the numbers with `fmt=..`.
-
-7. Use *flextable* to format the layout (lines etc)
+6. Use *flextable* to format the layout (lines etc)
 
 ```{r ch7-5,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
 # Load flextable and modelsummary
@@ -833,8 +849,7 @@ models<-list(
               school_id+year|0|school_id,data=regdata, cmethod="reghdfe")
   )
 # Generate table
-modelsummary(models, stars = TRUE,statistic = 'std.error',  
-             statistic_override = vcov,
+modelsummary(models, stars = TRUE,statistic = 'std.error',
              fmt= '%.4f',
               coef_omit= '(Intercept)', output = 'flextable')
 ```
@@ -872,7 +887,6 @@ models<-list(
 added_stats<-tibble("Mean of Dep. ",m1=mean(regdata$summerschool),m2=mean(regdata$summerschool))
 # Generate table
 modelsummary(models, stars = TRUE,statistic = 'std.error',  
-             statistic_override = vcov,
              fmt= '%.4f',add_rows = added_stats,
               coef_omit= '(Intercept)', output = 'flextable')
 ```
@@ -988,7 +1002,6 @@ cm <- c('`summerschool(fit)`' = 'Summer School',
         'letter' = 'Reminder letter', "female"="Female","parental_schooling"="Parental Schooling")
 # Output Table
 modelsummary(IVresults, stars = TRUE,statistic = 'std.error',  
-             statistic_override = vcov,
              fmt= '%.4f',coef_map=cm, output = 'gt'
         )
 ```
@@ -1119,7 +1132,16 @@ ggplot()+
 
 ```
 
+
+<center>
+
+<div class="tenor-gif-embed" data-postid="12385898" data-share-method="host" data-width="60%" data-aspect-ratio="1.3559322033898304"><a href="https://tenor.com/view/roller-coaster-state-fair-screaming-gif-12385898">Roller Coaster State Fair GIF</a> from <a href="https://tenor.com/search/rollercoaster-gifs">Rollercoaster GIFs</a></div><script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
 Looks convincing! There is a clear drop in the probability of treatment around the cutoff of 1.5.
+
+
+
+</center>
 
 ## 11.2 Balanced covariates & manipulation in forcing variable
 
@@ -1172,6 +1194,7 @@ p3<-ggplot(rdd_raw,aes(x=test_score_raw))+
 
 ```
 
+Looks pretty balanced to me! 
 
 ## 11.3 RDD regression 
 
@@ -1225,13 +1248,29 @@ cm <- c('`summerschool(fit)`'  = 'RCT',
 
 # Create plot of coefficients
 modelplot(models,coef_map=cm)+
-  labs(title="Coefficients: The effect of attending a summer school on test scores (in SD)")+
+  labs(title="Coefficients: The effect of attending a summer school on test scores (in SD)",
+       caption ="Note: All data is fictitious.")+
   theme(legend.position = "none")+
   geom_vline(xintercept=0)
 
 ```
 
-<br><br>
+
+
+# Stata index
+
+- **bys year: egen x=..** An R example is provided in [section 3.3](https://hhsievertsen.github.io/applied_econ_with_r/#33_Modifying_the_data) <br>
+- **collapse**:  An R example is provided in [section 10.1](https://hhsievertsen.github.io/applied_econ_with_r/#101_Inspecting_the_common_trends) <br>
+- **merge**:  An R example is provided in [section 2.5](https://hhsievertsen.github.io/applied_econ_with_r/#25_Merging_the_datasets) <br>
+- **import csv**:  An R example is provided in [section 2.2](https://hhsievertsen.github.io/applied_econ_with_r/#22_Loading_a_csv_data_file) <br>
+- **import xlsx**:  An R example is provided in [section 2.4](https://hhsievertsen.github.io/applied_econ_with_r/#24_Loading_an_xlsx_file) <br>
+- **margins **:  An R example is provided in [section 8.3](https://hhsievertsen.github.io/applied_econ_with_r) <br>
+- **reg y x**:  An R example is provided in [section 7.1](https://hhsievertsen.github.io/applied_econ_with_r/#71_OLS_estimation_with_with_lm()) <br>
+- **reghdfe y x,absorb() cluster()**:  An R example is provided in [section 7.2](https://hhsievertsen.github.io/applied_econ_with_r/#72_OlS_with_the_felm()_function) <br>
+- **use "... .dta"**:  An R example is provided in [section 2.3](https://hhsievertsen.github.io/applied_econ_with_r/#23_Loading_a_Stata_data_file) <br>
+
+
+<br><br><br><br><br>
 **That is it!** You made it to the end of my tutorial. Well done!
 <br>
 <center>
@@ -1239,21 +1278,5 @@ modelplot(models,coef_map=cm)+
 <iframe src="https://giphy.com/embed/mGK1g88HZRa2FlKGbz" width="480" height="400" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/Friends-episode-1-season-9-friends-tv-mGK1g88HZRa2FlKGbz"></a></p>
 
 </center>
-
-
-# Stata keywords
-
-- **bys year: egen x=..** An R example is provided in [section 3.3](https://hhsievertsen.github.io/applied_econ_with_r/#33_Modifying_the_data)
-- **collapse**:  An R example is provided in [section 10.1](https://hhsievertsen.github.io/applied_econ_with_r/#101_Inspecting_the_common_trends)
-- **merge**:  An R example is provided in [section 2.5](https://hhsievertsen.github.io/applied_econ_with_r/#25_Merging_the_datasets)
-- **import csv**:  An R example is provided in [section 2.2](https://hhsievertsen.github.io/applied_econ_with_r/#22_Loading_a_csv_data_file)
-- **import xlsx**:  An R example is provided in [section 2.4](https://hhsievertsen.github.io/applied_econ_with_r/#24_Loading_an_xlsx_file)
-- **margins **:  An R example is provided in [section 8.3](https://hhsievertsen.github.io/applied_econ_with_r)
-- **reg y x**:  An R example is provided in [section 7.1](https://hhsievertsen.github.io/applied_econ_with_r/#71_OLS_estimation_with_with_lm())
-- **reghdfe y x,absorb() cluster()**:  An R example is provided in [section 7.2](https://hhsievertsen.github.io/applied_econ_with_r/#72_OlS_with_the_felm()_function)
-- **use "... .dta"**:  An R example is provided in [section 2.3](https://hhsievertsen.github.io/applied_econ_with_r/#23_Loading_a_Stata_data_file)
-
-
-
 
 
