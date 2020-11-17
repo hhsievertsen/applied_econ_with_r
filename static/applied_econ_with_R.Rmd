@@ -611,7 +611,7 @@ p2<-rawchart+
        labs(y="Test Score Year 5", x="Attended Summer School")
 # Create bar chart of parental schooling and summer school attendance
 p3<-rawchart+
-              geom_boxplot(aes(x=as.factor(summerschool),y=parental_lincome))
+              geom_boxplot(aes(x=as.factor(summerschool),y=parental_lincome))+
        labs(y="Parental Income (log)", x="Attended Summer School")
 # Combine charts
 p1/(p2+p3)
@@ -1280,6 +1280,10 @@ modelplot(models,coef_map=cm)+
 
 <iframe src="https://giphy.com/embed/mGK1g88HZRa2FlKGbz" width="480" height="400" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/Friends-episode-1-season-9-friends-tv-mGK1g88HZRa2FlKGbz"></a></p>
 
+
+<strong> Thanks!</strong><br><br>
+
+I would like to thank @stsumej, Grant McDermott, and Jacob Mazalale for identifying mistakes and/or suggesting improvements. E-mails about mistakes and suggestions for improvements are always very welcome and much appreciated. You can write to h.h.sievertsen@bristol.ac.uk. Thank you. 
 </center>
 
 
