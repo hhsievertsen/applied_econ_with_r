@@ -4,7 +4,7 @@ author:
   name: Hans H. Sievertsen
   affiliation: University of Bristol
   email: h.h.sievertsen@bristol.ac.uk
-date: "17 November 2020"
+date: "08 December 2020"
 output:
   html_document:
     theme: lumen 
@@ -27,14 +27,14 @@ output:
 ### Hi!{-}
 
 
-Welcome to this introduction to Applied Economics with R. This tutorial is written for economics students at the University of Bristol, but everyone is welcome to use it. 
+Welcome to this introduction to Applied Economics with R. This tutorial is written for Applied Economics students at the University of Bristol. 
 
 
 **How this works**
 
-- The tutorial is structured as a complete research project starting with loading the raw data and ending with a chart comparing the estimates across approaches. 
-- All data used is directly downloadable (see the next section).You should therefore be able to download and reproduce all results. 
-- The tutorial is mainly consists of code blocks  and the resulting output.  Every now and then I include some references to how I would do the same task in Stata or key differences to Stata. 
+- The tutorial is structured as a complete research project starting with loading the raw data. 
+- All data used is directly downloadable (see the next section). You should therefore be able to download and reproduce all results. 
+- The tutorial  mainly consists of code blocks  and the resulting output.  Every now and then I include some references to how I would do the same task in Stata or key differences to Stata. 
 - This tutorial is a work in progress project, so please let me know if you find mistakes, a particularly unclear sections, or if you have suggestions for improvements (just send an email to h.h.sievertsen@bristol.ac.uk).
 - For source files check the github repository [github.com/hhsievertsen/applied_econ_with_r](https://github.com/hhsievertsen/applied_econ_with_r).
 
@@ -45,16 +45,11 @@ Welcome to this introduction to Applied Economics with R. This tutorial is writt
 
 
 
-**Prerequisites**
-  
-1. Basic understanding of R. See  [R introduction](https://hhsievertsen.shinyapps.io/r_introduction/) for an introduction to R if you never used it before. 
-
-2. I will not cover the theory behind the statistical methods used. Knowledge of econometrics at the level of (at least) [Wooldridge: Introductory Econometrics](https://www.goodreads.com/book/show/390475.Introductory_Econometrics) is therefore advantageous. 
 
 
 I appreciate feedback, thanks.
 
-Hans  (version 0.2 - November, 2020)
+Hans  (version 0.4 - December 8 , 2020)
 
 
 <br><br><br><br><br><br>
@@ -85,13 +80,10 @@ The  **fictitious** setting is as follows:
 
 - We are interested in whether participation in the summer school improves child outcomes. 
 
-- The setting is a dream for  researchers (there is a reason why it is **fictitious**!):
-  
+
 * There was a Randomised Controlled Trial (*RCT*), where some families were randomised into receiving a letter reminding them of the summer school. We will exploit this for  **hypothesis testing**,  **regressions**, and applying an **instrumental variables** approach.
 
 * We have test score measures before and treatment allowing us to test the effect of the summer school in a **difference-in-differences** approach.
-
-* Pupils with test scores below 1.5 in year 5 were encouraged to participate in the summer school. This allows us to address the research question in a **regression discontinuity** approach.
 
 
 
@@ -99,7 +91,7 @@ The  **fictitious** setting is as follows:
 
 We have three datasets to study the research question:
   
-  1.  [school_data_1.csv](https://github.com/hhsievertsen/applied_econ_with_r/blob/main/data/school_data_1.csv) 
+  1.  [school_data_1.csv](https://raw.githubusercontent.com/hhsievertsen/applied_econ_with_r/main/data/school_data_1.csv) 
 
 - We use this as example on how to **load data stored in a csv format**.
 - This dataset contains information about person id, school id, an indicator variable that takes the value of 1 if the individual participated in the summer school, information about gender, parental income and parental schooling, and test scores in year 5 (before the treatment) and year 6. 
@@ -121,7 +113,6 @@ We have three datasets to study the research question:
 
 Let's get started!
 
-<br><br><br><br><br><br>
 
 
 # 2 Loading & Cleaning the Data
@@ -266,23 +257,66 @@ Let's now load the three datasets. We will use the `merge()` function for that. 
 
 In the code block below we
 
-1. Load the dataset *school_data_1.csv* as described above.
-2. Load the dataset *school_data_2.dta* as described above.
-3. Load the dataset *school_data_3.xlsx* as described above.
-4. Merge *school_data_1* and *school_data_2* by the *person_id* column and save the merged dataset under the name *school_data*.
-4. Merge *school_data_3* with *school_data* and overwrite *school_data*. Note in this case we merge by *person_id* and *school_id* columns. This is not necessary (because person_id is unique), but serves as an example on how to merge by more columns using `c()`.  name *school_data*.
-5. Use the `summary()` function to obtain summary statistics of the variables.
+1. Set working directory to our local folder. 
+2. Load the dataset *school_data_1.csv* as described above.
+3. Load the dataset *school_data_2.dta* as described above.
+4. Load the dataset *school_data_3.xlsx* as described above.
+5. Merge *school_data_1* and *school_data_2* by the *person_id* column and save the merged dataset under the name *school_data*.
+6. Merge *school_data_3* with *school_data* and overwrite *school_data*. Note in this case we merge by *person_id* and *school_id* columns. This is not necessary (because person_id is unique), but serves as an example on how to merge by more columns using `c()`.  name *school_data*.
+7. Use the `head()` to list the first 6 rows of the dataset.
 
-
+#### Code block 1 for lab session in Applied Economics
 
 ```r
+# Install packages (you only have to do this once)
+install.packages("readr")
+install.packages("openxlsx")
+install.packages("readstata13")
+install.packages("dplyr")
+# Load packages
+library("readr")
+library("openxlsx")
+library("readstata13")
+library("dplyr")
+# set working directory
+setwd("C:/Users/hhs/")
+# use read.dta13 from readstata13 to load a Stata dataset
+school_data_1<-read_csv("school_data_1.csv")
+school_data_2<-read.dta13("school_data_2.dta")
+school_data_3<-read.xlsx("school_data_3.xlsx")
 # Merge school_data_1 and school_data_2 and save as school_data_merged 
 school_data_merged<-merge(school_data_1,school_data_2,by="person_id")
 # Merge school_data_3 with school_data_merged
 school_data_merged<-merge(school_data_merged,school_data_3,by=c("person_id","school_id"))
-# summary statistics
-summary(school_data_merged)
+# list the first 6 rows
+head(school_data_merged)
 ```
+
+```
+##   person_id school_id summercamp female parental_schooling parental_lincome
+## 1         1         5          0      1                 10         12.93921
+## 2        10         9          1      1                 11         13.80988
+## 3       100        16          1      1                 10         13.77691
+## 4      1000         4          0      0                 11         14.44527
+## 5      1001        23          1      0                 11         14.18880
+## 6      1002        14          1      1                 14         15.57924
+##   test_year_5 test_year_6 letter test_year_2 test_year_3 test_year_4
+## 1          NA    1.544524      0    1.090117    1.914594    2.065805
+## 2    2.412566    2.832167      1    2.374860    2.760699    2.869033
+## 3    1.467072    2.482908      0    1.973252    2.223570    1.655395
+## 4    1.782886    1.662903      0    2.232593    1.522637    2.015099
+## 5    2.538013    2.473493      1    2.056365    2.222375    2.293746
+## 6    3.862513    3.683795      1    3.011419    3.691108    3.610801
+##   test_year_7 test_year_8 test_year_9 test_year_10 learnings
+## 1    2.377697    2.032904    1.493803     1.880512 10.236394
+## 2    2.504206    2.822222    2.672936     2.293677 10.735916
+## 3    1.972753    1.825863    2.154165     2.656284  9.194100
+## 4    1.724925    2.082464    2.459566     2.640320  8.649653
+## 5    2.959177    2.675873    3.030976     2.163522 10.102839
+## 6    3.350409    3.496127    3.995040     2.929772 12.583677
+```
+
+
 
 
 
@@ -295,7 +329,6 @@ summary(school_data_merged)
 </center>
 
 
-<br><br><br><br><br><br>
 
 # 3 Tidying and processing the data
 
@@ -340,7 +373,7 @@ head(school_data_tidy)
 
 ## 3.2 Sample Selection
 
-We now have a dataset that satisfies the tidy data principles. The next task before  is the sample selection.  The only sample selection we are concerned with in this exercise is missing values. We will use the `skim()` function  to assess how many missing values there are in our dataset.  `skim()` is one of my favourite functions in R to get an overview of the datasets, it comes  from the *skimr* package. 
+We now have a dataset that satisfies the tidy data principles. The next task   is the sample selection.  The only sample selection we are concerned with in this exercise is missing values. We will use the `skim()` function  to assess how many missing values there are in our dataset.  `skim()` is one of my favourite functions in R to get an overview of the datasets, it comes  from the *skimr* package. 
 
 
 
@@ -390,20 +423,42 @@ We notice that the variable *parental_schooling* has 45 missing values and the v
 
 ```r
 # Select only rows with no missing values
-school_data_selected<-school_data_tidy%>%
-                     filter(!is.na(parental_schooling),!is.na(test_score))
-# Use apply to apply a function on all columns
-apply(school_data_selected,2, function(x) sum(is.na(x)))
+school_data_selected<-filter(school_data_tidy,
+                      !is.na(parental_schooling),!is.na(test_score))
+# Use skim() to skim the data
+skim(school_data_tidy)
 ```
 
-```
-##          person_id          school_id         summercamp             female 
-##                  0                  0                  0                  0 
-## parental_schooling   parental_lincome             letter          learnings 
-##                  0                  0                  0                  0 
-##               year         test_score 
-##                  0                  0
-```
+
+Table: Data summary
+
+                                            
+-------------------------  -----------------
+Name                       school_data_tidy 
+Number of rows             31419            
+Number of columns          10               
+_______________________                     
+Column type frequency:                      
+numeric                    10               
+________________________                    
+Group variables            None             
+-------------------------  -----------------
+
+
+**Variable type: numeric**
+
+skim_variable         n_missing   complete_rate      mean        sd      p0      p25       p50       p75      p100  hist  
+-------------------  ----------  --------------  --------  --------  ------  -------  --------  --------  --------  ------
+person_id                     0               1   1746.00   1007.78    1.00   873.00   1746.00   2619.00   3491.00  ▇▇▇▇▇ 
+school_id                     0               1     15.66      8.67    1.00     8.00     15.00     23.00     30.00  ▇▇▇▇▇ 
+summercamp                    0               1      0.46      0.50    0.00     0.00      0.00      1.00      1.00  ▇▁▁▁▇ 
+female                        0               1      0.52      0.50    0.00     0.00      1.00      1.00      1.00  ▇▁▁▁▇ 
+parental_schooling           45               1     11.32      1.10   10.00    11.00     11.00     12.00     23.00  ▇▁▁▁▁ 
+parental_lincome              0               1     14.56      0.69   12.67    14.11     14.52     14.95     19.45  ▂▇▁▁▁ 
+letter                        0               1      0.25      0.43    0.00     0.00      0.00      0.00      1.00  ▇▁▁▁▂ 
+learnings                     0               1     10.06      1.28    5.39     9.18     10.04     10.96     14.62  ▁▃▇▃▁ 
+year                          0               1      6.00      2.58    2.00     4.00      6.00      8.00     10.00  ▇▇▃▇▇ 
+test_score                   11               1      2.36      0.72   -0.57     1.87      2.32      2.83      5.05  ▁▂▇▃▁ 
 
  There are many ways to assess the how many rows with missing values there are in our dataset, but in the example above I introduced the very popular `apply()` family in R. The apply function applies takes three arguments: an object (like a data frame), the dimension of the object to "loop over", the function to execute in each loop iteration. In our example we  tell R to consider the school_data object, the second dimension (columns), and on each column execute the function `sum(is.na(x))`.
  
@@ -442,34 +497,15 @@ head(analysisdata)
 Brilliant. In the next step we want to transform our *test_score* variable to have mean of zero and a standard deviation of one. Importantly we want to do this standardization within year. In Stata this would be a task for *bys year:*. In Stata we first specify what variable to group the data on, and the apply the functions *sd* and *mean* on that level.
 
 
-<details>
-<summary>Help me Hans!</summary>
-<div class="Stata">
-
-I could have written the code block below as
-
-<br>
-# Group analysisdata by year
-`analysisdata<-group_by(analysisdata,year)`
-# Rename test_score to test_score_raw
-`analysisdata<-rename(analysisdata,test_score_raw=test_score)`
-# Create a new variable with mutate
-`analysisdata<-mutate(analysisdata, test_score=(test_score_raw-mean(test_score_raw))/sd(test_score_raw))`
-
-<br>
-
-The functions such as `mutate()`, `select()` (not used here), `filter()` (not used here), `rename()`, and `group_by()` all take the dataset as the first argument. In the block above I overwrite analysisdata in every line with the modified dataset. In the block below I use the `%>%` (called the pipe operator) instead. It basically just moves the resulting dataset forward to the next dataset. 
-
-</div>
-</details> 
 
 
 ```r
-# Standardize test score
-analysisdata<-analysisdata%>%
-              group_by(year)%>%
-              rename(test_score_raw=test_score)%>%
-              mutate(test_score=(test_score_raw-mean(test_score_raw))/sd(test_score_raw))
+# Group analysisdata by year
+analysisdata<-group_by(analysisdata,year)
+# Rename test_score to test_score_raw
+analysisdata<-rename(analysisdata,test_score_raw=test_score)
+# Create a new variable with mutate
+analysisdata<-mutate(analysisdata,test_score=                                 (test_score_raw-mean(test_score_raw))/sd(test_score_raw))
 # show mean of test_score
 print(paste("Mean of test score:",mean(analysisdata$test_score)))
 ```
@@ -494,7 +530,74 @@ In the example above we use
 - `analysisdata$test_score` to extract the variable *test_score* from the *analysisdata* dataset.
 - `mean()` and `sd()` to calculate means and standard deviations. Note that this only works because we already removed the missing values. If we apply `mean()` on a vector that includes missing values it will return a missing value unless we specify the option `na.rm = FALSE`. 
 
-<br><br><br><br><br><br>
+
+The code block below combines the full sample selection and data processing.
+
+#### Code block 2 for lab session in Applied Economics
+
+
+
+```r
+# Install packages (you only have to do this once)
+install.packages("tidyr")
+install.packages("skimr")
+# load packages
+library("tidyr")
+library("skimr")
+# make data tidy (make long)
+school_data_tidy<-pivot_longer(school_data_merged,
+         cols = starts_with("test_year"),
+         names_to = "year",
+         names_prefix = "test_year_",
+         names_transform = list(year = as.integer),
+         values_to = "test_score",
+       )
+# Select only rows with no missing values
+school_data_selected<-filter(school_data_tidy,
+                      !is.na(parental_schooling),!is.na(test_score))
+# Rename summercamp to summerschool
+analysisdata<-rename(school_data_selected, summerschool=summercamp)
+# Group analysisdata by year
+analysisdata<-group_by(analysisdata,year)
+# Rename test_score to test_score_raw
+analysisdata<-rename(analysisdata,test_score_raw=test_score)
+# Create a new variable with mutate
+analysisdata<-mutate(analysisdata,test_score=                                 (test_score_raw-mean(test_score_raw))/sd(test_score_raw))
+# Use skim() to skim the data in year 5
+skim(analysisdata%>%filter(year==5))
+```
+
+
+Table: Data summary
+
+                                                        
+-------------------------  -----------------------------
+Name                       analysisdata %>% filter(y... 
+Number of rows             3480                         
+Number of columns          11                           
+_______________________                                 
+Column type frequency:                                  
+numeric                    10                           
+________________________                                
+Group variables            year                         
+-------------------------  -----------------------------
+
+
+**Variable type: numeric**
+
+skim_variable         year   n_missing   complete_rate      mean        sd      p0      p25       p50       p75      p100  hist  
+-------------------  -----  ----------  --------------  --------  --------  ------  -------  --------  --------  --------  ------
+person_id                5           0               1   1747.18   1007.30    2.00   874.75   1746.50   2620.25   3491.00  ▇▇▇▇▇ 
+school_id                5           0               1     15.67      8.68    1.00     8.00     15.00     23.00     30.00  ▇▇▇▇▇ 
+summerschool             5           0               1      0.46      0.50    0.00     0.00      0.00      1.00      1.00  ▇▁▁▁▇ 
+female                   5           0               1      0.52      0.50    0.00     0.00      1.00      1.00      1.00  ▇▁▁▁▇ 
+parental_schooling       5           0               1     11.33      1.11   10.00    11.00     11.00     12.00     23.00  ▇▁▁▁▁ 
+parental_lincome         5           0               1     14.56      0.69   12.67    14.12     14.52     14.95     19.45  ▂▇▁▁▁ 
+letter                   5           0               1      0.25      0.43    0.00     0.00      0.00      0.00      1.00  ▇▁▁▁▂ 
+learnings                5           0               1     10.06      1.28    5.39     9.18     10.04     10.96     14.62  ▁▃▇▃▁ 
+test_score_raw           5           0               1      2.24      0.68   -0.29     1.78      2.24      2.70      4.67  ▁▃▇▃▁ 
+test_score               5           0               1      0.00      1.00   -3.69    -0.67      0.00      0.67      3.55  ▁▃▇▃▁ 
+
 
 # 4 Descriptive Statistics 
 
@@ -888,7 +991,6 @@ stargazer(data_for_stargazer,type="html")
 
 <br>
 For more details about Stargazer [check the documentation here](https://cran.r-project.org/web/packages/stargazer/vignettes/stargazer.pdf). 
-<br><br><br><br><br><br>
 
 # 5 Descriptive Charts
 
@@ -907,9 +1009,14 @@ In the following example we
 4. Use `geom_point()` to add the scatter plot and set `alpha=0.1` to make it almost transparent. 
 5. Use `theme_classic()` to apply the classic theme. 
 
+#### Code block 3 for lab session in Applied Economics
+
+
 
 
 ```r
+# install ggplot2
+install.packages("ggplot2")
 # load ggplot2
 library("ggplot2")
 # create a scatter plot with a fitted line
@@ -919,9 +1026,7 @@ ggplot(analysisdata%>%filter(year==5),
        geom_point(alpha=0.1)+
        theme_classic()
 ```
-
-<img src="applied_econ_with_R_files/figure-html/ch5-1-1.png" width="400" style="display: block; margin: auto;" />
-
+![](applied_econ_with_R_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 ## 5.2 Bar chart and boxplot
 
 Okay, we observe that test score is correlated with parental income. That is not surprising. Now let's also create charts to assess whether summer school attendance is correlated with individual characteristics. We first create a scatter plot of parental schooling and test scores in year 5 (before the summer school). This is just like above, but with schooling instead of income. Secondly, we create a bar chart showing average test score in year 5 (before the summer school) by summer school attendance. Thirdly, we create box plots of parental income by summer school attendance. There are a few additional tricks in the following code:
@@ -1034,6 +1139,8 @@ The last chart suggested that the letter that was randomly sent to some families
 ## 6.1 Pairwise t-test
 
 We can conduct a t-test in R using `t.test()`. Specifically, we specify the formula `test_score~summerschool` to test whether the average *test_score* is significantly different across the two groups specified by *summerschool*. Let's do that for year 5 data:
+
+#### Code block 4 for lab session in Applied Economics
 
 
 ```r
@@ -1180,7 +1287,6 @@ The table suggests that all variables are well balanced across treated (receivin
 As before, we can simply add the option `output=tab_balancing.docx` if we want to export the table to Microsoft Word, or `output=tab_balancing.tex` if we want a Latex table.
 
 
-<br><br><br><br><br><br>
 
 #  7 Ordinary Least Squares 
 
@@ -1253,6 +1359,10 @@ summary(lm(test_score~letter,data=analysisdata%>%filter(year==6)))
 A nice feature of R is that we can assign basically everything to a name and then use it later. In the code block below we first run a regression and store it under the name *model1*. We then later call these regression results back when using the `summary()` command. In the following example we include a few covariates in the regression: 
 
 
+#### Code block 5 for lab session in Applied Economics
+
+
+
 ```r
 #  Ordinary Least Squares regression
 model1<-lm(test_score~parental_schooling+parental_lincome+letter+female,data=analysisdata%>%filter(year==6))
@@ -1285,7 +1395,7 @@ summary(model1)
 ## F-statistic: 781.2 on 4 and 3476 DF,  p-value: < 2.2e-16
 ```
 
-## 7.2 OlS with the felm() function
+## 7.2 OLS with the felm() function
 
 I am a big fan of running regressions with **reghdfe** if in Stata. Luckily R has something quite similar. That is `felm()` from the *lfe* package. This function expects a formula of the form:
 
@@ -1368,158 +1478,19 @@ modelsummary(models, stars = TRUE,statistic = 'std.error',
               coef_omit= '(Intercept)', output = 'flextable')
 ```
 
-<!--html_preserve--><div class="tabwid"><style>.cl-70744e68{font-family:'Arial';font-size:11px;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(17, 17, 17, 1.00);background-color:transparent;}.cl-70744e69{font-family:'Arial';font-size:10px;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-7074c2d0{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2px;padding-top:2px;padding-left:5px;padding-right:5px;line-height: 1.00;background-color:transparent;}.cl-7074c2d1{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0;padding-top:0;padding-left:0;padding-right:0;line-height: 1.00;background-color:transparent;}.cl-7075858a{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7075858b{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 2.00px solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7075858c{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1.00px solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7075858d{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 1.00px solid rgba(255, 255, 255, 0.00);border-top: 1.00px solid rgba(255, 255, 255, 0.00);border-left: 1.00px solid rgba(255, 255, 255, 0.00);border-right: 1.00px solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7075858e{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 2.00px solid rgba(0, 0, 0, 1.00);border-top: 2.00px solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table style='border-collapse:collapse;'><thead><tr style="overflow-wrap:break-word;"><td class="cl-7075858e"><p class="cl-7074c2d0"><span class="cl-70744e68"> </span></p></td><td class="cl-7075858e"><p class="cl-7074c2d0"><span class="cl-70744e68">Model 1</span></p></td><td class="cl-7075858e"><p class="cl-7074c2d0"><span class="cl-70744e68">Model 2</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">letter</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">0.2056***</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">0.2102***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68"></span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">(0.0271)</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">(0.0279)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">parental_schooling</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">-0.0279</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">-0.0306</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68"></span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">(0.0223)</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">(0.0227)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">parental_lincome</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">1.0185***</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">1.0211***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68"></span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">(0.0357)</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">(0.0366)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">female</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">-0.0143</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">-0.0096</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68"></span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">(0.0208)</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">(0.0203)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7075858c"><p class="cl-7074c2d0"><span class="cl-70744e68">Num.Obs.</span></p></td><td class="cl-7075858c"><p class="cl-7074c2d0"><span class="cl-70744e68">3481</span></p></td><td class="cl-7075858c"><p class="cl-7074c2d0"><span class="cl-70744e68">3481</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">R2</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">0.473</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">0.479</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">R2 Adj.</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">0.473</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">0.474</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">Cluster vars</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">school_id</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">school_id</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">FE:  school_id</span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68"></span></p></td><td class="cl-7075858a"><p class="cl-7074c2d0"><span class="cl-70744e68">X</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-7075858b"><p class="cl-7074c2d0"><span class="cl-70744e68">FE:  year</span></p></td><td class="cl-7075858b"><p class="cl-7074c2d0"><span class="cl-70744e68"></span></p></td><td class="cl-7075858b"><p class="cl-7074c2d0"><span class="cl-70744e68">X</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="3"class="cl-7075858d"><p class="cl-7074c2d1"><span class="cl-70744e69">* p &lt; 0.1, ** p &lt; 0.05, *** p &lt; 0.01</span></p></td></tr></tbody></table></div><!--/html_preserve-->
+<!--html_preserve--><div class="tabwid"><style>.cl-c4e776d0{font-family:'Arial';font-size:11px;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(17, 17, 17, 1.00);background-color:transparent;}.cl-c4e776d1{font-family:'Arial';font-size:10px;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-c4e81310{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2px;padding-top:2px;padding-left:5px;padding-right:5px;line-height: 1.00;background-color:transparent;}.cl-c4e81311{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0;padding-top:0;padding-left:0;padding-right:0;line-height: 1.00;background-color:transparent;}.cl-c4e8e330{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c4e8e331{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 2.00px solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c4e8e332{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1.00px solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c4e8e333{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 1.00px solid rgba(255, 255, 255, 0.00);border-top: 1.00px solid rgba(255, 255, 255, 0.00);border-left: 1.00px solid rgba(255, 255, 255, 0.00);border-right: 1.00px solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c4e8e334{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 2.00px solid rgba(0, 0, 0, 1.00);border-top: 2.00px solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table style='border-collapse:collapse;'><thead><tr style="overflow-wrap:break-word;"><td class="cl-c4e8e334"><p class="cl-c4e81310"><span class="cl-c4e776d0"> </span></p></td><td class="cl-c4e8e334"><p class="cl-c4e81310"><span class="cl-c4e776d0">Model 1</span></p></td><td class="cl-c4e8e334"><p class="cl-c4e81310"><span class="cl-c4e776d0">Model 2</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">letter</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">0.2056***</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">0.2102***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0"></span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">(0.0271)</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">(0.0279)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">parental_schooling</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">-0.0279</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">-0.0306</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0"></span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">(0.0223)</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">(0.0227)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">parental_lincome</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">1.0185***</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">1.0211***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0"></span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">(0.0357)</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">(0.0366)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">female</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">-0.0143</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">-0.0096</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0"></span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">(0.0208)</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">(0.0203)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c4e8e332"><p class="cl-c4e81310"><span class="cl-c4e776d0">Num.Obs.</span></p></td><td class="cl-c4e8e332"><p class="cl-c4e81310"><span class="cl-c4e776d0">3481</span></p></td><td class="cl-c4e8e332"><p class="cl-c4e81310"><span class="cl-c4e776d0">3481</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">R2</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">0.473</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">0.479</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">R2 Adj.</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">0.473</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">0.474</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">Cluster vars</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">school_id</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">school_id</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">FE:  school_id</span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0"></span></p></td><td class="cl-c4e8e330"><p class="cl-c4e81310"><span class="cl-c4e776d0">X</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-c4e8e331"><p class="cl-c4e81310"><span class="cl-c4e776d0">FE:  year</span></p></td><td class="cl-c4e8e331"><p class="cl-c4e81310"><span class="cl-c4e776d0"></span></p></td><td class="cl-c4e8e331"><p class="cl-c4e81310"><span class="cl-c4e776d0">X</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="3"class="cl-c4e8e333"><p class="cl-c4e81311"><span class="cl-c4e776d1">* p &lt; 0.1, ** p &lt; 0.05, *** p &lt; 0.01</span></p></td></tr></tbody></table></div><!--/html_preserve-->
 
 Just like in earlier examples, we can output our table to Microsoft Word or Latex with `output=..`. Note that we specify the type of standard errors in the `modelsummary()` function. Note that you can also use  [Stargazer](https://cran.r-project.org/web/packages/stargazer/vignettes/stargazer.pdf) for regression tables.
 <br><br>
 Brilliant!  The results show that those received a letter have a 0.2SD higher test score in year 6. There are many other settings that we can specify to polish our table. But let us  move on.
 
-<br><br><br><br><br><br>
-
-# 8 The first stage with OLS &  Logit/Probit
-
-Okay, from section 6 we conclude that the randomisation worked and that receiving the letter is as good as random. From section 7 we know that those that received a letter have a 0.2SD higher test score in year 6. But that is the intend to treat effect. Let us now scale that by the first stage effect. We are interested in the link between receiving a letter and attendign the summer school: 
-
-$$summerschool_i=g(letter_i)$$
-
-
-
-## 8.1 Estimating the LPM with OLS
-
-Let us first consider the linear probability model and estimate
-
-$$summerschool_i=\beta1+\beta_2letter_i+\gamma'X_i+u_i$$
-
-We already know how to do that. We can use `lm()` or `felm()`, but let us use this as a change to add a row with the mean of the dependent variable. We do that by calculating the statistics we want to add and add them to the table with `add_rows=...` as shown below. 
-
-
-
-```r
-# Estimate LPM (the first stage)
-models<-list(
-  m1<-felm(summerschool ~letter+parental_schooling+parental_lincome+female|0|0|school_id
-            ,data=regdata, cmethod="reghdfe"),
-  m2<-felm(summerschool ~letter+parental_schooling+parental_lincome+female|
-              school_id+year|0|school_id,data=regdata, cmethod="reghdfe")
-  )
-# Store the mean of dependent variable in a data frame
-added_stats<-tibble("Mean of Dep. ",m1=mean(regdata$summerschool),m2=mean(regdata$summerschool))
-# Generate table
-modelsummary(models, stars = TRUE,statistic = 'std.error',  
-             fmt= '%.4f',add_rows = added_stats,
-              coef_omit= '(Intercept)', output = 'flextable')
-```
-
-<!--html_preserve--><div class="tabwid"><style>.cl-70fea856{font-family:'Arial';font-size:11px;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(17, 17, 17, 1.00);background-color:transparent;}.cl-70fea857{font-family:'Arial';font-size:10px;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-70fef658{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2px;padding-top:2px;padding-left:5px;padding-right:5px;line-height: 1.00;background-color:transparent;}.cl-70fef659{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0;padding-top:0;padding-left:0;padding-right:0;line-height: 1.00;background-color:transparent;}.cl-71053392{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-71053393{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 2.00px solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-71053394{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1.00px solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-71053395{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 1.00px solid rgba(255, 255, 255, 0.00);border-top: 1.00px solid rgba(255, 255, 255, 0.00);border-left: 1.00px solid rgba(255, 255, 255, 0.00);border-right: 1.00px solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-71053396{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 2.00px solid rgba(0, 0, 0, 1.00);border-top: 2.00px solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table style='border-collapse:collapse;'><thead><tr style="overflow-wrap:break-word;"><td class="cl-71053396"><p class="cl-70fef658"><span class="cl-70fea856"> </span></p></td><td class="cl-71053396"><p class="cl-70fef658"><span class="cl-70fea856">Model 1</span></p></td><td class="cl-71053396"><p class="cl-70fef658"><span class="cl-70fea856">Model 2</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">letter</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">0.4434***</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">0.4456***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856"></span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">(0.0137)</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">(0.0140)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">parental_schooling</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">0.0363***</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">0.0356***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856"></span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">(0.0118)</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">(0.0124)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">parental_lincome</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">0.1869***</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">0.1891***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856"></span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">(0.0227)</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">(0.0237)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">female</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">0.0096</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">0.0110</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856"></span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">(0.0110)</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">(0.0112)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71053394"><p class="cl-70fef658"><span class="cl-70fea856">Num.Obs.</span></p></td><td class="cl-71053394"><p class="cl-70fef658"><span class="cl-70fea856">3481</span></p></td><td class="cl-71053394"><p class="cl-70fef658"><span class="cl-70fea856">3481</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">R2</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">0.255</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">0.262</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">R2 Adj.</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">0.254</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">0.255</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">Cluster vars</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">school_id</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">school_id</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">FE:  school_id</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856"></span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">X</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">FE:  year</span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856"></span></p></td><td class="cl-71053392"><p class="cl-70fef658"><span class="cl-70fea856">X</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-71053393"><p class="cl-70fef658"><span class="cl-70fea856">Mean of Dep. </span></p></td><td class="cl-71053393"><p class="cl-70fef658"><span class="cl-70fea856">0.4642</span></p></td><td class="cl-71053393"><p class="cl-70fef658"><span class="cl-70fea856">0.4642</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="3"class="cl-71053395"><p class="cl-70fef659"><span class="cl-70fea857">* p &lt; 0.1, ** p &lt; 0.05, *** p &lt; 0.01</span></p></td></tr></tbody></table></div><!--/html_preserve-->
-
-
-## 8.2 Logit & Probit
-
-We can use `glm()` to estimate logit and probit models. We specify the link function as option as shown below for probit. 
-
-
-```r
-##  Estimate a binary outcomes model using a probit
-probit_results <- glm(summerschool ~letter, data = regdata, family = binomial(link="probit"))
-# Print the results
-summary(probit_results)
-```
-
-```
-## 
-## Call:
-## glm(formula = summerschool ~ letter, family = binomial(link = "probit"), 
-##     data = regdata)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -1.7877  -0.9362  -0.9362   1.4395   1.4395  
-## 
-## Coefficients:
-##             Estimate Std. Error z value Pr(>|z|)    
-## (Intercept) -0.37232    0.02511  -14.83   <2e-16 ***
-## letter       1.20567    0.05470   22.04   <2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 4807.9  on 3480  degrees of freedom
-## Residual deviance: 4275.5  on 3479  degrees of freedom
-## AIC: 4279.5
-## 
-## Number of Fisher Scoring iterations: 4
-```
-
-and for logit (now with more controls)...
-
-
-```r
-##  Estimate a binary outcomes model using a logit
-logit_results <- glm(summerschool ~letter+parental_lincome+female+parental_schooling, data = regdata, family = binomial(link="logit"))
-# Print the results
-summary(logit_results)
-```
-
-```
-## 
-## Call:
-## glm(formula = summerschool ~ letter + parental_lincome + female + 
-##     parental_schooling, family = binomial(link = "logit"), data = regdata)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -2.4699  -0.8627  -0.5238   0.8571   2.3472  
-## 
-## Coefficients:
-##                     Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)        -18.13658    1.05642 -17.168  < 2e-16 ***
-## letter               2.23198    0.10199  21.884  < 2e-16 ***
-## parental_lincome     0.99778    0.09963  10.015  < 2e-16 ***
-## female               0.05594    0.07927   0.706     0.48    
-## parental_schooling   0.25773    0.06556   3.931 8.45e-05 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 4807.9  on 3480  degrees of freedom
-## Residual deviance: 3798.1  on 3476  degrees of freedom
-## AIC: 3808.1
-## 
-## Number of Fisher Scoring iterations: 4
-```
-
-Note that the output about covers the beta coefficients. Let's compute the average marginal effects.
-
-## 8.3 Marginal effects
-
-We can use `margins()` to obtain average marginal effects. We simply use the `margins()` function on the objects storing or probit and logit estimates. We can also include these directly in a nice looking table. 
-
-
-```r
-## Load margins package
-library("margins")
-##  Compute marginal effects
-mfx_logit<- margins(logit_results)
-mfx_probit<-margins(probit_results)
-# Include in table
-modelsummary(list(mfx_logit,mfx_probit), output = 'flextable')
-```
-
-<!--html_preserve--><div class="tabwid"><style>.cl-722b9f2c{font-family:'Arial';font-size:11px;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(17, 17, 17, 1.00);background-color:transparent;}.cl-722bed1a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2px;padding-top:2px;padding-left:5px;padding-right:5px;line-height: 1.00;background-color:transparent;}.cl-722c8978{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-722c8979{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 2.00px solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-722c897a{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1.00px solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-722c897b{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 2.00px solid rgba(0, 0, 0, 1.00);border-top: 2.00px solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table style='border-collapse:collapse;'><thead><tr style="overflow-wrap:break-word;"><td class="cl-722c897b"><p class="cl-722bed1a"><span class="cl-722b9f2c"> </span></p></td><td class="cl-722c897b"><p class="cl-722bed1a"><span class="cl-722b9f2c">Model 1</span></p></td><td class="cl-722c897b"><p class="cl-722bed1a"><span class="cl-722b9f2c">Model 2</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">female</span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">0.010</span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c"></span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">(0.015)</span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">letter</span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">0.409</span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">0.422</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c"></span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">(0.013)</span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">(0.015)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">parental_lincome</span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">0.183</span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c"></span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">(0.017)</span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">parental_schooling</span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">0.047</span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c"></span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">(0.012)</span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-722c897a"><p class="cl-722bed1a"><span class="cl-722b9f2c">Num.Obs.</span></p></td><td class="cl-722c897a"><p class="cl-722bed1a"><span class="cl-722b9f2c">3481</span></p></td><td class="cl-722c897a"><p class="cl-722bed1a"><span class="cl-722b9f2c">3481</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">AIC</span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">3808.1</span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">4279.5</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">BIC</span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">3838.9</span></p></td><td class="cl-722c8978"><p class="cl-722bed1a"><span class="cl-722b9f2c">4291.8</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-722c8979"><p class="cl-722bed1a"><span class="cl-722b9f2c">Log.Lik.</span></p></td><td class="cl-722c8979"><p class="cl-722bed1a"><span class="cl-722b9f2c">-1899.039</span></p></td><td class="cl-722c8979"><p class="cl-722bed1a"><span class="cl-722b9f2c">-2137.759</span></p></td></tr></tbody></table></div><!--/html_preserve-->
-
-The results show that receiving a reminder letter increases the likelihood of summer school attendance by 40-44 percentage points. The LPM coefficient is slightly larger than the Logit and Probit average marginal effects. 
-
-<br><br><br><br><br><br>
-
-#  9. Instrumental Variables
+#  8. Instrumental Variables
 
 We estimated the reduced form relationship between receiving a reminder letter and test scores to be 0.2SD. We have also estimated the first stage to be around 0.4. We would therefore conclude that attending the summer school increases test scores by about 0.2SD/0.4=0.5SD.
 
 Let us estimate the instrumental variable specification explicitly. I will show you two methods. 
 
-## 9.1 IV using the  ivreg() function. 
+## 8.1 IV using the  ivreg() function. 
 
 We first use the `ivreg()` function from the *AER* package. AER does not refer to the American Economic Review, but to Applied Economics with R. The syntax is as follows
 
@@ -1561,9 +1532,11 @@ summary(ivreg(test_score~summerschool+female+parental_lincome+parental_schooling
 ```
 The estimate is very close to the 0.5 we obtained above at 0.46SD. Note that we could be a bit skeptical about the standard errors above. 
 
-### 9.2 IV using the  felm() function. 
+### 8.2 IV using the  felm() function. 
 
 Let us now reuse the `felm()` function. Just like we can use *reghdfe* in Stata for IV, `felm()` also allows us to estimate IV specifications, as explained in section 7.2. 
+
+#### Code block 6 for lab session in Applied Economics
 
 
 
@@ -1606,7 +1579,7 @@ summary(m1)
 The coefficient is now slightly larger at 0.47SD. The key difference is that we include fixed effects. Note that `felm()` tells us that the F-stat on the excluded instrument is 63. Moreover, we also have clustered standard errors now. 
 
 
-## 9.3 A complete IV table
+## 8.3 A complete IV table
 
 Let us finish the IV section by creating a complete IV table showing the raw correlation between test score and summer school attendance, the reduced form, the first stage, and the IV estimate. 
 
@@ -1643,7 +1616,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#dascmrvfum .gt_table {
+#ekuvvqtsid .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1668,7 +1641,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-left-color: #D3D3D3;
 }
 
-#dascmrvfum .gt_heading {
+#ekuvvqtsid .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1680,7 +1653,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#dascmrvfum .gt_title {
+#ekuvvqtsid .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1690,7 +1663,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-bottom-width: 0;
 }
 
-#dascmrvfum .gt_subtitle {
+#ekuvvqtsid .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1700,13 +1673,13 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-top-width: 0;
 }
 
-#dascmrvfum .gt_bottom_border {
+#ekuvvqtsid .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dascmrvfum .gt_col_headings {
+#ekuvvqtsid .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1721,7 +1694,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#dascmrvfum .gt_col_heading {
+#ekuvvqtsid .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1741,7 +1714,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   overflow-x: hidden;
 }
 
-#dascmrvfum .gt_column_spanner_outer {
+#ekuvvqtsid .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1753,15 +1726,15 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   padding-right: 4px;
 }
 
-#dascmrvfum .gt_column_spanner_outer:first-child {
+#ekuvvqtsid .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dascmrvfum .gt_column_spanner_outer:last-child {
+#ekuvvqtsid .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dascmrvfum .gt_column_spanner {
+#ekuvvqtsid .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1773,7 +1746,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   width: 100%;
 }
 
-#dascmrvfum .gt_group_heading {
+#ekuvvqtsid .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1795,7 +1768,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   vertical-align: middle;
 }
 
-#dascmrvfum .gt_empty_group_heading {
+#ekuvvqtsid .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1810,15 +1783,15 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   vertical-align: middle;
 }
 
-#dascmrvfum .gt_from_md > :first-child {
+#ekuvvqtsid .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dascmrvfum .gt_from_md > :last-child {
+#ekuvvqtsid .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dascmrvfum .gt_row {
+#ekuvvqtsid .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1837,7 +1810,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   overflow-x: hidden;
 }
 
-#dascmrvfum .gt_stub {
+#ekuvvqtsid .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1849,7 +1822,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   padding-left: 12px;
 }
 
-#dascmrvfum .gt_summary_row {
+#ekuvvqtsid .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1859,7 +1832,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   padding-right: 5px;
 }
 
-#dascmrvfum .gt_first_summary_row {
+#ekuvvqtsid .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1869,7 +1842,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-top-color: #D3D3D3;
 }
 
-#dascmrvfum .gt_grand_summary_row {
+#ekuvvqtsid .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1879,7 +1852,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   padding-right: 5px;
 }
 
-#dascmrvfum .gt_first_grand_summary_row {
+#ekuvvqtsid .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1889,11 +1862,11 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-top-color: #D3D3D3;
 }
 
-#dascmrvfum .gt_striped {
+#ekuvvqtsid .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dascmrvfum .gt_table_body {
+#ekuvvqtsid .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1902,7 +1875,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-bottom-color: #D3D3D3;
 }
 
-#dascmrvfum .gt_footnotes {
+#ekuvvqtsid .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1916,13 +1889,13 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#dascmrvfum .gt_footnote {
+#ekuvvqtsid .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#dascmrvfum .gt_sourcenotes {
+#ekuvvqtsid .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1936,46 +1909,46 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#dascmrvfum .gt_sourcenote {
+#ekuvvqtsid .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#dascmrvfum .gt_left {
+#ekuvvqtsid .gt_left {
   text-align: left;
 }
 
-#dascmrvfum .gt_center {
+#ekuvvqtsid .gt_center {
   text-align: center;
 }
 
-#dascmrvfum .gt_right {
+#ekuvvqtsid .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dascmrvfum .gt_font_normal {
+#ekuvvqtsid .gt_font_normal {
   font-weight: normal;
 }
 
-#dascmrvfum .gt_font_bold {
+#ekuvvqtsid .gt_font_bold {
   font-weight: bold;
 }
 
-#dascmrvfum .gt_font_italic {
+#ekuvvqtsid .gt_font_italic {
   font-style: italic;
 }
 
-#dascmrvfum .gt_super {
+#ekuvvqtsid .gt_super {
   font-size: 65%;
 }
 
-#dascmrvfum .gt_footnote_marks {
+#ekuvvqtsid .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="dascmrvfum" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="ekuvvqtsid" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -2105,16 +2078,16 @@ The first column shows that ignoring the selection problem and estimating the re
 
 <br><br><br><br><br><br>
 
-#  10 Difference-in-Differences
+#  9 Difference-in-Differences
 
 
-Our IV story analysis was quite convincing. It is based on a fictitious RCT and the coefficent was smaller than the "naive OLS" as we expected. But let us not stop there. Let us also exploit that we have test scores of the children both before and after the summer school. We can therefore estimate a difference-in-differences specification:
+Our IV story analysis was quite convincing. It is based on a fictitious RCT and the coefficent was smaller than the "naive OLS" as we expected. But let us not stop here. Let us also explot that we have test scores of the children both before and after the summer school. We can therefore estimate a difference-in-differences specification:
 
-$$test_score=\beta1+\beta_2summerschool_i+\beta_3after_i+\beta_4after_i\times summerschool+\gamma'X_i+u_i$$
+$$test\_score=\beta1+\beta_2summerschool_i+\beta_3after_i+\beta_4after_i\times summerschool+\gamma'X_i+u_i$$
 
 Where after refers to test scores after attending the summer school. 
 
-##  10.1 Inspecting the common trends
+##  9.1 Inspecting the common trends
 
 A crucial assumption behind the difference-in-differences approach is that the treated and control groups would have similar developments over time in the absence of treatment. We therefore want to create line charts of test scores over year to see whether the trends are similar in years without treatment. 
 
@@ -2152,7 +2125,7 @@ ggplot(collapsed_data,aes(x=year,y=test_score,color=as.factor(summerschool),grou
 
 We observe a small drop in the treatment group just before the summer school and a small increase in the control group. That looks a bit worrying, but otherwise the trends are very similar. 
 
-## 10.2 Estimating the Difference-in-Differences model
+## 9.2 Estimating the Difference-in-Differences model
 
 
 We will now use the `felm()` function to estimate the the difference-in-differences specification. We first modify the data to create an after indicator, using `mutate()` and `ifelse()`. Secondly, we estimate 3 different difference-in-differences specifications. The first approach is the traditional approach with after, after X treated, and treated indicators. In the second approach we include year fixed effects instead of the after dummy. In the third approach we add controls. 
@@ -2191,7 +2164,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#hgnbziajsl .gt_table {
+#bmecxglzmo .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2216,7 +2189,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-left-color: #D3D3D3;
 }
 
-#hgnbziajsl .gt_heading {
+#bmecxglzmo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2228,7 +2201,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#hgnbziajsl .gt_title {
+#bmecxglzmo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2238,7 +2211,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-bottom-width: 0;
 }
 
-#hgnbziajsl .gt_subtitle {
+#bmecxglzmo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2248,13 +2221,13 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-top-width: 0;
 }
 
-#hgnbziajsl .gt_bottom_border {
+#bmecxglzmo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hgnbziajsl .gt_col_headings {
+#bmecxglzmo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2269,7 +2242,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#hgnbziajsl .gt_col_heading {
+#bmecxglzmo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2289,7 +2262,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   overflow-x: hidden;
 }
 
-#hgnbziajsl .gt_column_spanner_outer {
+#bmecxglzmo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2301,15 +2274,15 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   padding-right: 4px;
 }
 
-#hgnbziajsl .gt_column_spanner_outer:first-child {
+#bmecxglzmo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hgnbziajsl .gt_column_spanner_outer:last-child {
+#bmecxglzmo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hgnbziajsl .gt_column_spanner {
+#bmecxglzmo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2321,7 +2294,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   width: 100%;
 }
 
-#hgnbziajsl .gt_group_heading {
+#bmecxglzmo .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2343,7 +2316,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   vertical-align: middle;
 }
 
-#hgnbziajsl .gt_empty_group_heading {
+#bmecxglzmo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2358,15 +2331,15 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   vertical-align: middle;
 }
 
-#hgnbziajsl .gt_from_md > :first-child {
+#bmecxglzmo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hgnbziajsl .gt_from_md > :last-child {
+#bmecxglzmo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hgnbziajsl .gt_row {
+#bmecxglzmo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2385,7 +2358,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   overflow-x: hidden;
 }
 
-#hgnbziajsl .gt_stub {
+#bmecxglzmo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2397,7 +2370,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   padding-left: 12px;
 }
 
-#hgnbziajsl .gt_summary_row {
+#bmecxglzmo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2407,7 +2380,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   padding-right: 5px;
 }
 
-#hgnbziajsl .gt_first_summary_row {
+#bmecxglzmo .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2417,7 +2390,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-top-color: #D3D3D3;
 }
 
-#hgnbziajsl .gt_grand_summary_row {
+#bmecxglzmo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2427,7 +2400,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   padding-right: 5px;
 }
 
-#hgnbziajsl .gt_first_grand_summary_row {
+#bmecxglzmo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2437,11 +2410,11 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-top-color: #D3D3D3;
 }
 
-#hgnbziajsl .gt_striped {
+#bmecxglzmo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hgnbziajsl .gt_table_body {
+#bmecxglzmo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2450,7 +2423,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-bottom-color: #D3D3D3;
 }
 
-#hgnbziajsl .gt_footnotes {
+#bmecxglzmo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2464,13 +2437,13 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#hgnbziajsl .gt_footnote {
+#bmecxglzmo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#hgnbziajsl .gt_sourcenotes {
+#bmecxglzmo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2484,46 +2457,46 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#hgnbziajsl .gt_sourcenote {
+#bmecxglzmo .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#hgnbziajsl .gt_left {
+#bmecxglzmo .gt_left {
   text-align: left;
 }
 
-#hgnbziajsl .gt_center {
+#bmecxglzmo .gt_center {
   text-align: center;
 }
 
-#hgnbziajsl .gt_right {
+#bmecxglzmo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hgnbziajsl .gt_font_normal {
+#bmecxglzmo .gt_font_normal {
   font-weight: normal;
 }
 
-#hgnbziajsl .gt_font_bold {
+#bmecxglzmo .gt_font_bold {
   font-weight: bold;
 }
 
-#hgnbziajsl .gt_font_italic {
+#bmecxglzmo .gt_font_italic {
   font-style: italic;
 }
 
-#hgnbziajsl .gt_super {
+#bmecxglzmo .gt_super {
   font-size: 65%;
 }
 
-#hgnbziajsl .gt_footnote_marks {
+#bmecxglzmo .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="hgnbziajsl" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="bmecxglzmo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -2629,194 +2602,6 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
 </table></div><!--/html_preserve-->
  The treatment effects estimate are all around 0.6SD, which is slightly larger than the IV estimate, but smaller than the "naive OLS. The last column above shows the DiD estimate excluding year 5 where we observe the worrying deviations from the trend. As expected, this specification gives a slightly smaller coefficient of 0.54SD. 
 
-
-<br><br><br><br><br><br>
-
-#  11 Regression Discontinuity
-
-We have evidence from an RCT and from a difference-in-differences approach. But we love data and quasi-experimental variation. We know  with test scores below 1.5 in year 5 were encouraged to participate in the summer school. We will exploit this in a regression discontinuity approach.
- 
-
-## 11.1 A RDD plot 
-
-We start by plotting the share who participated in the summer school around the cutoff. We do this with `geom_point()` and `geom_smooth()`. But we first create two new datasets. One that is collapsed on the test score level and one that is just selected to region around the cutoff. 
-
-
-```r
-# Create dataset collapsed on bins
-rdd_collapsed<-analysisdata%>%
-     filter(year==5)%>%
-     mutate(test_score=floor(test_score_raw*10)/10)%>%
-     group_by(test_score)%>%
-     summarise(summerschool=mean(summerschool))%>%
-     filter(test_score>0,test_score<2.5)
-# Selected range
-rdd_raw<-analysisdata%>%
-     filter(year==5)%>%
-     filter(test_score_raw>0,test_score_raw<2.5)
-
-# Create RDD plot
-ggplot()+
-    geom_smooth(rdd_raw%>%filter(test_score_raw<1.5),
-                mapping=aes(x=test_score_raw,y=summerschool),method="lm", color="black")+    
-    geom_smooth(rdd_raw%>%filter(test_score_raw>1.5),
-                mapping=aes(x=test_score_raw,y=summerschool),method="lm", color="black")+    
-    geom_point(rdd_collapsed,mapping=aes(x=test_score,y=summerschool),alpha=0.5)+
-    ylim(-0.5,1.5)+
-    theme_minimal()
-```
-
-<img src="applied_econ_with_R_files/figure-html/ch11-1-1.png" width="600" style="display: block; margin: auto;" />
-
-
-<center>
-
-<div class="tenor-gif-embed" data-postid="12385898" data-share-method="host" data-width="60%" data-aspect-ratio="1.3559322033898304"><a href="https://tenor.com/view/roller-coaster-state-fair-screaming-gif-12385898">Roller Coaster State Fair GIF</a> from <a href="https://tenor.com/search/rollercoaster-gifs">Rollercoaster GIFs</a></div><script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-
-Looks convincing! There is a clear drop in the probability of treatment around the cutoff of 1.5.
-
-
-
-</center>
-
-## 11.2 Balanced covariates & manipulation in forcing variable
-
-Before we estimate the RDD we first check whether parental background is balanced over the discontinuity and that there is no evidence of manipulation of the forcing variable. 
-
-The follow code block is long, but you should be able to understand all steps involved. 
-
-
-```r
-# Create dataset collapsed on bins
-rdd_collapsed<-analysisdata%>%
-  filter(year==5)%>%
-  mutate(test_score=floor(test_score_raw*10)/10)%>%
-  group_by(test_score)%>%
-  summarise(parental_schooling=mean(parental_schooling),
-            parental_lincome=mean(parental_lincome))%>%
-  filter(test_score>0,test_score<2.5)
-
-# Selected range
-rdd_raw<-analysisdata%>%
-  filter(year==5)%>%
-  filter(test_score_raw>0,test_score_raw<2.5)
-
-# Create RDD plot of parental income
-p1<-ggplot()+
-  geom_smooth(rdd_raw%>%filter(test_score_raw<1.5),
-              mapping=aes(x=test_score_raw,y=parental_lincome),method="lm", color="black")+    
-  geom_smooth(rdd_raw%>%filter(test_score_raw>1.5),
-              mapping=aes(x=test_score_raw,y=parental_lincome),method="lm", color="black")+    
-  geom_point(rdd_collapsed,mapping=aes(x=test_score,y=parental_lincome),alpha=0.5)+
-  theme_minimal()+labs(title="Parental Income (log)")
-
-# Create RDD plot of parental schooling
-p2<-ggplot()+
-  geom_smooth(rdd_raw%>%filter(test_score_raw<1.5),
-              mapping=aes(x=test_score_raw,y=parental_schooling),method="lm", color="black")+    
-  geom_smooth(rdd_raw%>%filter(test_score_raw>1.5),
-              mapping=aes(x=test_score_raw,y=parental_schooling),method="lm", color="black")+    
-  geom_point(rdd_collapsed,mapping=aes(x=test_score,y=parental_schooling),alpha=0.5)+
-  theme_minimal()+labs(title="Parental Schooling (years)")
-
-# Histogram of forcing variable
-p3<-ggplot(rdd_raw,aes(x=test_score_raw))+
-  geom_histogram(bins=100,color="white")+
-  geom_vline(xintercept=1.5)+
-  theme_minimal()+labs(title="Distribution of the forcing variable")
-
-# Patchwork  to combine charts  
-(p1+p2)/p3
-```
-
-<img src="applied_econ_with_R_files/figure-html/ch11-2-1.png" width="750" style="display: block; margin: auto;" />
-
-Looks pretty balanced to me! 
-
-## 11.3 RDD regression 
-
-Finally we estimate an (old-fashioned) RD model as an IV with linear trends on both sides of the cutoff. To achieve this we first create a new dataset where the forcing variable is added as a separate collum
-
-
-```r
-# "Forcing variable" data
-year5<-analysisdata%>%
-  filter(year==5)%>%
-  mutate(above=ifelse(test_score_raw>1.5,1,0), ie=test_score_raw*above, score=test_score_raw)%>%
-  ungroup()%>%
-  select(person_id,above,test_score_raw,ie,score)
-# Merge  forcing variable data to main data
-df<-merge(analysisdata,year5,by="person_id")
-df<-df%>%
-  filter(year==6)%>%
-  rename(summerschoolrdd=summerschool) # Rename to allow reuse later
-        
-    
-# RDD regression
-m_rdd<-felm(test_score~ie+score|0|(summerschoolrdd~above)|school_id,data=df)
-summary(m_rdd)
-```
-
-```
-## 
-## Call:
-##    felm(formula = test_score ~ ie + score | 0 | (summerschoolrdd ~      above) | school_id, data = df) 
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.99796 -0.39668  0.00311  0.38858  2.12945 
-## 
-## Coefficients:
-##                        Estimate Cluster s.e. t value Pr(>|t|)    
-## (Intercept)            -2.46969      0.05176 -47.710  < 2e-16 ***
-## ie                     -0.07943      0.05620  -1.413    0.158    
-## score                   1.07351      0.08804  12.194  < 2e-16 ***
-## `summerschoolrdd(fit)`  0.49469      0.06723   7.358 2.32e-13 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 0.5836 on 3471 degrees of freedom
-## Multiple R-squared(full model): 0.6593   Adjusted R-squared: 0.659 
-## Multiple R-squared(proj model): 0.6593   Adjusted R-squared: 0.659 
-## F-statistic(full model, *iid*): 1803 on 3 and 3471 DF, p-value: < 2.2e-16 
-## F-statistic(proj model):  3797 on 3 and 29 DF, p-value: < 2.2e-16 
-## F-statistic(endog. vars):54.14 on 1 and 29 DF, p-value: 4.171e-08
-```
-
-The RDD coefficient suggest that the summerschool improves test scores by 0.5SD. 
-
-<br><br><br><br><br><br>
-
-
-# 12 Comparing all coefficients in  a plot
-
-Let us end  our analysis by comparing the estimated causal effect of the summer school based on the various approaches in a chart using `modelplot()`. 
-
-
-```r
-# Combine all "preferred specifications"  in a list
-models<-list()
-models[['OLS']]<-OLS
-models[['RCT']]<-IV
-models[['DiD']]<-m4
-models[['RDD']]<-m_rdd
-
-
-# Coefficient renaming
-cm <- c('`summerschool(fit)`'  = 'RCT',
-        '`summerschoolrdd(fit)`'  = 'RDD',
-        'afterXsummerschool'='DiD',
-        'summerschool'='OLS')
-
-# Create plot of coefficients
-modelplot(models,coef_map=cm)+
-  labs(title="Coefficients: The effect of attending a summer school on test scores (in SD)",
-       caption ="Note: All data is fictitious.")+
-  theme(legend.position = "none")+
-  geom_vline(xintercept=0)
-```
-
-<img src="applied_econ_with_R_files/figure-html/ch12-1-1.png" width="650" style="display: block; margin: auto;" />
 
 
 
