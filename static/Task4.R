@@ -1,4 +1,3 @@
-# Applied Economics - Lab on DiD and R - Task 4
 # Install packages (you only have to do this once)
 install.packages("readr")
 install.packages("openxlsx")
@@ -11,7 +10,7 @@ library("readstata13")
 library("dplyr")
 # set working directory
 setwd("C:/Users/hhs/")
-# use read.dta13 from readstata13 to load a Stata dataset
+# load the 3 datasets
 school_data_1<-read_csv("school_data_1.csv")
 school_data_2<-read.dta13("school_data_2.dta")
 school_data_3<-read.xlsx("school_data_3.xlsx")

@@ -248,7 +248,7 @@ library("readstata13")
 library("dplyr")
 # set working directory
 setwd("C:/Users/hhs/")
-# use read.dta13 from readstata13 to load a Stata dataset
+# load the 3 datasets
 school_data_1<-read_csv("school_data_1.csv")
 school_data_2<-read.dta13("school_data_2.dta")
 school_data_3<-read.xlsx("school_data_3.xlsx")
@@ -939,13 +939,29 @@ Let us now reuse the `felm()` function. Just like we can use *reghdfe* in Stata 
 
 #### Code block 6 for lab session in Applied Economics
 
+```{r ,eval=F, warning=F,include=T,echo=T,results="asis", out.width=600,fig.align="center"}
+# Install lfe
+install.packages("lfe")
+# Load packages
+library(lfe)
+# Select data
+regdata<-analysisdata%>%filter(year==6)
+# Estimate IV specification with felm 
+m1<-felm(test_score~parental_lincome+female+parental_schooling| # Outcome eq.
+           school_id|                                           # Fixed effects
+           summerschool~letter|                                 # First stage eq.
+           school_id                                            # Cluster var
+         ,data=regdata, cmethod="reghdfe")
+# Summary of results
+summary(m1)
+```
 
-```{r ch9-2,eval=T, warning=F,include=T,echo=T,message=FALSE}
+```{r ch9-2 ,eval=T, warning=F,include=T,echo=F,message=FALSE}
 
 # Estimate IV specification with felm 
 m1<-felm(test_score~parental_lincome+female+parental_schooling| # Outcome eq.
            school_id|                                           # Fixed effects
-           (summerschool~letter)|                               # First stage eq.
+           summerschool~letter|                               # First stage eq.
            school_id                                            # Cluster var
             ,data=regdata, cmethod="reghdfe")
 # Summary of results
