@@ -949,7 +949,7 @@ regdata<-analysisdata%>%filter(year==6)
 # Estimate IV specification with felm 
 m1<-felm(test_score~parental_lincome+female+parental_schooling| # Outcome eq.
            school_id|                                           # Fixed effects
-           summerschool~letter|                                 # First stage eq.
+           (summerschool~letter)|                                 # First stage eq.
            school_id                                            # Cluster var
          ,data=regdata, cmethod="reghdfe")
 # Summary of results
@@ -961,7 +961,7 @@ summary(m1)
 # Estimate IV specification with felm 
 m1<-felm(test_score~parental_lincome+female+parental_schooling| # Outcome eq.
            school_id|                                           # Fixed effects
-           summerschool~letter|                               # First stage eq.
+           (summerschool~letter)|                               # First stage eq.
            school_id                                            # Cluster var
             ,data=regdata, cmethod="reghdfe")
 # Summary of results
