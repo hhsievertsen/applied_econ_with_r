@@ -752,7 +752,7 @@ The last chart suggested that the letter that was randomly sent to some families
 
 ## 6.1 Pairwise t-test
 
-We can conduct a t-test in R using `t.test()`. Specifically, we specify the formula `test_score~summerschool` to test whether the average *test_score* is significantly different across the two groups specified by *summerschool*. Let's do that for year 5 data:
+We can conduct a t-test in R using `t.test()`. Specifically, we specify the formula `test_score~letter` to test whether the average *test_score* is significantly different across the two groups specified by *letter*. Let's do that for year 5 data:
 
 #### Code block 4 for lab session in Applied Economics
 
@@ -762,7 +762,7 @@ df<-analysisdata%>%filter(year==5)
 # Conduct a t test
 t.test(test_score~letter,data=df)
 ```
-The test suggest that the mean test score prior to summer school was not difference across letter receivers and not receivers. Promising!
+The test suggest that the mean test score prior to summer school was not difference across letter receivers and not receivers. That is a promising result!
 
 One feature of R that I really appreciate (especially compared to Stata) is that I can skip steps and directly insert functions within other functions. For example if I know that I am not going to use the selected dataset again, we don't need to create it first. We can simply specify the selection criteria in the data argument of `t.test()` as shown below (we also did that in the charts above)
 

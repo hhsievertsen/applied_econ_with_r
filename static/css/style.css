@@ -1,0 +1,128 @@
+/******
+newjellies
+*******/
+
+
+/*-------- Google font imports --------*/
+
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300&display=swap')
+
+/*-------- Background color & body font --------*/
+
+body {
+    background-color: white;
+    font-family: 'Jost', sans-serif;
+    color: dimgray;
+    font-size: 16px;
+}
+
+
+/*-------- Main Panel ---------*/
+
+.topics {
+    width: 75%;
+    overflow-x: auto;
+    padding-bottom: 600px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: white;
+    border-left: 0;
+}
+
+.band {
+    padding-left: 3%;
+    padding-right: 3%;
+    position: relative;
+}
+
+
+/* Emphasis (e.g. italics) */
+
+em {
+    font-family: 'Jost', sans-serif;
+    color: dimgray;
+}
+
+
+/*--------- Headers ---------*/
+
+h1 {
+    color: #022e1f;
+    font-family:'Rajdhani', sans-serif;
+}
+
+
+h2 {
+    color: #022e1f;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+h3 {
+    color: #022e1f;
+    font-family:  'Rajdhani', sans-serif;
+}
+
+h4 {
+    color: #022e1f;
+    font-family:  'Rajdhani', sans-serif;
+}
+
+h5 {
+    color: #022e1f;
+    font-family:  'Rajdhani', sans-serif;
+    font-size: 16px;
+}
+
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+    z-index: 2;
+    color: #ffffff;
+    background-color: #022e1f;
+    border-color: #022e1f;
+}
+.Stata {
+
+}
+a {
+    color: #022e1f;
+    text-decoration: none;
+}
+/*-------- Code chunk main panel --------*/
+
+.sourceCode {
+    overflow-x: auto;
+    font-size: 10.5px;
+}
+pre {
+    display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 10.5px;
+    line-height: 1.42857143;
+    word-break: break-all;
+    word-wrap: break-word;
+    color: #333333;
+
+    background-color: #f5f5f5;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+}
+pre code {
+    padding: 0;
+    font-size: inherit;
+    color: inherit;
+    font-size: 10.5px;
+    white-space: pre-wrap;
+    background-color: transparent;
+    border-radius: 0;
+}
+
+.tocify {
+    width: 20%;
+    max-height: 90%;
+    overflow: auto;
+    margin-left: 2%;
+    position: fixed;
+    border: 0px solid #ccc;
+    border-radius: 6px;
+}
