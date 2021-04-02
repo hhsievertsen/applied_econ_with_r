@@ -1263,19 +1263,6 @@ modelplot(models,coef_map=cm)+
 <br><br><br><br><br><br>
 
 
-# Stata index
-
-- **bys year: egen x=..** An R example is provided in [section 3.3](https://hhsievertsen.github.io/applied_econ_with_r/#33_Modifying_the_data) <br>
-- **collapse**:  An R example is provided in [section 10.1](https://hhsievertsen.github.io/applied_econ_with_r/#101_Inspecting_the_common_trends) <br>
-- **merge**:  An R example is provided in [section 2.5](https://hhsievertsen.github.io/applied_econ_with_r/#25_Merging_the_datasets) <br>
-- **import csv**:  An R example is provided in [section 2.2](https://hhsievertsen.github.io/applied_econ_with_r/#22_Loading_a_csv_data_file) <br>
-- **import xlsx**:  An R example is provided in [section 2.4](https://hhsievertsen.github.io/applied_econ_with_r/#24_Loading_an_xlsx_file) <br>
-- **margins **:  An R example is provided in [section 8.3](https://hhsievertsen.github.io/applied_econ_with_r) <br>
-- **reg y x**:  An R example is provided in [section 7.1](https://hhsievertsen.github.io/applied_econ_with_r/#71_OLS_estimation_with_with_lm()) <br>
-- **reghdfe y x,absorb() cluster()**:  An R example is provided in [section 7.2](https://hhsievertsen.github.io/applied_econ_with_r/#72_OlS_with_the_felm()_function) <br>
-- **use "... .dta"**:  An R example is provided in [section 2.3](https://hhsievertsen.github.io/applied_econ_with_r/#23_Loading_a_Stata_data_file) <br>
-
-
 <br><br><br><br><br>
 **That is it!** You made it to the end of my tutorial. Well done!
 <br>
