@@ -4,7 +4,7 @@ author:
   name: Hans H. Sievertsen
   affiliation: University of Bristol
   email: h.h.sievertsen@bristol.ac.uk
-date: "10 January 2021"
+date: "02 April 2021"
 output:
   html_document:
     theme: lumen 
@@ -49,7 +49,7 @@ Welcome to this introduction to Applied Economics with R. This tutorial is writt
 
 I appreciate feedback, thanks.
 
-Hans  (version 0.4 - December 8 , 2020)
+Hans  (version 0.5 - April 2 , 2021)
 
 
 <br><br><br><br><br><br>
@@ -174,14 +174,14 @@ head(school_data_1)
 
 ```
 ## # A tibble: 6 x 8
-##   person_id school_id summercamp female parental_school~ parental_lincome
-##       <int>     <int>      <dbl>  <dbl>            <dbl>            <dbl>
-## 1         1         5          0      1               10             12.9
-## 2         2        14          1      0               11             14.7
-## 3         3         7          1      0               14             16.1
-## 4         4         8          0      0               12             14.6
-## 5         5         9          1      0               11             13.8
-## 6         6        26          1      1               11             14.7
+##   person_id school_id summercamp female parental_schooling parental_lincome
+##       <int>     <int>      <dbl>  <dbl>              <dbl>            <dbl>
+## 1         1         5          0      1                 10             12.9
+## 2         2        14          1      0                 11             14.7
+## 3         3         7          1      0                 14             16.1
+## 4         4         8          0      0                 12             14.6
+## 5         5         9          1      0                 11             13.8
+## 6         6        26          1      1                 11             14.7
 ## # ... with 2 more variables: test_year_5 <dbl>, test_year_6 <dbl>
 ```
 
@@ -236,16 +236,16 @@ glimpse(school_data_3)
 ```
 ## Rows: 3,491
 ## Columns: 10
-## $ person_id    <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,...
-## $ test_year_2  <dbl> 1.090117, 1.246309, 2.726472, 2.693032, 1.660545, 2.22...
-## $ test_year_3  <dbl> 1.914594, 1.154470, 2.269011, 2.413203, 1.828067, 2.27...
-## $ test_year_4  <dbl> 2.065805, 1.582455, 3.247252, 1.479452, 1.361972, 2.38...
-## $ test_year_7  <dbl> 2.377697, 1.747376, 3.017764, 2.637954, 1.904636, 3.37...
-## $ test_year_8  <dbl> 2.032904, 2.444041, 3.361646, 3.021940, 2.109774, 3.24...
-## $ test_year_9  <dbl> 1.493803, 1.663050, 3.387020, 2.761513, 2.285818, 2.96...
-## $ test_year_10 <dbl> 1.880512, 1.833769, 2.968617, 2.088086, 1.845694, 3.30...
-## $ learnings    <dbl> 10.236394, 8.278911, 8.966529, 8.876466, 8.770518, 10....
-## $ school_id    <int> 5, 14, 7, 8, 9, 26, 13, 11, 23, 9, 25, 15, 3, 4, 17, 7...
+## $ person_id    <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17~
+## $ test_year_2  <dbl> 1.090117, 1.246309, 2.726472, 2.693032, 1.660545, 2.22377~
+## $ test_year_3  <dbl> 1.914594, 1.154470, 2.269011, 2.413203, 1.828067, 2.27566~
+## $ test_year_4  <dbl> 2.065805, 1.582455, 3.247252, 1.479452, 1.361972, 2.38510~
+## $ test_year_7  <dbl> 2.377697, 1.747376, 3.017764, 2.637954, 1.904636, 3.37613~
+## $ test_year_8  <dbl> 2.032904, 2.444041, 3.361646, 3.021940, 2.109774, 3.24542~
+## $ test_year_9  <dbl> 1.493803, 1.663050, 3.387020, 2.761513, 2.285818, 2.96503~
+## $ test_year_10 <dbl> 1.880512, 1.833769, 2.968617, 2.088086, 1.845694, 3.30819~
+## $ learnings    <dbl> 10.236394, 8.278911, 8.966529, 8.876466, 8.770518, 10.484~
+## $ school_id    <int> 5, 14, 7, 8, 9, 26, 13, 11, 23, 9, 25, 15, 3, 4, 17, 7, 1~
 ```
 
 
@@ -387,33 +387,32 @@ skim(school_data_tidy)
 
 Table: Data summary
 
-                                            
--------------------------  -----------------
-Name                       school_data_tidy 
-Number of rows             31419            
-Number of columns          10               
-_______________________                     
-Column type frequency:                      
-numeric                    10               
-________________________                    
-Group variables            None             
--------------------------  -----------------
+|                         |                 |
+|:------------------------|:----------------|
+|Name                     |school_data_tidy |
+|Number of rows           |31419            |
+|Number of columns        |10               |
+|_______________________  |                 |
+|Column type frequency:   |                 |
+|numeric                  |10               |
+|________________________ |                 |
+|Group variables          |None             |
 
 
 **Variable type: numeric**
 
-skim_variable         n_missing   complete_rate      mean        sd      p0      p25       p50       p75      p100  hist  
--------------------  ----------  --------------  --------  --------  ------  -------  --------  --------  --------  ------
-person_id                     0               1   1746.00   1007.78    1.00   873.00   1746.00   2619.00   3491.00  ▇▇▇▇▇ 
-school_id                     0               1     15.66      8.67    1.00     8.00     15.00     23.00     30.00  ▇▇▇▇▇ 
-summercamp                    0               1      0.46      0.50    0.00     0.00      0.00      1.00      1.00  ▇▁▁▁▇ 
-female                        0               1      0.52      0.50    0.00     0.00      1.00      1.00      1.00  ▇▁▁▁▇ 
-parental_schooling           45               1     11.32      1.10   10.00    11.00     11.00     12.00     23.00  ▇▁▁▁▁ 
-parental_lincome              0               1     14.56      0.69   12.67    14.11     14.52     14.95     19.45  ▂▇▁▁▁ 
-letter                        0               1      0.25      0.43    0.00     0.00      0.00      0.00      1.00  ▇▁▁▁▂ 
-learnings                     0               1     10.06      1.28    5.39     9.18     10.04     10.96     14.62  ▁▃▇▃▁ 
-year                          0               1      6.00      2.58    2.00     4.00      6.00      8.00     10.00  ▇▇▃▇▇ 
-test_score                   11               1      2.36      0.72   -0.57     1.87      2.32      2.83      5.05  ▁▂▇▃▁ 
+|skim_variable      | n_missing| complete_rate|    mean|      sd|    p0|    p25|     p50|     p75|    p100|hist                                     |
+|:------------------|---------:|-------------:|-------:|-------:|-----:|------:|-------:|-------:|-------:|:----------------------------------------|
+|person_id          |         0|             1| 1746.00| 1007.78|  1.00| 873.00| 1746.00| 2619.00| 3491.00|▇▇▇▇▇ |
+|school_id          |         0|             1|   15.66|    8.67|  1.00|   8.00|   15.00|   23.00|   30.00|▇▇▇▇▇ |
+|summercamp         |         0|             1|    0.46|    0.50|  0.00|   0.00|    0.00|    1.00|    1.00|▇▁▁▁▇ |
+|female             |         0|             1|    0.52|    0.50|  0.00|   0.00|    1.00|    1.00|    1.00|▇▁▁▁▇ |
+|parental_schooling |        45|             1|   11.32|    1.10| 10.00|  11.00|   11.00|   12.00|   23.00|▇▁▁▁▁ |
+|parental_lincome   |         0|             1|   14.56|    0.69| 12.67|  14.11|   14.52|   14.95|   19.45|▂▇▁▁▁ |
+|letter             |         0|             1|    0.25|    0.43|  0.00|   0.00|    0.00|    0.00|    1.00|▇▁▁▁▂ |
+|learnings          |         0|             1|   10.06|    1.28|  5.39|   9.18|   10.04|   10.96|   14.62|▁▃▇▃▁ |
+|year               |         0|             1|    6.00|    2.58|  2.00|   4.00|    6.00|    8.00|   10.00|▇▇▃▇▇ |
+|test_score         |        11|             1|    2.36|    0.72| -0.57|   1.87|    2.32|    2.83|    5.05|▁▂▇▃▁ |
 
  We can see how many observations and variables there are, the variable types, the number of missing values. The mean, standard deviations, percentiles, and we even get a small histogram. 
 
@@ -432,40 +431,35 @@ skim(school_data_tidy)
 
 Table: Data summary
 
-                                            
--------------------------  -----------------
-Name                       school_data_tidy 
-Number of rows             31419            
-Number of columns          10               
-_______________________                     
-Column type frequency:                      
-numeric                    10               
-________________________                    
-Group variables            None             
--------------------------  -----------------
+|                         |                 |
+|:------------------------|:----------------|
+|Name                     |school_data_tidy |
+|Number of rows           |31419            |
+|Number of columns        |10               |
+|_______________________  |                 |
+|Column type frequency:   |                 |
+|numeric                  |10               |
+|________________________ |                 |
+|Group variables          |None             |
 
 
 **Variable type: numeric**
 
-skim_variable         n_missing   complete_rate      mean        sd      p0      p25       p50       p75      p100  hist  
--------------------  ----------  --------------  --------  --------  ------  -------  --------  --------  --------  ------
-person_id                     0               1   1746.00   1007.78    1.00   873.00   1746.00   2619.00   3491.00  ▇▇▇▇▇ 
-school_id                     0               1     15.66      8.67    1.00     8.00     15.00     23.00     30.00  ▇▇▇▇▇ 
-summercamp                    0               1      0.46      0.50    0.00     0.00      0.00      1.00      1.00  ▇▁▁▁▇ 
-female                        0               1      0.52      0.50    0.00     0.00      1.00      1.00      1.00  ▇▁▁▁▇ 
-parental_schooling           45               1     11.32      1.10   10.00    11.00     11.00     12.00     23.00  ▇▁▁▁▁ 
-parental_lincome              0               1     14.56      0.69   12.67    14.11     14.52     14.95     19.45  ▂▇▁▁▁ 
-letter                        0               1      0.25      0.43    0.00     0.00      0.00      0.00      1.00  ▇▁▁▁▂ 
-learnings                     0               1     10.06      1.28    5.39     9.18     10.04     10.96     14.62  ▁▃▇▃▁ 
-year                          0               1      6.00      2.58    2.00     4.00      6.00      8.00     10.00  ▇▇▃▇▇ 
-test_score                   11               1      2.36      0.72   -0.57     1.87      2.32      2.83      5.05  ▁▂▇▃▁ 
-
- There are many ways to assess the how many rows with missing values there are in our dataset, but in the example above I introduced the very popular `apply()` family in R. The apply function applies takes three arguments: an object (like a data frame), the dimension of the object to "loop over", the function to execute in each loop iteration. In our example we  tell R to consider the school_data object, the second dimension (columns), and on each column execute the function `sum(is.na(x))`.
- 
-This might seem overly complicated for a Stata user (like myself), but hey! How would you do this in Stata?  `apply()` is super useful as we can loop over objects in just one line. I called it a family, because of the siblings `lapply()`, `sapply()`, `tapply()`, and more. See [http://uc-r.github.io/apply_family](uc-r.github.io/apply_family) for details. 
+|skim_variable      | n_missing| complete_rate|    mean|      sd|    p0|    p25|     p50|     p75|    p100|hist                                     |
+|:------------------|---------:|-------------:|-------:|-------:|-----:|------:|-------:|-------:|-------:|:----------------------------------------|
+|person_id          |         0|             1| 1746.00| 1007.78|  1.00| 873.00| 1746.00| 2619.00| 3491.00|▇▇▇▇▇ |
+|school_id          |         0|             1|   15.66|    8.67|  1.00|   8.00|   15.00|   23.00|   30.00|▇▇▇▇▇ |
+|summercamp         |         0|             1|    0.46|    0.50|  0.00|   0.00|    0.00|    1.00|    1.00|▇▁▁▁▇ |
+|female             |         0|             1|    0.52|    0.50|  0.00|   0.00|    1.00|    1.00|    1.00|▇▁▁▁▇ |
+|parental_schooling |        45|             1|   11.32|    1.10| 10.00|  11.00|   11.00|   12.00|   23.00|▇▁▁▁▁ |
+|parental_lincome   |         0|             1|   14.56|    0.69| 12.67|  14.11|   14.52|   14.95|   19.45|▂▇▁▁▁ |
+|letter             |         0|             1|    0.25|    0.43|  0.00|   0.00|    0.00|    0.00|    1.00|▇▁▁▁▂ |
+|learnings          |         0|             1|   10.06|    1.28|  5.39|   9.18|   10.04|   10.96|   14.62|▁▃▇▃▁ |
+|year               |         0|             1|    6.00|    2.58|  2.00|   4.00|    6.00|    8.00|   10.00|▇▇▃▇▇ |
+|test_score         |        11|             1|    2.36|    0.72| -0.57|   1.87|    2.32|    2.83|    5.05|▁▂▇▃▁ |
 
 
-Very good! We've now created a new dataset containing only complete cases. Let's now create a nice looking tab
+Very good! We've now created a new dataset containing only complete cases. Let's now create a nice looking table.
 
 
 ## 3.3 Modifying the data
@@ -482,14 +476,14 @@ head(analysisdata)
 
 ```
 ## # A tibble: 6 x 10
-##   person_id school_id summerschool female parental_school~ parental_lincome
-##       <int>     <int>        <dbl>  <dbl>            <dbl>            <dbl>
-## 1         1         5            0      1               10             12.9
-## 2         1         5            0      1               10             12.9
-## 3         1         5            0      1               10             12.9
-## 4         1         5            0      1               10             12.9
-## 5         1         5            0      1               10             12.9
-## 6         1         5            0      1               10             12.9
+##   person_id school_id summerschool female parental_schooling parental_lincome
+##       <int>     <int>        <dbl>  <dbl>              <dbl>            <dbl>
+## 1         1         5            0      1                 10             12.9
+## 2         1         5            0      1                 10             12.9
+## 3         1         5            0      1                 10             12.9
+## 4         1         5            0      1                 10             12.9
+## 5         1         5            0      1                 10             12.9
+## 6         1         5            0      1                 10             12.9
 ## # ... with 4 more variables: letter <dbl>, learnings <dbl>, year <int>,
 ## #   test_score <dbl>
 ```
@@ -570,33 +564,32 @@ skim(analysisdata%>%filter(year==5))
 
 Table: Data summary
 
-                                                        
--------------------------  -----------------------------
-Name                       analysisdata %>% filter(y... 
-Number of rows             3480                         
-Number of columns          11                           
-_______________________                                 
-Column type frequency:                                  
-numeric                    10                           
-________________________                                
-Group variables            year                         
--------------------------  -----------------------------
+|                         |                             |
+|:------------------------|:----------------------------|
+|Name                     |analysisdata %>% filter(y... |
+|Number of rows           |3480                         |
+|Number of columns        |11                           |
+|_______________________  |                             |
+|Column type frequency:   |                             |
+|numeric                  |10                           |
+|________________________ |                             |
+|Group variables          |year                         |
 
 
 **Variable type: numeric**
 
-skim_variable         year   n_missing   complete_rate      mean        sd      p0      p25       p50       p75      p100  hist  
--------------------  -----  ----------  --------------  --------  --------  ------  -------  --------  --------  --------  ------
-person_id                5           0               1   1747.18   1007.30    2.00   874.75   1746.50   2620.25   3491.00  ▇▇▇▇▇ 
-school_id                5           0               1     15.67      8.68    1.00     8.00     15.00     23.00     30.00  ▇▇▇▇▇ 
-summerschool             5           0               1      0.46      0.50    0.00     0.00      0.00      1.00      1.00  ▇▁▁▁▇ 
-female                   5           0               1      0.52      0.50    0.00     0.00      1.00      1.00      1.00  ▇▁▁▁▇ 
-parental_schooling       5           0               1     11.33      1.11   10.00    11.00     11.00     12.00     23.00  ▇▁▁▁▁ 
-parental_lincome         5           0               1     14.56      0.69   12.67    14.12     14.52     14.95     19.45  ▂▇▁▁▁ 
-letter                   5           0               1      0.25      0.43    0.00     0.00      0.00      0.00      1.00  ▇▁▁▁▂ 
-learnings                5           0               1     10.06      1.28    5.39     9.18     10.04     10.96     14.62  ▁▃▇▃▁ 
-test_score_raw           5           0               1      2.24      0.68   -0.29     1.78      2.24      2.70      4.67  ▁▃▇▃▁ 
-test_score               5           0               1      0.00      1.00   -3.69    -0.67      0.00      0.67      3.55  ▁▃▇▃▁ 
+|skim_variable      | year| n_missing| complete_rate|    mean|      sd|    p0|    p25|     p50|     p75|    p100|hist                                     |
+|:------------------|----:|---------:|-------------:|-------:|-------:|-----:|------:|-------:|-------:|-------:|:----------------------------------------|
+|person_id          |    5|         0|             1| 1747.18| 1007.30|  2.00| 874.75| 1746.50| 2620.25| 3491.00|▇▇▇▇▇ |
+|school_id          |    5|         0|             1|   15.67|    8.68|  1.00|   8.00|   15.00|   23.00|   30.00|▇▇▇▇▇ |
+|summerschool       |    5|         0|             1|    0.46|    0.50|  0.00|   0.00|    0.00|    1.00|    1.00|▇▁▁▁▇ |
+|female             |    5|         0|             1|    0.52|    0.50|  0.00|   0.00|    1.00|    1.00|    1.00|▇▁▁▁▇ |
+|parental_schooling |    5|         0|             1|   11.33|    1.11| 10.00|  11.00|   11.00|   12.00|   23.00|▇▁▁▁▁ |
+|parental_lincome   |    5|         0|             1|   14.56|    0.69| 12.67|  14.12|   14.52|   14.95|   19.45|▂▇▁▁▁ |
+|letter             |    5|         0|             1|    0.25|    0.43|  0.00|   0.00|    0.00|    0.00|    1.00|▇▁▁▁▂ |
+|learnings          |    5|         0|             1|   10.06|    1.28|  5.39|   9.18|   10.04|   10.96|   14.62|▁▃▇▃▁ |
+|test_score_raw     |    5|         0|             1|    2.24|    0.68| -0.29|   1.78|    2.24|    2.70|    4.67|▁▃▇▃▁ |
+|test_score         |    5|         0|             1|    0.00|    1.00| -3.69|  -0.67|    0.00|    0.67|    3.55|▁▃▇▃▁ |
 
 
 # 4 Descriptive Statistics 
@@ -646,10 +639,19 @@ analysisdata%>%
    <td style="text-align:right;"> 0 </td>
    <td style="text-align:right;"> 2.0 </td>
    <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:right;"> 2 </td>
    <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;"> 2.0 </td>
-   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48pt" height="12pt" viewBox="0 0 48 12" version="1.1"><g id="surface1"><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M -31.554688 11.664063 L 24 11.664063 L 24 3.21875 L -31.554688 3.21875 Z M -31.554688 11.664063 "></path></g></svg>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"><defs><style type="text/css">
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
+</g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="-31.56" y="3.22" width="55.56" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
 </td>
   </tr>
   <tr>
@@ -661,7 +663,16 @@ analysisdata%>%
    <td style="text-align:right;"> 0.0 </td>
    <td style="text-align:right;"> 1.0 </td>
    <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48pt" height="12pt" viewBox="0 0 48 12" version="1.1"><g id="surface6"><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 1.777344 11.664063 L 6.222656 11.664063 L 6.222656 3.726563 L 1.777344 3.726563 Z M 1.777344 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 6.222656 11.664063 L 10.667969 11.664063 Z M 6.222656 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 10.667969 11.664063 L 15.113281 11.664063 Z M 10.667969 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 15.109375 11.664063 L 19.554688 11.664063 Z M 15.109375 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 19.554688 11.664063 L 24 11.664063 Z M 19.554688 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 24 11.664063 L 28.445313 11.664063 Z M 24 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 28.445313 11.664063 L 32.890625 11.664063 Z M 28.445313 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 32.890625 11.664063 L 37.335938 11.664063 Z M 32.890625 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 37.332031 11.664063 L 41.777344 11.664063 Z M 37.332031 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 41.777344 11.664063 L 46.222656 11.664063 L 46.222656 3.21875 L 41.777344 3.21875 Z M 41.777344 11.664063 "></path></g></svg>
+   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"><defs><style type="text/css">
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
+</g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.78" y="3.73" width="4.44" height="7.94" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="6.22" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="10.67" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="15.11" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="19.56" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="24.00" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.44" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.89" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="37.33" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="41.78" y="3.22" width="4.44" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
 </td>
   </tr>
   <tr>
@@ -673,7 +684,16 @@ analysisdata%>%
    <td style="text-align:right;"> 10.0 </td>
    <td style="text-align:right;"> 11.0 </td>
    <td style="text-align:right;"> 23.0 </td>
-   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48pt" height="12pt" viewBox="0 0 48 12" version="1.1"><g id="surface11"><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 1.777344 11.664063 L 5.195313 11.664063 L 5.195313 3.21875 L 1.777344 3.21875 Z M 1.777344 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 5.195313 11.664063 L 8.613281 11.664063 L 8.613281 9.464844 L 5.195313 9.464844 Z M 5.195313 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 8.617188 11.664063 L 12.035156 11.664063 L 12.035156 10.867188 L 8.617188 10.867188 Z M 8.617188 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 12.035156 11.664063 L 15.453125 11.664063 L 15.453125 11.390625 L 12.035156 11.390625 Z M 12.035156 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 15.453125 11.664063 L 18.871094 11.664063 L 18.871094 11.546875 L 15.453125 11.546875 Z M 15.453125 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 18.871094 11.664063 L 22.289063 11.664063 L 22.289063 11.597656 L 18.871094 11.597656 Z M 18.871094 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 22.289063 11.664063 L 25.707031 11.664063 L 25.707031 11.648438 L 22.289063 11.648438 Z M 22.289063 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 25.710938 11.664063 L 29.128906 11.664063 L 29.128906 11.648438 L 25.710938 11.648438 Z M 25.710938 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 29.128906 11.664063 L 32.546875 11.664063 Z M 29.128906 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 32.546875 11.664063 L 35.964844 11.664063 L 35.964844 11.65625 L 32.546875 11.65625 Z M 32.546875 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 35.964844 11.664063 L 39.382813 11.664063 Z M 35.964844 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 39.382813 11.664063 L 42.800781 11.664063 L 42.800781 11.660156 L 39.382813 11.660156 Z M 39.382813 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 42.804688 11.664063 L 46.222656 11.664063 L 46.222656 11.660156 L 42.804688 11.660156 Z M 42.804688 11.664063 "></path></g></svg>
+   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"><defs><style type="text/css">
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
+</g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.78" y="3.22" width="3.42" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="5.20" y="9.46" width="3.42" height="2.20" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="8.62" y="10.86" width="3.42" height="0.80" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="12.03" y="11.39" width="3.42" height="0.27" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="15.45" y="11.55" width="3.42" height="0.12" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="18.87" y="11.60" width="3.42" height="0.065" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="22.29" y="11.65" width="3.42" height="0.014" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="25.71" y="11.65" width="3.42" height="0.014" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="29.13" y="11.66" width="3.42" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.55" y="11.66" width="3.42" height="0.0068" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="35.97" y="11.66" width="3.42" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="39.38" y="11.66" width="3.42" height="0.0034" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="42.80" y="11.66" width="3.42" height="0.0034" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
 </td>
   </tr>
   <tr>
@@ -685,7 +705,16 @@ analysisdata%>%
    <td style="text-align:right;"> 12.7 </td>
    <td style="text-align:right;"> 14.5 </td>
    <td style="text-align:right;"> 19.4 </td>
-   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48pt" height="12pt" viewBox="0 0 48 12" version="1.1"><g id="surface16"><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 0.679688 11.664063 L 3.957031 11.664063 L 3.957031 11.523438 L 0.679688 11.523438 Z M 0.679688 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 3.957031 11.664063 L 7.234375 11.664063 L 7.234375 10.445313 L 3.957031 10.445313 Z M 3.957031 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 7.234375 11.664063 L 10.511719 11.664063 L 10.511719 7.25 L 7.234375 7.25 Z M 7.234375 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 10.507813 11.664063 L 13.785156 11.664063 L 13.785156 3.292969 L 10.507813 3.292969 Z M 10.507813 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 13.785156 11.664063 L 17.0625 11.664063 L 17.0625 3.21875 L 13.785156 3.21875 Z M 13.785156 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 17.0625 11.664063 L 20.339844 11.664063 L 20.339844 7.609375 L 17.0625 7.609375 Z M 17.0625 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 20.339844 11.664063 L 23.617188 11.664063 L 23.617188 10.128906 L 20.339844 10.128906 Z M 20.339844 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 23.617188 11.664063 L 26.894531 11.664063 L 26.894531 11.136719 L 23.617188 11.136719 Z M 23.617188 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 26.890625 11.664063 L 30.167969 11.664063 L 30.167969 11.40625 L 26.890625 11.40625 Z M 26.890625 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 30.167969 11.664063 L 33.445313 11.664063 L 33.445313 11.605469 L 30.167969 11.605469 Z M 30.167969 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 33.445313 11.664063 L 36.722656 11.664063 L 36.722656 11.621094 L 33.445313 11.621094 Z M 33.445313 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 36.722656 11.664063 L 40 11.664063 Z M 36.722656 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 39.996094 11.664063 L 43.273438 11.664063 L 43.273438 11.648438 L 39.996094 11.648438 Z M 39.996094 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 43.273438 11.664063 L 46.550781 11.664063 L 46.550781 11.65625 L 43.273438 11.65625 Z M 43.273438 11.664063 "></path></g></svg>
+   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"><defs><style type="text/css">
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
+</g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="0.68" y="11.52" width="3.28" height="0.14" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="3.96" y="10.44" width="3.28" height="1.22" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="7.23" y="7.25" width="3.28" height="4.41" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="10.51" y="3.29" width="3.28" height="8.37" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="13.79" y="3.22" width="3.28" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="17.06" y="7.61" width="3.28" height="4.06" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="20.34" y="10.13" width="3.28" height="1.54" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="23.62" y="11.14" width="3.28" height="0.53" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="26.89" y="11.40" width="3.28" height="0.26" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="30.17" y="11.60" width="3.28" height="0.058" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="33.44" y="11.62" width="3.28" height="0.042" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="36.72" y="11.66" width="3.28" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="40.00" y="11.65" width="3.28" height="0.017" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="43.27" y="11.65" width="3.28" height="0.0083" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
 </td>
   </tr>
   <tr>
@@ -697,7 +726,16 @@ analysisdata%>%
    <td style="text-align:right;"> 0.0 </td>
    <td style="text-align:right;"> 0.0 </td>
    <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48pt" height="12pt" viewBox="0 0 48 12" version="1.1"><g id="surface21"><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 1.777344 11.664063 L 6.222656 11.664063 L 6.222656 3.21875 L 1.777344 3.21875 Z M 1.777344 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 6.222656 11.664063 L 10.667969 11.664063 Z M 6.222656 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 10.667969 11.664063 L 15.113281 11.664063 Z M 10.667969 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 15.109375 11.664063 L 19.554688 11.664063 Z M 15.109375 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 19.554688 11.664063 L 24 11.664063 Z M 19.554688 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 24 11.664063 L 28.445313 11.664063 Z M 24 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 28.445313 11.664063 L 32.890625 11.664063 Z M 28.445313 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 32.890625 11.664063 L 37.335938 11.664063 Z M 32.890625 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 37.332031 11.664063 L 41.777344 11.664063 Z M 37.332031 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 41.777344 11.664063 L 46.222656 11.664063 L 46.222656 8.890625 L 41.777344 8.890625 Z M 41.777344 11.664063 "></path></g></svg>
+   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"><defs><style type="text/css">
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
+</g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.78" y="3.22" width="4.44" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="6.22" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="10.67" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="15.11" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="19.56" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="24.00" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.44" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.89" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="37.33" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="41.78" y="8.89" width="4.44" height="2.77" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
 </td>
   </tr>
   <tr>
@@ -709,7 +747,16 @@ analysisdata%>%
    <td style="text-align:right;"> 0.0 </td>
    <td style="text-align:right;"> 0.0 </td>
    <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48pt" height="12pt" viewBox="0 0 48 12" version="1.1"><g id="surface26"><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 1.777344 11.664063 L 6.222656 11.664063 L 6.222656 3.21875 L 1.777344 3.21875 Z M 1.777344 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 6.222656 11.664063 L 10.667969 11.664063 Z M 6.222656 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 10.667969 11.664063 L 15.113281 11.664063 Z M 10.667969 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 15.109375 11.664063 L 19.554688 11.664063 Z M 15.109375 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 19.554688 11.664063 L 24 11.664063 Z M 19.554688 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 24 11.664063 L 28.445313 11.664063 Z M 24 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 28.445313 11.664063 L 32.890625 11.664063 Z M 28.445313 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 32.890625 11.664063 L 37.335938 11.664063 Z M 32.890625 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 37.332031 11.664063 L 41.777344 11.664063 Z M 37.332031 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 41.777344 11.664063 L 46.222656 11.664063 L 46.222656 4.351563 L 41.777344 4.351563 Z M 41.777344 11.664063 "></path></g></svg>
+   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"><defs><style type="text/css">
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
+</g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.78" y="3.22" width="4.44" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="6.22" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="10.67" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="15.11" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="19.56" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="24.00" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.44" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.89" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="37.33" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="41.78" y="4.35" width="4.44" height="7.31" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
 </td>
   </tr>
   <tr>
@@ -721,7 +768,16 @@ analysisdata%>%
    <td style="text-align:right;"> -4.1 </td>
    <td style="text-align:right;"> 0.0 </td>
    <td style="text-align:right;"> 3.7 </td>
-   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48pt" height="12pt" viewBox="0 0 48 12" version="1.1"><g id="surface31"><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M -0.320313 11.664063 L 2.511719 11.664063 L 2.511719 11.652344 L -0.320313 11.652344 Z M -0.320313 11.664063 "></path><path style="fill:none;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 2.511719 11.664063 L 5.34375 11.664063 Z M 2.511719 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 5.347656 11.664063 L 8.179688 11.664063 L 8.179688 11.589844 L 5.347656 11.589844 Z M 5.347656 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 8.179688 11.664063 L 11.011719 11.664063 L 11.011719 11.410156 L 8.179688 11.410156 Z M 8.179688 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 11.011719 11.664063 L 13.84375 11.664063 L 13.84375 11.066406 L 11.011719 11.066406 Z M 11.011719 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 13.847656 11.664063 L 16.679688 11.664063 L 16.679688 9.851563 L 13.847656 9.851563 Z M 13.847656 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 16.679688 11.664063 L 19.511719 11.664063 L 19.511719 7.636719 L 16.679688 7.636719 Z M 16.679688 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 19.511719 11.664063 L 22.34375 11.664063 L 22.34375 5.359375 L 19.511719 5.359375 Z M 19.511719 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 22.347656 11.664063 L 25.179688 11.664063 L 25.179688 3.949219 L 22.347656 3.949219 Z M 22.347656 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 25.179688 11.664063 L 28.011719 11.664063 L 28.011719 3.21875 L 25.179688 3.21875 Z M 25.179688 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 28.011719 11.664063 L 30.84375 11.664063 L 30.84375 4.898438 L 28.011719 4.898438 Z M 28.011719 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 30.84375 11.664063 L 33.675781 11.664063 L 33.675781 7.820313 L 30.84375 7.820313 Z M 30.84375 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 33.679688 11.664063 L 36.511719 11.664063 L 36.511719 10.105469 L 33.679688 10.105469 Z M 33.679688 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 36.511719 11.664063 L 39.34375 11.664063 L 39.34375 10.96875 L 36.511719 10.96875 Z M 36.511719 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 39.34375 11.664063 L 42.175781 11.664063 L 42.175781 11.433594 L 39.34375 11.433594 Z M 39.34375 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 42.179688 11.664063 L 45.011719 11.664063 L 45.011719 11.589844 L 42.179688 11.589844 Z M 42.179688 11.664063 "></path><path style="fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;stroke-width:0.375;stroke-linecap:round;stroke-linejoin:round;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d="M 45.011719 11.664063 L 47.84375 11.664063 L 47.84375 11.652344 L 45.011719 11.652344 Z M 45.011719 11.664063 "></path></g></svg>
+   <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"><defs><style type="text/css">
+    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
+      fill: none;
+      stroke: #000000;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10.00;
+    }
+  </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
+</g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="-0.32" y="11.65" width="2.83" height="0.012" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="2.51" y="11.66" width="2.83" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="5.35" y="11.59" width="2.83" height="0.073" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="8.18" y="11.41" width="2.83" height="0.26" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="11.01" y="11.07" width="2.83" height="0.60" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="13.85" y="9.85" width="2.83" height="1.81" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="16.68" y="7.63" width="2.83" height="4.03" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="19.51" y="5.36" width="2.83" height="6.30" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="22.35" y="3.95" width="2.83" height="7.71" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="25.18" y="3.22" width="2.83" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.01" y="4.90" width="2.83" height="6.77" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="30.85" y="7.82" width="2.83" height="3.85" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="33.68" y="10.10" width="2.83" height="1.56" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="36.51" y="10.97" width="2.83" height="0.69" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="39.35" y="11.43" width="2.83" height="0.23" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="42.18" y="11.59" width="2.83" height="0.073" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="45.01" y="11.65" width="2.83" height="0.012" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
 </td>
   </tr>
 </tbody>
@@ -1463,8 +1519,8 @@ Brilliant. We let's now try to output such regressions to a nice looking table. 
 
 ```r
 # Load flextable and modelsummary
-library(flextable)
-library(modelsummary)
+library("flextable")
+library("modelsummary")
 # Regressions
 models<-list(
   m1<-felm(test_score ~letter+parental_schooling+parental_lincome+female|0|0|school_id
@@ -1478,13 +1534,65 @@ modelsummary(models, stars = TRUE,statistic = 'std.error',
               coef_omit= '(Intercept)', output = 'flextable')
 ```
 
-<!--html_preserve--><div class="tabwid"><style>.cl-f502a8ee{font-family:'Arial';font-size:11px;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(17, 17, 17, 1.00);background-color:transparent;}.cl-f502a8ef{font-family:'Arial';font-size:10px;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f502cfd6{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2px;padding-top:2px;padding-left:5px;padding-right:5px;line-height: 1.00;background-color:transparent;}.cl-f502cfd7{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0;padding-top:0;padding-left:0;padding-right:0;line-height: 1.00;background-color:transparent;}.cl-f50344c0{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f50344c1{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 2.00px solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f50344c2{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1.00px solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f50344c3{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 1.00px solid rgba(255, 255, 255, 0.00);border-top: 1.00px solid rgba(255, 255, 255, 0.00);border-left: 1.00px solid rgba(255, 255, 255, 0.00);border-right: 1.00px solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f50344c4{width:54px;background-color:transparent;vertical-align: middle;border-bottom: 2.00px solid rgba(0, 0, 0, 1.00);border-top: 2.00px solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table style='border-collapse:collapse;'><thead><tr style="overflow-wrap:break-word;"><td class="cl-f50344c4"><p class="cl-f502cfd6"><span class="cl-f502a8ee"> </span></p></td><td class="cl-f50344c4"><p class="cl-f502cfd6"><span class="cl-f502a8ee">Model 1</span></p></td><td class="cl-f50344c4"><p class="cl-f502cfd6"><span class="cl-f502a8ee">Model 2</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">letter</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">0.2056***</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">0.2102***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee"></span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">(0.0271)</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">(0.0279)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">parental_schooling</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">-0.0279</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">-0.0306</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee"></span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">(0.0223)</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">(0.0227)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">parental_lincome</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">1.0185***</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">1.0211***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee"></span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">(0.0357)</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">(0.0366)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">female</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">-0.0143</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">-0.0096</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee"></span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">(0.0208)</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">(0.0203)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f50344c2"><p class="cl-f502cfd6"><span class="cl-f502a8ee">Num.Obs.</span></p></td><td class="cl-f50344c2"><p class="cl-f502cfd6"><span class="cl-f502a8ee">3481</span></p></td><td class="cl-f50344c2"><p class="cl-f502cfd6"><span class="cl-f502a8ee">3481</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">R2</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">0.473</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">0.479</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">R2 Adj.</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">0.473</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">0.474</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">Cluster vars</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">school_id</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">school_id</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">FE:  school_id</span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee"></span></p></td><td class="cl-f50344c0"><p class="cl-f502cfd6"><span class="cl-f502a8ee">X</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f50344c1"><p class="cl-f502cfd6"><span class="cl-f502a8ee">FE:  year</span></p></td><td class="cl-f50344c1"><p class="cl-f502cfd6"><span class="cl-f502a8ee"></span></p></td><td class="cl-f50344c1"><p class="cl-f502cfd6"><span class="cl-f502a8ee">X</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="3"class="cl-f50344c3"><p class="cl-f502cfd7"><span class="cl-f502a8ef">* p &lt; 0.1, ** p &lt; 0.05, *** p &lt; 0.01</span></p></td></tr></tbody></table></div><!--/html_preserve-->
+```{=html}
+<template id="04cc1529-e22b-4f8b-8b59-d1ebaa96d1b7"><style>
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+</style><div class="tabwid"><style>.cl-a72cc454{border-collapse:collapse;}.cl-a71e47b2{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-a71e6eb8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-a7210664{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a7210665{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a7210666{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a7210667{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-a7210668{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table class='cl-a72cc454'><thead><tr style="overflow-wrap:break-word;"><td class="cl-a7210668"><p class="cl-a71e6eb8"><span class="cl-a71e47b2"> </span></p></td><td class="cl-a7210668"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">Model 1</span></p></td><td class="cl-a7210668"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">Model 2</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">letter</span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">0.2056***</span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">0.2102***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2"></span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">(0.0271)</span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">(0.0279)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">parental_schooling</span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">-0.0279</span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">-0.0306</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2"></span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">(0.0223)</span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">(0.0227)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">parental_lincome</span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">1.0185***</span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">1.0211***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2"></span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">(0.0357)</span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">(0.0366)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">female</span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">-0.0143</span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">-0.0096</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2"></span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">(0.0208)</span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">(0.0203)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a7210666"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">Num.Obs.</span></p></td><td class="cl-a7210666"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">3481</span></p></td><td class="cl-a7210666"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">3481</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">R2</span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">0.473</span></p></td><td class="cl-a7210664"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">0.479</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-a7210665"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">R2 Adj.</span></p></td><td class="cl-a7210665"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">0.473</span></p></td><td class="cl-a7210665"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">0.474</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td  colspan="3"class="cl-a7210667"><p class="cl-a71e6eb8"><span class="cl-a71e47b2">* p &lt; 0.1, ** p &lt; 0.05, *** p &lt; 0.01</span></p></td></tr></tfoot></table></div></template>
+<div class="flextable-shadow-host" id="f80ddd69-243b-42d5-8949-2222e9903fec"></div>
+<script>
+var dest = document.getElementById("f80ddd69-243b-42d5-8949-2222e9903fec");
+var template = document.getElementById("04cc1529-e22b-4f8b-8b59-d1ebaa96d1b7");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+</script>
+
+```
 
 Just like in earlier examples, we can output our table to Microsoft Word or Latex with `output=..`. Note that we specify the type of standard errors in the `modelsummary()` function. Note that you can also use  [Stargazer](https://cran.r-project.org/web/packages/stargazer/vignettes/stargazer.pdf) for regression tables.
 <br><br>
 Brilliant!  The results show that those received a letter have a 0.2SD higher test score in year 6. There are many other settings that we can specify to polish our table. But let us  move on.
 
-#  8. Instrumental Variables
+#  8 Instrumental Variables
 
 We estimated the reduced form relationship between receiving a reminder letter and test scores to be 0.2SD. We have also estimated the first stage to be around 0.4. We would therefore conclude that attending the summer school increases test scores by about 0.2SD/0.4=0.5SD.
 
@@ -1618,11 +1726,12 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
         )
 ```
 
-<!--html_preserve--><style>html {
+```{=html}
+<style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#pqbtnsaqef .gt_table {
+#wxpxxjsqvk .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1647,7 +1756,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-left-color: #D3D3D3;
 }
 
-#pqbtnsaqef .gt_heading {
+#wxpxxjsqvk .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1659,7 +1768,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#pqbtnsaqef .gt_title {
+#wxpxxjsqvk .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1669,7 +1778,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-bottom-width: 0;
 }
 
-#pqbtnsaqef .gt_subtitle {
+#wxpxxjsqvk .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1679,13 +1788,13 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-top-width: 0;
 }
 
-#pqbtnsaqef .gt_bottom_border {
+#wxpxxjsqvk .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pqbtnsaqef .gt_col_headings {
+#wxpxxjsqvk .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1700,7 +1809,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#pqbtnsaqef .gt_col_heading {
+#wxpxxjsqvk .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1720,7 +1829,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   overflow-x: hidden;
 }
 
-#pqbtnsaqef .gt_column_spanner_outer {
+#wxpxxjsqvk .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1732,15 +1841,15 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   padding-right: 4px;
 }
 
-#pqbtnsaqef .gt_column_spanner_outer:first-child {
+#wxpxxjsqvk .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pqbtnsaqef .gt_column_spanner_outer:last-child {
+#wxpxxjsqvk .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pqbtnsaqef .gt_column_spanner {
+#wxpxxjsqvk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1752,7 +1861,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   width: 100%;
 }
 
-#pqbtnsaqef .gt_group_heading {
+#wxpxxjsqvk .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1774,7 +1883,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   vertical-align: middle;
 }
 
-#pqbtnsaqef .gt_empty_group_heading {
+#wxpxxjsqvk .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1789,15 +1898,15 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   vertical-align: middle;
 }
 
-#pqbtnsaqef .gt_from_md > :first-child {
+#wxpxxjsqvk .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pqbtnsaqef .gt_from_md > :last-child {
+#wxpxxjsqvk .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pqbtnsaqef .gt_row {
+#wxpxxjsqvk .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1816,7 +1925,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   overflow-x: hidden;
 }
 
-#pqbtnsaqef .gt_stub {
+#wxpxxjsqvk .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1828,7 +1937,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   padding-left: 12px;
 }
 
-#pqbtnsaqef .gt_summary_row {
+#wxpxxjsqvk .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1838,7 +1947,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   padding-right: 5px;
 }
 
-#pqbtnsaqef .gt_first_summary_row {
+#wxpxxjsqvk .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1848,7 +1957,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-top-color: #D3D3D3;
 }
 
-#pqbtnsaqef .gt_grand_summary_row {
+#wxpxxjsqvk .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1858,7 +1967,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   padding-right: 5px;
 }
 
-#pqbtnsaqef .gt_first_grand_summary_row {
+#wxpxxjsqvk .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1868,11 +1977,11 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-top-color: #D3D3D3;
 }
 
-#pqbtnsaqef .gt_striped {
+#wxpxxjsqvk .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pqbtnsaqef .gt_table_body {
+#wxpxxjsqvk .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1881,7 +1990,7 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-bottom-color: #D3D3D3;
 }
 
-#pqbtnsaqef .gt_footnotes {
+#wxpxxjsqvk .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1895,13 +2004,13 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#pqbtnsaqef .gt_footnote {
+#wxpxxjsqvk .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#pqbtnsaqef .gt_sourcenotes {
+#wxpxxjsqvk .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1915,46 +2024,46 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#pqbtnsaqef .gt_sourcenote {
+#wxpxxjsqvk .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#pqbtnsaqef .gt_left {
+#wxpxxjsqvk .gt_left {
   text-align: left;
 }
 
-#pqbtnsaqef .gt_center {
+#wxpxxjsqvk .gt_center {
   text-align: center;
 }
 
-#pqbtnsaqef .gt_right {
+#wxpxxjsqvk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pqbtnsaqef .gt_font_normal {
+#wxpxxjsqvk .gt_font_normal {
   font-weight: normal;
 }
 
-#pqbtnsaqef .gt_font_bold {
+#wxpxxjsqvk .gt_font_bold {
   font-weight: bold;
 }
 
-#pqbtnsaqef .gt_font_italic {
+#wxpxxjsqvk .gt_font_italic {
   font-style: italic;
 }
 
-#pqbtnsaqef .gt_super {
+#wxpxxjsqvk .gt_super {
   font-size: 65%;
 }
 
-#pqbtnsaqef .gt_footnote_marks {
+#wxpxxjsqvk .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="pqbtnsaqef" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="wxpxxjsqvk" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -2057,20 +2166,6 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
       <td class="gt_row gt_center">0.255</td>
       <td class="gt_row gt_center">0.579</td>
     </tr>
-    <tr>
-      <td class="gt_row gt_left">Cluster vars</td>
-      <td class="gt_row gt_center">school_id</td>
-      <td class="gt_row gt_center">school_id</td>
-      <td class="gt_row gt_center">school_id</td>
-      <td class="gt_row gt_center">school_id</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">FE:  school_id</td>
-      <td class="gt_row gt_center">X</td>
-      <td class="gt_row gt_center">X</td>
-      <td class="gt_row gt_center">X</td>
-      <td class="gt_row gt_center">X</td>
-    </tr>
   </tbody>
   <tfoot class="gt_sourcenotes">
     <tr>
@@ -2078,7 +2173,8 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
     </tr>
   </tfoot>
   
-</table></div><!--/html_preserve-->
+</table></div>
+```
 
 The first column shows that ignoring the selection problem and estimating the relationship between test score and summer school conditional controls, leads to a coefficient of 0.78SD. As expected this coefficient is larger than the IV estimate of 0.47SD shown in the fourth column of the table. The descriptive charts in chapter 5 suggested that the children who attended the summer school already had better test scores before the summer school and that their parents have higher incomes and completed more years of education. The coefficient in the first column above is therefore likely capturing not only the causal effect of the summer school but also other unobserved characteristics that are positively linked to test scores and summer school attendance. 
 
@@ -2166,11 +2262,12 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
         )
 ```
 
-<!--html_preserve--><style>html {
+```{=html}
+<style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#gzwvstvzsi .gt_table {
+#urcbixilok .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2195,7 +2292,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-left-color: #D3D3D3;
 }
 
-#gzwvstvzsi .gt_heading {
+#urcbixilok .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2207,7 +2304,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#gzwvstvzsi .gt_title {
+#urcbixilok .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2217,7 +2314,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-bottom-width: 0;
 }
 
-#gzwvstvzsi .gt_subtitle {
+#urcbixilok .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2227,13 +2324,13 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-top-width: 0;
 }
 
-#gzwvstvzsi .gt_bottom_border {
+#urcbixilok .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#gzwvstvzsi .gt_col_headings {
+#urcbixilok .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2248,7 +2345,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#gzwvstvzsi .gt_col_heading {
+#urcbixilok .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2268,7 +2365,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   overflow-x: hidden;
 }
 
-#gzwvstvzsi .gt_column_spanner_outer {
+#urcbixilok .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2280,15 +2377,15 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   padding-right: 4px;
 }
 
-#gzwvstvzsi .gt_column_spanner_outer:first-child {
+#urcbixilok .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#gzwvstvzsi .gt_column_spanner_outer:last-child {
+#urcbixilok .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#gzwvstvzsi .gt_column_spanner {
+#urcbixilok .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2300,7 +2397,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   width: 100%;
 }
 
-#gzwvstvzsi .gt_group_heading {
+#urcbixilok .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2322,7 +2419,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   vertical-align: middle;
 }
 
-#gzwvstvzsi .gt_empty_group_heading {
+#urcbixilok .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2337,15 +2434,15 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   vertical-align: middle;
 }
 
-#gzwvstvzsi .gt_from_md > :first-child {
+#urcbixilok .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#gzwvstvzsi .gt_from_md > :last-child {
+#urcbixilok .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#gzwvstvzsi .gt_row {
+#urcbixilok .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2364,7 +2461,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   overflow-x: hidden;
 }
 
-#gzwvstvzsi .gt_stub {
+#urcbixilok .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2376,7 +2473,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   padding-left: 12px;
 }
 
-#gzwvstvzsi .gt_summary_row {
+#urcbixilok .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2386,7 +2483,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   padding-right: 5px;
 }
 
-#gzwvstvzsi .gt_first_summary_row {
+#urcbixilok .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2396,7 +2493,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-top-color: #D3D3D3;
 }
 
-#gzwvstvzsi .gt_grand_summary_row {
+#urcbixilok .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2406,7 +2503,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   padding-right: 5px;
 }
 
-#gzwvstvzsi .gt_first_grand_summary_row {
+#urcbixilok .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2416,11 +2513,11 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-top-color: #D3D3D3;
 }
 
-#gzwvstvzsi .gt_striped {
+#urcbixilok .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#gzwvstvzsi .gt_table_body {
+#urcbixilok .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2429,7 +2526,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-bottom-color: #D3D3D3;
 }
 
-#gzwvstvzsi .gt_footnotes {
+#urcbixilok .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2443,13 +2540,13 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#gzwvstvzsi .gt_footnote {
+#urcbixilok .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#gzwvstvzsi .gt_sourcenotes {
+#urcbixilok .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2463,46 +2560,46 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#gzwvstvzsi .gt_sourcenote {
+#urcbixilok .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#gzwvstvzsi .gt_left {
+#urcbixilok .gt_left {
   text-align: left;
 }
 
-#gzwvstvzsi .gt_center {
+#urcbixilok .gt_center {
   text-align: center;
 }
 
-#gzwvstvzsi .gt_right {
+#urcbixilok .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#gzwvstvzsi .gt_font_normal {
+#urcbixilok .gt_font_normal {
   font-weight: normal;
 }
 
-#gzwvstvzsi .gt_font_bold {
+#urcbixilok .gt_font_bold {
   font-weight: bold;
 }
 
-#gzwvstvzsi .gt_font_italic {
+#urcbixilok .gt_font_italic {
   font-style: italic;
 }
 
-#gzwvstvzsi .gt_super {
+#urcbixilok .gt_super {
   font-size: 65%;
 }
 
-#gzwvstvzsi .gt_footnote_marks {
+#urcbixilok .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="gzwvstvzsi" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="urcbixilok" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -2577,27 +2674,6 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
       <td class="gt_row gt_center">0.532</td>
       <td class="gt_row gt_center">0.548</td>
     </tr>
-    <tr>
-      <td class="gt_row gt_left">Cluster vars</td>
-      <td class="gt_row gt_center">school_id</td>
-      <td class="gt_row gt_center">school_id</td>
-      <td class="gt_row gt_center">school_id</td>
-      <td class="gt_row gt_center">school_id</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">FE:  school_id</td>
-      <td class="gt_row gt_center"></td>
-      <td class="gt_row gt_center">X</td>
-      <td class="gt_row gt_center">X</td>
-      <td class="gt_row gt_center">X</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">FE:  year</td>
-      <td class="gt_row gt_center"></td>
-      <td class="gt_row gt_center">X</td>
-      <td class="gt_row gt_center">X</td>
-      <td class="gt_row gt_center">X</td>
-    </tr>
   </tbody>
   <tfoot class="gt_sourcenotes">
     <tr>
@@ -2605,10 +2681,213 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
     </tr>
   </tfoot>
   
-</table></div><!--/html_preserve-->
+</table></div>
+```
  The treatment effects estimate are all around 0.6SD, which is slightly larger than the IV estimate, but smaller than the "naive OLS. The last column above shows the DiD estimate excluding year 5 where we observe the worrying deviations from the trend. As expected, this specification gives a slightly smaller coefficient of 0.54SD. 
 
 
+
+#  10 Regression Discontinuity
+
+We have evidence from an RCT and from a difference-in-differences approach. But we love data and quasi-experimental variation. We know  with test scores below 1.5 in year 5 were encouraged to participate in the summer school. We will exploit this in a regression discontinuity approach.
+ 
+
+## 10.1 A RDD plot 
+
+We start by plotting the share who participated in the summer school around the cutoff. We do this with `geom_point()` and `geom_smooth()`. But we first create two new datasets. One that is collapsed on the test score level and one that is just selected to region around the cutoff. 
+
+
+```r
+# Create dataset collapsed on bins
+rdd_collapsed<-analysisdata%>%
+     filter(year==5)%>%
+     mutate(test_score=floor(test_score_raw*10)/10)%>%
+     group_by(test_score)%>%
+     summarise(summerschool=mean(summerschool))%>%
+     filter(test_score>0,test_score<2.5)
+# Selected range
+rdd_raw<-analysisdata%>%
+     filter(year==5)%>%
+     filter(test_score_raw>0,test_score_raw<2.5)
+
+# Create RDD plot
+ggplot()+
+    geom_smooth(rdd_raw%>%filter(test_score_raw<1.5),
+                mapping=aes(x=test_score_raw,y=summerschool),method="lm", color="black")+    
+    geom_smooth(rdd_raw%>%filter(test_score_raw>1.5),
+                mapping=aes(x=test_score_raw,y=summerschool),method="lm", color="black")+    
+    geom_point(rdd_collapsed,mapping=aes(x=test_score,y=summerschool),alpha=0.5)+
+    ylim(-0.5,1.5)+
+    theme_minimal()
+```
+
+<img src="applied_econ_with_R_files/figure-html/ch11-1-1.png" width="600" style="display: block; margin: auto;" />
+
+
+<center>
+
+<div class="tenor-gif-embed" data-postid="12385898" data-share-method="host" data-width="60%" data-aspect-ratio="1.3559322033898304"><a href="https://tenor.com/view/roller-coaster-state-fair-screaming-gif-12385898">Roller Coaster State Fair GIF</a> from <a href="https://tenor.com/search/rollercoaster-gifs">Rollercoaster GIFs</a></div><script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+Looks convincing! There is a clear drop in the probability of treatment around the cutoff of 1.5.
+
+
+
+</center>
+
+## 10.2 Balanced covariates & manipulation in forcing variable
+
+Before we estimate the RDD we first check whether parental background is balanced over the discontinuity and that there is no evidence of manipulation of the forcing variable. 
+
+The follow code block is long, but you should be able to understand all steps involved. 
+
+
+```r
+# Create dataset collapsed on bins
+rdd_collapsed<-analysisdata%>%
+  filter(year==5)%>%
+  mutate(test_score=floor(test_score_raw*10)/10)%>%
+  group_by(test_score)%>%
+  summarise(parental_schooling=mean(parental_schooling),
+            parental_lincome=mean(parental_lincome))%>%
+  filter(test_score>0,test_score<2.5)
+
+# Selected range
+rdd_raw<-analysisdata%>%
+  filter(year==5)%>%
+  filter(test_score_raw>0,test_score_raw<2.5)
+
+# Create RDD plot of parental income
+p1<-ggplot()+
+  geom_smooth(rdd_raw%>%filter(test_score_raw<1.5),
+              mapping=aes(x=test_score_raw,y=parental_lincome),method="lm", color="black")+    
+  geom_smooth(rdd_raw%>%filter(test_score_raw>1.5),
+              mapping=aes(x=test_score_raw,y=parental_lincome),method="lm", color="black")+    
+  geom_point(rdd_collapsed,mapping=aes(x=test_score,y=parental_lincome),alpha=0.5)+
+  theme_minimal()+labs(title="Parental Income (log)")
+
+# Create RDD plot of parental schooling
+p2<-ggplot()+
+  geom_smooth(rdd_raw%>%filter(test_score_raw<1.5),
+              mapping=aes(x=test_score_raw,y=parental_schooling),method="lm", color="black")+    
+  geom_smooth(rdd_raw%>%filter(test_score_raw>1.5),
+              mapping=aes(x=test_score_raw,y=parental_schooling),method="lm", color="black")+    
+  geom_point(rdd_collapsed,mapping=aes(x=test_score,y=parental_schooling),alpha=0.5)+
+  theme_minimal()+labs(title="Parental Schooling (years)")
+
+# Histogram of forcing variable
+p3<-ggplot(rdd_raw,aes(x=test_score_raw))+
+  geom_histogram(bins=100,color="white")+
+  geom_vline(xintercept=1.5)+
+  theme_minimal()+labs(title="Distribution of the forcing variable")
+
+# Patchwork  to combine charts  
+(p1+p2)/p3
+```
+
+<img src="applied_econ_with_R_files/figure-html/ch11-2-1.png" width="750" style="display: block; margin: auto;" />
+
+Looks pretty balanced to me! 
+
+## 10.3 RDD regression 
+
+Finally we estimate an (old-fashioned) RD model as an IV with linear trends on both sides of the cutoff. To achieve this we first create a new dataset where the forcing variable is added as a separate collum
+
+
+```r
+# "Forcing variable" data
+year5<-analysisdata%>%
+  filter(year==5)%>%
+  mutate(above=ifelse(test_score_raw>1.5,1,0), ie=test_score_raw*above, score=test_score_raw)%>%
+  ungroup()%>%
+  select(person_id,above,test_score_raw,ie,score)
+# Merge  forcing variable data to main data
+df<-merge(analysisdata,year5,by="person_id")
+df<-df%>%
+  filter(year==6)%>%
+  rename(summerschoolrdd=summerschool) # Rename to allow reuse later
+        
+    
+# RDD regression
+m_rdd<-felm(test_score~ie+score|0|(summerschoolrdd~above)|school_id,data=df)
+summary(m_rdd)
+```
+
+```
+## 
+## Call:
+##    felm(formula = test_score ~ ie + score | 0 | (summerschoolrdd ~      above) | school_id, data = df) 
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.99796 -0.39668  0.00311  0.38858  2.12945 
+## 
+## Coefficients:
+##                        Estimate Cluster s.e. t value Pr(>|t|)    
+## (Intercept)            -2.46969      0.05176 -47.710  < 2e-16 ***
+## ie                     -0.07943      0.05620  -1.413    0.158    
+## score                   1.07351      0.08804  12.194  < 2e-16 ***
+## `summerschoolrdd(fit)`  0.49469      0.06723   7.358 2.32e-13 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.5836 on 3471 degrees of freedom
+## Multiple R-squared(full model): 0.6593   Adjusted R-squared: 0.659 
+## Multiple R-squared(proj model): 0.6593   Adjusted R-squared: 0.659 
+## F-statistic(full model, *iid*): 1803 on 3 and 3471 DF, p-value: < 2.2e-16 
+## F-statistic(proj model):  3797 on 3 and 29 DF, p-value: < 2.2e-16 
+## F-statistic(endog. vars):54.14 on 1 and 29 DF, p-value: 4.171e-08
+```
+
+The RDD coefficient suggest that the summerschool improves test scores by 0.5SD. 
+
+
+
+# 11 Comparing all coefficients in  a plot
+
+Let us end  our analysis by comparing the estimated causal effect of the summer school based on the various approaches in a chart using `modelplot()`. 
+
+
+```r
+# Combine all "preferred specifications"  in a list
+models<-list()
+models[['OLS']]<-OLS
+models[['RCT']]<-IV
+models[['DiD']]<-m4
+models[['RDD']]<-m_rdd
+
+
+# Coefficient renaming
+cm <- c('`summerschool(fit)`'  = 'RCT',
+        '`summerschoolrdd(fit)`'  = 'RDD',
+        'afterXsummerschool'='DiD',
+        'summerschool'='OLS')
+
+# Create plot of coefficients
+modelplot(models,coef_map=cm)+
+  labs(title="Coefficients: The effect of attending a summer school on test scores (in SD)",
+       caption ="Note: All data is fictitious.")+
+  theme(legend.position = "none")+
+  geom_vline(xintercept=0)
+```
+
+<img src="applied_econ_with_R_files/figure-html/ch12-1-1.png" width="650" style="display: block; margin: auto;" />
+
+
+
+# Stata index
+
+- **bys year: egen x=..** An R example is provided in [section 3.3](https://hhsievertsen.github.io/applied_econ_with_r/#33_Modifying_the_data) <br>
+- **collapse**:  An R example is provided in [section 10.1](https://hhsievertsen.github.io/applied_econ_with_r/#101_Inspecting_the_common_trends) <br>
+- **merge**:  An R example is provided in [section 2.5](https://hhsievertsen.github.io/applied_econ_with_r/#25_Merging_the_datasets) <br>
+- **import csv**:  An R example is provided in [section 2.2](https://hhsievertsen.github.io/applied_econ_with_r/#22_Loading_a_csv_data_file) <br>
+- **import xlsx**:  An R example is provided in [section 2.4](https://hhsievertsen.github.io/applied_econ_with_r/#24_Loading_an_xlsx_file) <br>
+- **margins **:  An R example is provided in [section 8.3](https://hhsievertsen.github.io/applied_econ_with_r) <br>
+- **reg y x**:  An R example is provided in [section 7.1](https://hhsievertsen.github.io/applied_econ_with_r/#71_OLS_estimation_with_with_lm()) <br>
+- **reghdfe y x,absorb() cluster()**:  An R example is provided in [section 7.2](https://hhsievertsen.github.io/applied_econ_with_r/#72_OlS_with_the_felm()_function) <br>
+- **use "... .dta"**:  An R example is provided in [section 2.3](https://hhsievertsen.github.io/applied_econ_with_r/#23_Loading_a_Stata_data_file) <br>
+
+
+<br><br><br><br><br><br>
 
 
 # Stata index
