@@ -7,14 +7,11 @@ author:
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
   html_document:
-    theme: lumen 
-    highlight: haddock
     code_folding: none
     toc: yes
     toc_depth: 3
     toc_float: yes
     keep_md: true
-    css: css/style.css
 ---
 
 
@@ -244,10 +241,7 @@ summary(school_data_merged)
 
 <br>
 
-<center>
 
-<iframe src="https://giphy.com/embed/iXTrbbYMQBCMM" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/funny-star-trek-iXTrbbYMQBCMM"></a></p>
-</center>
 
 
 <br><br><br><br><br><br>
@@ -460,11 +454,6 @@ In the example above we
 
 <br>
 
-<center>
-
-<iframe src="https://giphy.com/embed/n8SkNR77udWlG" width="480" height="333" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/star-trek-wow-spock-n8SkNR77udWlG"></a></p>
-
-</center>
 
 <br>
 
@@ -664,12 +653,14 @@ Our goal is to compare the test score distribution for those who received the su
 ```{r ch5-5,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE, out.width=750,fig.align='center'}
 # Load ggridges
 library("ggridges")
+
 # create a ggridges  chart
 ggplot(analysisdata,aes(y=as.factor(year),x=test_score,fill=as.factor(letter) ))+
         geom_density_ridges(  alpha = .7, scale=1.5,color = "white", from = -2.5, to = 2.5)+
         theme_minimal()+
         theme_ridges(grid = FALSE)+
   scale_y_discrete(expand = c(0, 0)) +
+  coord_flip()+
   scale_x_continuous(expand = c(0, 0)) +
         scale_fill_brewer(palette="Set1",labels=c("No letter","Letter"))+
         labs(x="Test Score",y="Year",fill=" ",
@@ -907,13 +898,13 @@ Note that the output about covers the beta coefficients. Let's compute the avera
 We can use `margins()` to obtain average marginal effects. We simply use the `margins()` function on the objects storing or probit and logit estimates. We can also include these directly in a nice looking table. 
 
 ```{r ch8-4,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
-## Load margins package
-library("margins")
-##  Compute marginal effects
-mfx_logit<- margins(logit_results)
-mfx_probit<-margins(probit_results)
-# Include in table
-modelsummary(list(mfx_logit,mfx_probit), output = 'flextable')
+# ## Load margins package
+# library("margins")
+# ##  Compute marginal effects
+# mfx_logit<- margins(logit_results)
+# mfx_probit<-margins(probit_results)
+# # Include in table
+# modelsummary(list(mfx_logit,mfx_probit), output = 'flextable')
 
 ```
 
@@ -1079,195 +1070,4 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
         )
 ```
  The treatment effects estimate are all around 0.6SD, which is slightly larger than the IV estimate, but smaller than the "naive OLS. The last column above shows the DiD estimate excluding year 5 where we observe the worrying deviations from the trend. As expected, this specification gives a slightly smaller coefficient of 0.54SD. 
-
-
-<br><br><br><br><br><br>
-
-#  11 Regression Discontinuity
-
-We have evidence from an RCT and from a difference-in-differences approach. But we love data and quasi-experimental variation. We know  with test scores below 1.5 in year 5 were encouraged to participate in the summer school. We will exploit this in a regression discontinuity approach.
- 
-
-## 11.1 A RDD plot 
-
-We start by plotting the share who participated in the summer school around the cutoff. We do this with `geom_point()` and `geom_smooth()`. But we first create two new datasets. One that is collapsed on the test score level and one that is just selected to region around the cutoff. 
-
-```{r ch11-1,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE, out.width=600,fig.align='center'}
-# Create dataset collapsed on bins
-rdd_collapsed<-analysisdata%>%
-     filter(year==5)%>%
-     mutate(test_score=floor(test_score_raw*10)/10)%>%
-     group_by(test_score)%>%
-     summarise(summerschool=mean(summerschool))%>%
-     filter(test_score>0,test_score<2.5)
-# Selected range
-rdd_raw<-analysisdata%>%
-     filter(year==5)%>%
-     filter(test_score_raw>0,test_score_raw<2.5)
-
-# Create RDD plot
-ggplot()+
-    geom_smooth(rdd_raw%>%filter(test_score_raw<1.5),
-                mapping=aes(x=test_score_raw,y=summerschool),method="lm", color="black")+    
-    geom_smooth(rdd_raw%>%filter(test_score_raw>1.5),
-                mapping=aes(x=test_score_raw,y=summerschool),method="lm", color="black")+    
-    geom_point(rdd_collapsed,mapping=aes(x=test_score,y=summerschool),alpha=0.5)+
-    ylim(-0.5,1.5)+
-    theme_minimal()
-
-
-
-```
-
-
-<center>
-
-<div class="tenor-gif-embed" data-postid="12385898" data-share-method="host" data-width="60%" data-aspect-ratio="1.3559322033898304"><a href="https://tenor.com/view/roller-coaster-state-fair-screaming-gif-12385898">Roller Coaster State Fair GIF</a> from <a href="https://tenor.com/search/rollercoaster-gifs">Rollercoaster GIFs</a></div><script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-
-Looks convincing! There is a clear drop in the probability of treatment around the cutoff of 1.5.
-
-
-
-</center>
-
-## 11.2 Balanced covariates & manipulation in forcing variable
-
-Before we estimate the RDD we first check whether parental background is balanced over the discontinuity and that there is no evidence of manipulation of the forcing variable. 
-
-The follow code block is long, but you should be able to understand all steps involved. 
-
-```{r ch11-2,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE, out.width=750,fig.align='center'}
-# Create dataset collapsed on bins
-rdd_collapsed<-analysisdata%>%
-  filter(year==5)%>%
-  mutate(test_score=floor(test_score_raw*10)/10)%>%
-  group_by(test_score)%>%
-  summarise(parental_schooling=mean(parental_schooling),
-            parental_lincome=mean(parental_lincome))%>%
-  filter(test_score>0,test_score<2.5)
-
-# Selected range
-rdd_raw<-analysisdata%>%
-  filter(year==5)%>%
-  filter(test_score_raw>0,test_score_raw<2.5)
-
-# Create RDD plot of parental income
-p1<-ggplot()+
-  geom_smooth(rdd_raw%>%filter(test_score_raw<1.5),
-              mapping=aes(x=test_score_raw,y=parental_lincome),method="lm", color="black")+    
-  geom_smooth(rdd_raw%>%filter(test_score_raw>1.5),
-              mapping=aes(x=test_score_raw,y=parental_lincome),method="lm", color="black")+    
-  geom_point(rdd_collapsed,mapping=aes(x=test_score,y=parental_lincome),alpha=0.5)+
-  theme_minimal()+labs(title="Parental Income (log)")
-
-# Create RDD plot of parental schooling
-p2<-ggplot()+
-  geom_smooth(rdd_raw%>%filter(test_score_raw<1.5),
-              mapping=aes(x=test_score_raw,y=parental_schooling),method="lm", color="black")+    
-  geom_smooth(rdd_raw%>%filter(test_score_raw>1.5),
-              mapping=aes(x=test_score_raw,y=parental_schooling),method="lm", color="black")+    
-  geom_point(rdd_collapsed,mapping=aes(x=test_score,y=parental_schooling),alpha=0.5)+
-  theme_minimal()+labs(title="Parental Schooling (years)")
-
-# Histogram of forcing variable
-p3<-ggplot(rdd_raw,aes(x=test_score_raw))+
-  geom_histogram(bins=100,color="white")+
-  geom_vline(xintercept=1.5)+
-  theme_minimal()+labs(title="Distribution of the forcing variable")
-
-# Patchwork  to combine charts  
-(p1+p2)/p3
-
-
-```
-
-Looks pretty balanced to me! 
-
-## 11.3 RDD regression 
-
-Finally we estimate an (old-fashioned) RD model as an IV with linear trends on both sides of the cutoff. To achieve this we first create a new dataset where the forcing variable is added as a separate collum
-
-```{r ch11-3,eval=T, warning=F,include=T,echo=T,message=FALSE, out.width=750,fig.align='center'}
-
-# "Forcing variable" data
-year5<-analysisdata%>%
-  filter(year==5)%>%
-  mutate(above=ifelse(test_score_raw>1.5,1,0), ie=test_score_raw*above, score=test_score_raw)%>%
-  ungroup()%>%
-  select(person_id,above,test_score_raw,ie,score)
-# Merge  forcing variable data to main data
-df<-merge(analysisdata,year5,by="person_id")
-df<-df%>%
-  filter(year==6)%>%
-  rename(summerschoolrdd=summerschool) # Rename to allow reuse later
-        
-    
-# RDD regression
-m_rdd<-felm(test_score~ie+score|0|(summerschoolrdd~above)|school_id,data=df)
-summary(m_rdd)
-
-```
-
-The RDD coefficient suggest that the summerschool improves test scores by 0.5SD. 
-
-<br><br><br><br><br><br>
-
-
-# 12 Comparing all coefficients in  a plot
-
-Let us end  our analysis by comparing the estimated causal effect of the summer school based on the various approaches in a chart using `modelplot()`. 
-
-```{r ch12-1,eval=T, warning=F,include=T,echo=T,message=FALSE, out.width=650,fig.align='center'}
-
-# Combine all "preferred specifications"  in a list
-models<-list()
-models[['OLS']]<-OLS
-models[['RCT']]<-IV
-models[['DiD']]<-m4
-models[['RDD']]<-m_rdd
-
-
-# Coefficient renaming
-cm <- c('`summerschool(fit)`'  = 'RCT',
-        '`summerschoolrdd(fit)`'  = 'RDD',
-        'afterXsummerschool'='DiD',
-        'summerschool'='OLS')
-
-# Create plot of coefficients
-modelplot(models,coef_map=cm)+
-  labs(title="Coefficients: The effect of attending a summer school on test scores (in SD)",
-       caption ="Note: All data is fictitious.")+
-  theme(legend.position = "none")+
-  geom_vline(xintercept=0)
-
-```
-
-
-
-# Stata index
-
-- **bys year: egen x=..** An R example is provided in [section 3.3](https://hhsievertsen.github.io/applied_econ_with_r/#33_Modifying_the_data) <br>
-- **collapse**:  An R example is provided in [section 10.1](https://hhsievertsen.github.io/applied_econ_with_r/#101_Inspecting_the_common_trends) <br>
-- **merge**:  An R example is provided in [section 2.5](https://hhsievertsen.github.io/applied_econ_with_r/#25_Merging_the_datasets) <br>
-- **import csv**:  An R example is provided in [section 2.2](https://hhsievertsen.github.io/applied_econ_with_r/#22_Loading_a_csv_data_file) <br>
-- **import xlsx**:  An R example is provided in [section 2.4](https://hhsievertsen.github.io/applied_econ_with_r/#24_Loading_an_xlsx_file) <br>
-- **margins **:  An R example is provided in [section 8.3](https://hhsievertsen.github.io/applied_econ_with_r) <br>
-- **reg y x**:  An R example is provided in [section 7.1](https://hhsievertsen.github.io/applied_econ_with_r/#71_OLS_estimation_with_with_lm()) <br>
-- **reghdfe y x,absorb() cluster()**:  An R example is provided in [section 7.2](https://hhsievertsen.github.io/applied_econ_with_r/#72_OlS_with_the_felm()_function) <br>
-- **use "... .dta"**:  An R example is provided in [section 2.3](https://hhsievertsen.github.io/applied_econ_with_r/#23_Loading_a_Stata_data_file) <br>
-
-
-<br><br><br><br><br>
-**That is it!** You made it to the end of my tutorial. Well done!
-<br>
-<center>
-
-<iframe src="https://giphy.com/embed/mGK1g88HZRa2FlKGbz" width="480" height="400" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/Friends-episode-1-season-9-friends-tv-mGK1g88HZRa2FlKGbz"></a></p>
-
-
-<strong> Thanks!</strong><br><br>
-
-I would like to thank @stsumej, Grant McDermott, and Jacob Mazalale for identifying mistakes and/or suggesting improvements. E-mails about mistakes and suggestions for improvements are always very welcome and much appreciated. You can write to h.h.sievertsen@bristol.ac.uk. Thank you. 
-</center>
-
 
