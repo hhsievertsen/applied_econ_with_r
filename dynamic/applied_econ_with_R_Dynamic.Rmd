@@ -34,18 +34,21 @@ This tutorial is written for Applied Economics students at the University of Bri
 **How this works**
 
 - The tutorial is structured as a complete research project starting with loading the raw data and ending with a chart comparing the estimates across approaches. 
+- The tutorial aims at covering the same methods we covered in Stata during the term.
 - All data used is directly downloadable. You should therefore be able to download the data and try the methods in R on your own computer. 
 - The tutorial mainly consists of code blocks  and the resulting output.  Every now and then I include some references to how I would do the same task in Stata or key differences to Stata. 
 
 I appreciate feedback, thanks.
 
-Hans  (version 0.3 - November 30 , 2020)
+Hans  (November 11 , 2021)
 
 
 <br><br><br><br><br><br>
 
 ## 1 Research question  & data
 
+
+You will only see the above content in the output.
 
 
 ### 1.1 The research question
@@ -66,7 +69,6 @@ The  **fictitious** setting is as follows:
 - The  summer school  could be focusing on the school curriculum, or it could be focused on skills that lead to improved schooling outcomes (for example "grit" as in [Alan et al (2019)](https://academic.oup.com/qje/article-abstract/134/3/1121/5342089?redirectedFrom=fulltext)).
 - The summer school is free, but enrollment requires active involvement by parents.
 - We are interested in whether participation in the summer school improves child outcomes. 
-- The setting is a dream for  researchers (there is a reason why it is **fictitious**!):
 
 
 
@@ -82,7 +84,7 @@ We have three datasets to study the research question:
 
 2.  [school_data_2.dta](https://github.com/hhsievertsen/applied_econ_with_r/raw/main/data/school_data_2.dta) 
 
-- We use this as example on **how to load data stored in a Stata format**.
+- We use this as example on **how to load data stored in Stata format**.
 - This dataset contains information about person id, which enables us to link it to the first dataset. We will use this to practice **merging** data.
 - The dataset also contains information about whether the individual received a reminder letter. 
 
@@ -132,7 +134,9 @@ library("readr")
 # load data
 read_csv("C:/Users/hhs/school_data_1.csv")
 ```
-
+```{r ch2-3a,eval=T, include=T,echo=F, out.width=500,fig.align="center"}
+print(school_data_1)
+```
 
 Stata users would now expect that the dataset is loaded in the memory and everything I do now relates to this dataset. Stata users will be disappointed. When R executes the command above it loads the data, but then it says: "Hey, Hans didn't tell me what to do with the dataset, so I will just print the contents of it and forget it." 
 
@@ -192,17 +196,23 @@ glimpse(school_data_3)
 
 ### 2.5 Merging the datasets
 
-Let's now load the three datasets. We will use the `merge()` function for that. In merge we first state the names of the two datasets to merge. We then tell R the column(s) to use to merge the two datasets with `by=....`. As a default R includes all rows that are observed in both datasets (based on the by variable), but we can  set `all=TRUE` to keep all rows from both datasets, or `all.x=TRUE` to keep all rows from the first dataset and all rows that were merged, and finally `all.y=TRUE` to keep all rows from the second dataset. The default behaviour of R corresponds to using the option *keep(3)* in Stata, and Stata's default option corresponds to using `all=TRUE` in R. 
+Let's now merge the three datasets. We will use the `merge()` function for that. In merge we first state the names of the two datasets to merge. We then tell R the column(s) to use to merge the two datasets with `by=....`. As a default R includes all rows that are observed in both datasets (based on the by variable), but we can  set `all=TRUE` to keep all rows from both datasets, or `all.x=TRUE` to keep all rows from the first dataset and all rows that were merged, and finally `all.y=TRUE` to keep all rows from the second dataset. The default behaviour of R corresponds to using the option *keep(3)* in Stata, and Stata's default option corresponds to using `all=TRUE` in R. 
 
 Here as example where merge the first two datasets. We then use the `dim()` function to get the dimensions of the new merged dataset in terms of the number of rows and the number of columns. 
 
-```{r ch2-9b,eval=T, include=T,echo=T}
+And hey, this is the first dynamic code block. You can edit the code (there is no need in this case) and click Run Code to see what happens. 
+
+```{r ch2-9b,exercise=TRUE}
 # merge school_data_1 with school_data_2
 school_data_merged<-merge(school_data_1,school_data_2,by="person_id")
 dim(school_data_merged)
 ```
+```{r ch2-9b-hint-1}
+# dimensions of school_data_1
+dim(school_data_1)
+```
 
-We note that the merged dataset has 3491 rows and 9 columns. We actually didn't check the number of rows in the raw datasets (that would be a good thing to do), but if we managed to merge all observations, it should be 3491. From above we knew that *school_data_1* has 8 columns and by merging the *school_data_2* on we also get the column with the information about whether the family receiving the letter, making it to in total 9 columns. 
+We note that the merged dataset has 3491 rows and 9 columns. We actually didn't check the number of rows in the raw datasets (that would have been a good thing to do; maybe you can do it by changing the code above?). If all rows are merged we should have the same number of rows as in the original dataset.  From above we knew that *school_data_1* has 8 columns and by merging the *school_data_2* on we also get the column with the information about whether the family receiving the letter, making it to in total 9 columns. 
 
 
 **Important difference to Stata:** A key difference between Stata and R merge is that in case a variable in the first dataset has the same name as a column in the second dataset, R will automatically rename the column names by adding suffices *.x* (the column from the first dataset) and *.y*  (the column from the second dataset). Stata just overwrites the columns. 
@@ -247,15 +257,11 @@ summary(school_data_merged)
 <br>
 
 
-
-
-<br><br><br><br><br><br>
-
 ## 3 Cleaning the data
 
 ### 3.1 Tidying the data
 
-Now that we have merged the datasets we want to make sure that the merged dataset satisfies the  [Tidy Data Principles](https://vita.had.co.nz/papers/tidy-data.pdf). From these principles we know that the number of columns should correspond to the number of variables in the dataset. But how many variables are there?
+Now that we have merged the datasets,  we want to make sure that the merged dataset satisfies the  [Tidy Data Principles](https://vita.had.co.nz/papers/tidy-data.pdf). From these principles we know that the number of columns should correspond to the number of variables in the dataset. But how many variables are there?
 
 ```{r quiz}
 quiz(
@@ -285,7 +291,7 @@ ncol(school_data_merged)
 
 
 
-Oh no, the number of columns does not correspond to the number of variables. Let's sort this out. The issue is that the variables *test_year_5* contain information about the test score and the year. We need to separate this out. Wwe can  use tools from the *tidyr* package to make the dataset tidy. Specifically, we use `pivot_longer()` which corresponds to *reshape long* in Stata.  See also section 9.2 in my [R introduction](https://hhsievertsen.shinyapps.io/r_introduction/)  for details. 
+Oh no! The number of columns does not correspond to the number of variables. Let's sort this out. The issue is that the variables *test_year_5* contain information about the test score and the year. We need to separate this out. We can  use tools from the *tidyr* package to make the dataset tidy. Specifically, we use `pivot_longer()` which corresponds to *reshape long* in Stata.  See also section 9.2 in the [R introduction](https://hhsievertsen.shinyapps.io/r_introduction/)  for details. 
 
 ```{r ch3-1,eval=F, warning=F,include=T,echo=T}
 # load tidyr package
@@ -308,45 +314,40 @@ ncol(school_data_merged)
 ```
 
 
-Hurray! We now have that the number columns correspond to the number of variables.
+Hurray! We now have a dataset where the number columns correspond to the number of variables.
 
 ### 3.2 Sample Selection
 
 We now have a dataset that satisfies the tidy data principles. The next task before  is the sample selection.  The only sample selection we are concerned with in this exercise is missing values. We will use the `skim()` function  to assess how many missing values there are in our dataset.  `skim()` is one of my favourite functions in R to get an overview of the datasets, it comes  from the *skimr* package. 
 
 
-```{r ch3-3  ,eval=T, message=F,warning=F,include=T,echo=T,  out.width=500,fig.align="center"}
+```{r ch3-3,exercise=TRUE}
 # Load skimr
 library("skimr")
 # Use skim() to skim the data
 skim(school_data_tidy)
 ```
 
- We can see how many observations and variables there are, the variable types, the number of missing values. The mean, standard deviations, percentiles, and we even get a small histogram. 
+ We can easily observe how many rows and columns there are, the variable types, the number of missing values. The mean, standard deviations, percentiles, and we even get a small histogram. 
 
-We observe that the variable *parental_schooling* has 45 missing values and the variable *test score*  has 11 missing values. Let's assume that these values are missing at random and remove these rows. Here we use `filter()` for that. The `filter()` function takes two arguments. First, the name of the original dataset, and secondly the condition a row must satisfy to be kept in the filtering process. The condition we want to satisfy is that `!is.na(parental_schooling)`. The `is.na()` is a function is true if the element in `( )` is missing. We use the `!` to achieve the opposite of that. In other words that parental schooling is not missing. 
+We observe that the column *parental_schooling* has 45 missing values and the variable *test_score*  has 11 missing values. Let's assume that these values are missing at random and remove these rows. Here we use `filter()` for that. The `filter()` function takes two arguments. First, the name of the original dataset, and secondly the condition a row must satisfy to be kept in the filtering process. The condition we want to satisfy is that `!is.na(parental_schooling)`. The `is.na()` is a function is true if the element in `( )` is missing. We use the `!` to achieve the opposite of that. In other words that parental schooling is not missing. 
 
 
-```{r ch3-4  ,eval=T, include=T,echo=T,  out.width=500,fig.align="center"}
+```{r ch3-4,exercise=TRUE}
 # Select only rows with no missing values
 school_data_selected<-filter(school_data_tidy,!is.na(parental_schooling),!is.na(test_score))
-# Use apply to apply a function on all columns
-apply(school_data_selected,2, function(x) sum(is.na(x)))
+# Use skim() to skim the data again
+skim(school_data_selected)
 ```
-
- There are many ways to assess the how many rows with missing values there are in our dataset, but in the example above I introduced the very popular `apply()` family in R. The apply function applies takes three arguments: an object (like a data frame), the dimension of the object to "loop over", the function to execute in each loop iteration. In our example we  tell R to consider the school_data object, the second dimension (columns), and on each column execute the function `sum(is.na(x))`. The function calculates the sum across the rows where we apply the `is.na()` function. The function is true, which roresponds to 1, if the element is missing. The sum will therefore correspond to the number of misisng values.
- 
-This might seem overly complicated for a Stata user (like myself), but hey! How would you do this in Stata?  `apply()` is super useful as we can loop over objects in just one line. I called it a family, because of the siblings `lapply()`, `sapply()`, `tapply()`, and more. See [http://uc-r.github.io/apply_family](uc-r.github.io/apply_family) for details. 
-
 
 Very good! We've now created a new dataset containing only complete cases. Let's now create a nice looking table.
 
 
 ### 3.3 Modifying the data
 
-Our next step is to make some modifications to the data. First, we will rename the *summercamp* variable to *summerschool*. We do that with the `rename()` function (suprise!). The `rename()` function has a similar syntax as filter. We first state the name of the original dataset and then the rename expression.
+Our next step is to make some modifications to the data. First, we will rename the *summercamp* variable to *summerschool*. We do that with the `rename()` function. The `rename()` function has a similar syntax to filter. We first state the name of the original dataset and then the rename expression.
 
-```{r ch3-5,eval=T, warning=F,include=T,echo=T,message=FALSE}
+```{r ch3-5,exercise=TRUE}
 # rename summercamp to summerschool
 analysisdata<-rename(school_data_selected, summerschool=summercamp)
 # use head to view the first 6 observations 
@@ -356,33 +357,12 @@ head(analysisdata)
 Brilliant. In the next step we want to transform our *test_score* variable to have mean of zero and a standard deviation of one. Importantly we want to do this standardization within year. In Stata this would be a task for *bys year:*. In Stata we first specify what variable to group the data on, and the apply the functions *sd* and *mean* on that level.
 
 
-<details>
-<summary>Help me Hans!</summary>
-<div class="Stata">
-
-I could have written the code block below as
-
-<br>
-# Group analysisdata by year
-`analysisdata<-group_by(analysisdata,year)`
-# Rename test_score to test_score_raw
-`analysisdata<-rename(analysisdata,test_score_raw=test_score)`
-# Create a new variable with mutate
-`analysisdata<-mutate(analysisdata, test_score=(test_score_raw-mean(test_score_raw))/sd(test_score_raw))`
-
-<br>
-
-The functions such as `mutate()`, `select()` (not used here), `filter()` (not used here), `rename()`, and `group_by()` all take the dataset as the first argument. In the block above I overwrite analysisdata in every line with the modified dataset. In the block below I use the `%>%` (called the pipe operator) instead. It basically just moves the resulting dataset forward to the next dataset. 
-
-</div>
-</details> 
-
-```{r ch3-6,eval=T, warning=F,include=T,echo=T,message=FALSE}
+```{r ch3-6,exercise=TRUE}
 # Standardize test score
-analysisdata<-analysisdata%>%
-              group_by(year)%>%
-              rename(test_score_raw=test_score)%>%
-              mutate(test_score=(test_score_raw-mean(test_score_raw))/sd(test_score_raw))
+# Group analysisdata by year
+analysisdata<-group_by(analysisdata,year)
+# Create a new variable with mutate
+analysisdata<-mutate(analysisdata, test_score=(test_score-mean(test_score))/sd(test_score))
 # show mean of test_score
 print(paste("Mean of test score:",mean(analysisdata$test_score)))
 #show sd of test_score
@@ -396,13 +376,10 @@ In the example above we use
 - `analysisdata$test_score` to extract the variable *test_score* from the *analysisdata* dataset.
 - `mean()` and `sd()` to calculate means and standard deviations. Note that this only works because we already removed the missing values. If we apply `mean()` on a vector that includes missing values it will return a missing value unless we specify the option `na.rm = FALSE`. 
 
-<br><br><br><br><br><br>
 
 ## 4 Descriptive Statistics 
 
-We've now managed to load *csv*, *dta*, and *xlsx* files. We've also managed to merge them, restructure the dataset so that it follows the Tidy Data Principles, and we have removed missing values. The next step in our empirical project is to create some tables and charts to describe the dataset. From now on we'll assume that the dataset is loaded.
-
-
+We've now managed to load *csv*, *dta*, and *xlsx* files. We've also managed to merge them, restructure the dataset, and we have removed missing values. The next step in our empirical project is to create some tables and charts to describe the dataset. 
 
 Our goal is to create a table that shows means, standard deviations, and other statistics that gives us and the reader an impression of the dataset. We already know at least two ways to calculate summary statistics:
   
@@ -413,7 +390,8 @@ Our goal is to create a table that shows means, standard deviations, and other s
 ### 4.1 A quick way to create a nice looking table
 
 We will first use a cousin of `skim()` to create a table with summary statistics that can be exported to various formats, included Latex. The cousin comes from the *modelsummary* package and is called `datasummary_skim()`. Let's first create the default table:
-```{r ch4-1,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
+
+```{r ch4-1,exercise=T}
 # load modelsummary
 library("modelsummary")
 # create a summary stat table
@@ -423,7 +401,7 @@ analysisdata%>%
   datasummary_skim()
 ```
 
-Let's now change the appearance of the table and export it to Latex. When exporting it to Latex, we can't have histogram', so we disable them. We specify `output="tab_summary_statistics.tex"` to write to a latex file. We can also export the table to other formats like a Microsoft Word document. 
+Let's  change the appearance of the table and export it to Word.  When exporting it to Latex, we can't have histogram', so we disable them. We specify `output="docx"` to write to a Word file. We can also export the table to other formats like LaTex. 
 
 ```{r ch4-2,eval=F, warning=F,include=T,echo=T,results="asis",message=FALSE}
 # load modelsummary
@@ -433,46 +411,45 @@ analysisdata%>%
   filter(year==2)%>%
   select(female,starts_with("paren"),letter,summerschool,test_score)%>%
   datasummary_skim( fmt="%.2f",
-                 histogram=FALSE, output="tab_summary_statistics.tex")
+                 histogram=FALSE, output="tab_summary_statistics.docx")
 ```
 
-
-The *tab_summary_statistics.tex* output looks as follows and is ready to be included in Latex:
-
-
+```{r ch4-2b,eval=T, warning=F,include=T,echo=F,message=FALSE}
+# load modelsummary
+library("modelsummary")
+# create a summary stat table in Latex format
+analysisdata%>%
+  filter(year==2)%>%
+  select(female,starts_with("paren"),letter,summerschool,test_score)%>%
+  datasummary_skim( fmt="%.2f")
 ```
-\begin{table}[H]
-\centering
-\begin{tabular}[t]{lrrrrrrr}
-\toprule
-  & Unique (\#) & Missing (\%) & Mean & SD & Min & Median & Max\\
-\midrule
-female & 2 & 0 & 0.52 & 0.50 & 0.00 & 1.00 & 1.00\\
-parental\_schooling & 12 & 0 & 11.32 & 1.10 & 10.00 & 11.00 & 23.00\\
-parental\_lincome & 3486 & 0 & 14.56 & 0.69 & 12.67 & 14.52 & 19.45\\
-letter & 2 & 0 & 0.25 & 0.43 & 0.00 & 0.00 & 1.00\\
-test\_score & 3486 & 0 & 2.22 & 0.68 & -0.57 & 2.24 & 4.74\\
-\bottomrule
-\end{tabular}
-\end{table}
 
-```
-Brilliant. But what if we want a table for Microsoft Word? We simply write `output="tab_summary_statistics.docx" instead.` 
+Brilliant. 
+
+
+
 
 ### 4.2 Custom tables 
 
-To customize our table of summary statistics a bit more we can use the function `datasummary()`. This function allows us to enter a *formula* expressing the layout of our table. Let's try it:
+To customize our table of summary statistics a bit more we can use the function `datasummary()` (from the modelsummary package, but we have already loaded that1). This function allows us to enter a *formula* for the structure of our table. Try running the code below and try  also to make a change to also include the 75th percentile and to include the *parental_lincome* variable. 
 
-```{r ch4-3,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
-# load modelsummary
-library("modelsummary")
+```{r merge3, exercise=TRUE,  warning=FALSE, message=FALSE}
 # create a summary stat table
-
-datasummary(female+parental_schooling+parental_lincome+
+datasummary(female+parental_schooling+
               letter+test_score~Factor(summerschool)*(Mean+SD),
             sparse_header = FALSE,
             data=filter(analysisdata,year==2))
 ```
+
+```{r merge3-hint-1}
+# create a summary stat table
+datasummary(female+parental_schooling+parental_lincome+
+              letter+test_score~Factor(summerschool)*(Mean+SD+P75),
+            sparse_header = FALSE,
+            data=filter(analysisdata,year==2))
+```
+
+
 
 In the example above we
 
@@ -485,10 +462,7 @@ In the example above we
 - Use `sparse_header = FALSE` to specify that we actually want to include the "summerschool" as a header. 
 
 
-<br>
 
-
-<br>
 
 ### 4.3 Variable names in tables
 
@@ -533,29 +507,17 @@ datasummary((`Female`=female)+
 ```
 
 
-### 4.4 Tables with Stargazer
 
-Before I met the datasummary package in R I created my Latex tables with `stargazer()` from the *stargazer* package. This function is super easy to use. Let us try it! To create a table of summary statistics we simply provide `stargazer()` with a data frame. The only challenge now is that so far we have worked with so called [tibble](https://blog.rstudio.com/2016/03/24/tibble-1-0-0/#:~:text=There%20are%20two%20main%20differences,to%20work%20with%20large%20data) and not data frames. We therefore first have to convert it into a data frame which we do with `as.data.frame()` as shown below.
 
-```{r ch4-7,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
-# load stargazer
-library("stargazer")
-# prepare data for stargazer
-data_for_stargazer<-analysisdata%>%
-                    select(female,parental_schooling,parental_lincome,letter,test_score)%>%
-                    filter(year==2)%>%
-                    as.data.frame()
-# create a summary stat table
-stargazer(data_for_stargazer,type="html")
-```
-
-<br>
-For more details about Stargazer [check the documentation here](https://cran.r-project.org/web/packages/stargazer/vignettes/stargazer.pdf). 
-<br><br><br><br><br><br>
 
 ## 5 Descriptive charts
 
 The *ggplot* world is covered  in [R introduction](https://hhsievertsen.shinyapps.io/r_introduction/), but let us briefly cover a few charts here as well. You will also see more charts in later chapters.
+
+
+```{r}
+knitr::knit_exit()
+```
 
 
 ### 5.1 A scatter plot
