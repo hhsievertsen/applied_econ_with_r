@@ -485,7 +485,7 @@ datasummary((`Female`=female)+
 ```
 
 
-### 4.4 Outputing to Microsoft Word or Latex
+### 4.4 Exporting our table to Microsoft Word 
 
 To save our `datasummary()` table to Microsoft Word or Latex, we use the same expression as with `datasummary_skim()`, as illustrated below: 
 
@@ -512,42 +512,98 @@ datasummary((`Female`=female)+
 
 ## 5 Descriptive charts
 
-The *ggplot* world is covered  in [R introduction](https://hhsievertsen.shinyapps.io/r_introduction/), but let us briefly cover a few charts here as well. You will also see more charts in later chapters.
+The *ggplot* world is covered in detail in [R introduction](https://hhsievertsen.shinyapps.io/r_introduction_UoB_2/), but let us briefly cover a few charts here as well. You will also see more charts in later chapters.
 
-
-```{r}
-knitr::knit_exit()
-```
 
 
 ### 5.1 A scatter plot
 
-Our first chart is a scatter plot. We are just interested in whether test score is and parental income are correlated. We therefore create a scatter plot test scores in year 5 against parental income. We add a fitted line as well. 
+Our first chart is a scatter plot. We are interested in whether test score and parental income are correlated. We therefore create a scatter plot of test scores in year 5 against parental income. We add a fitted line as well. 
 
 In the following example we
 
-1. Initiate a `ggplot()` object usign the *analysisdata* filtered to only include year 5.
+1. Initiate a `ggplot()` object using the *analysisdata* filtered to only include year 5.
 2. Specify that *parental_lincome*  should be used on the x-axis and *test_score* on the y-axis in  `aes()` inside `ggplot()`.
 3. Use `geom_smooth()` to include a fitted line.
-4. Use `geom_point()` to add the scatter plot and set `alpha=0.1` to make it almost transparent. 
-5. Use `theme_classic()` to apply the classic theme. 
+4. Use `geom_point()` to add the scatters.
+
+This chart does not look very good. You can use the tools from the [R introduction](https://hhsievertsen.shinyapps.io/r_introduction_UoB_2/) to polish it (or you can use the hints to get some suggestions).
 
 
-```{r ch5-1,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE, out.width=400,fig.align="center"}
+```{r merge4, exercise=TRUE,  warning=FALSE, message=FALSE}
 # load ggplot2
 library("ggplot2")
 # create a scatter plot with a fitted line
 ggplot(analysisdata%>%filter(year==5),  
        aes(x=parental_lincome,y=test_score))+
        geom_smooth() +
-       geom_point(alpha=0.1)+
-       theme_classic()
+       geom_point()
+```
+
+```{r merge4-hint-1}
+# Make the line green by setting the color to the html colour code "#145c21"
+
+# load ggplot2
+library("ggplot2")
+# create a scatter plot with a fitted line
+ggplot(analysisdata%>%filter(year==5),  
+       aes(x=parental_lincome,y=test_score))+
+       geom_smooth(color="#145c21") +
+       geom_point()
 
 ```
 
+```{r merge4-hint-2}
+# Make the scatters green, partly transparent (with alpha=), and change the size of them.
+
+# load ggplot2
+library("ggplot2")
+# create a scatter plot with a fitted line
+ggplot(analysisdata%>%filter(year==5),  
+       aes(x=parental_lincome,y=test_score))+
+       geom_smooth(color="#145c21") +
+       geom_point(alpha=0.1,size=0.85,color="#63a668")
+
+```
+
+```{r merge4-hint-3}
+# Change the colour of the background and the grid lines
+
+# load ggplot2
+library("ggplot2")
+# create a scatter plot with a fitted line
+ggplot(analysisdata%>%filter(year==5),  
+       aes(x=parental_lincome,y=test_score))+
+       geom_smooth(color="#145c21") +
+       geom_point(alpha=0.1,size=0.85,color="#63a668")+
+  theme(panel.background = element_rect(fill="#ededed",color="#ededed"),
+             plot.background = element_rect(fill="#ededed",color="#ededed"),
+             panel.grid.major = element_line(colour="#a3a3a3",size=0.1))
+
+```
+
+```{r merge4-hint-4}
+# Change the axes titles and add an overall title
+
+# load ggplot2
+library("ggplot2")
+# create a scatter plot with a fitted line
+ggplot(analysisdata%>%filter(year==5),  
+       aes(x=parental_lincome,y=test_score))+
+       geom_smooth(color="#145c21") +
+       geom_point(alpha=0.1,size=0.85,color="#63a668")+
+       theme(panel.background = element_rect(fill="#ededed",color="#ededed"),
+             plot.background = element_rect(fill="#ededed",color="#ededed"),
+             panel.grid.major = element_line(colour="#a3a3a3",size=0.1))+
+  labs(x="Log(Parental Income)",y="Test Score (Mean=0,SD=1)", title="Test scores & Parental income")
+
+```
+
+
+
 ### 5.2 Bar chart and boxplot
 
-Okay, we observe that test score is correlated with parental income. That is not surprising. Now let's also create charts to assess whether summer school attendance is correlated with individual characteristics. We first create a scatter plot of parental schooling and test scores in year 5 (before the summer school). This is just like above, but with schooling instead of income. Secondly, we create a bar chart showing average test score in year 5 (before the summer school) by summer school attendance. Thirdly, we create box plots of parental income by summer school attendance. There are a few additional tricks in the following code:
+Okay, we observe that test score is correlated with parental income. That is not surprising. Now let's also create charts to assesses whether summer school attendance is correlated with individual characteristics. We first create a scatter plot of parental schooling and test scores in year 5 (before the summer school). This is just like above, but with schooling instead of income. Secondly, we create a bar chart showing average test score in year 5 (before the summer school) by summer school attendance. Thirdly, we create box plots of parental income by summer school attendance. There are a few additional tricks in the following code:
 
 
 - We first create the basic `ggplot()` object where we load the data and specify the theme. This object is called *rawchart*
@@ -590,7 +646,7 @@ ggsave("fig1.png")
 # Load patchwork 
 library("patchwork")
 # Create raw chart element
-rawchart<-ggplot(analysisdata%>%filter(year==4),x=as.factor(fill))+
+rawchart<-ggplot(filter(analysisdata,year==4),x=as.factor(fill))+
           theme_classic()
 # Create bar chart of pre summer school test score and summer school 
 p1<-rawchart+
@@ -617,22 +673,37 @@ knitr::include_graphics("images/selectionbias.png")
 ```
 
 ### 5.3  Histogram & density  charts
-Let's compare the test score distribution in year 6 (after the summer school) for those who attended the summer school with those who did not. We create a histogram and add a line showing the estimated density distributions. We also change the colour scheme, the legend labels, the legend poistion, and a few minor tweaks. 
+Let's compare the test score distribution in year 6 (after the summer school) for those who attended the summer school with those who did not. We create a histogram and add a line showing the estimated density distributions. In the hints we also change the colour scheme, the legend labels, the legend position, and do a few minor tweaks. 
 
-```{r ch5-4,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE, out.width=500,fig.align='center'}
 
+
+```{r merge5, exercise=TRUE,  warning=FALSE, message=FALSE}
 # create a histogram and density chart
 ggplot(analysisdata%>%filter(year==6),
        aes(x=test_score,fill=as.factor(summerschool)))+
        geom_histogram(aes(y=..density..),bins = 50,alpha=0.5,
                        position="identity",color="white")+
-       geom_density(alpha=0.0,size=1,show_guide= FALSE)+
+       geom_density()
+```
+
+```{r merge5-hint-1}
+# create a histogram and density chart
+ggplot(analysisdata%>%filter(year==6),
+       aes(x=test_score,fill=as.factor(summerschool)))+
+       geom_histogram(aes(y=..density..),bins = 50,alpha=0.5,
+                       position="identity",color="white")+
+       geom_density(alpha=0.0,size=1,show_legende= FALSE)+
        theme_minimal()+
        labs(y="Density",x="Test score",fill=" ")+
        scale_fill_brewer(palette="Set2",labels=c("No summer school","Summer school"))+
        theme(legend.position="top")
   
+
 ```
+
+
+
+
 
 ### 5.4  The Joy Division Album Cover chart
 
@@ -655,7 +726,6 @@ ggplot(analysisdata,aes(y=as.factor(year),x=test_score,fill=as.factor(letter) ))
         theme_minimal()+
         theme_ridges(grid = FALSE)+
   scale_y_discrete(expand = c(0, 0)) +
-  coord_flip()+
   scale_x_continuous(expand = c(0, 0)) +
         scale_fill_brewer(palette="Set1",labels=c("No letter","Letter"))+
         labs(x="Test Score",y="Year",fill=" ",
@@ -666,7 +736,8 @@ ggplot(analysisdata,aes(y=as.factor(year),x=test_score,fill=as.factor(letter) ))
 
 The chart above tells a convincing story. In the first five years the distribution of test scores is essentially identical across those who received and those who did not receive a reminder letter. That indicates that the randomisation worked as intended. After year 5 the test score distribution of those who received a reminder letter shifted to the right compared to those who did not receive a letter suggesting a reduced form effect of the letter on our outcome. Let's analyse that in the next sections. 
 
-<br><br><br><br><br><br>
+
+
 
 ## 6 Balancing tables
 
@@ -674,30 +745,47 @@ The last chart suggested that the letter that was randomly sent to some families
 
 ### 6.1 Pairwise t-test
 
-We can conduct a t-test in R using `t.test()`. Specifically, we specify the formula `test_score~summerschool` to test whether the average *test_score* is significantly different across the two groups specified by *summerschool*. Let's do that for year 5 data:
+We can conduct a t-test in R using `t.test()`. Specifically, we specify the formula `test_score~summerschool` to test whether the mean *test_score* is significantly different across the two groups specified by *summerschool*. Let's do that for year 5 data:
 
-```{r ch6-1,eval=T, warning=F,include=T,echo=T,message=TRUE}
+
+
+```{r merge6, exercise=TRUE,  warning=FALSE, message=FALSE}
 # Filter year 5
 df<-analysisdata%>%filter(year==5)
 # Conduct a t test
 t.test(test_score~letter,data=df)
 ```
-The test suggest that the mean test score prior to summer school was not difference across letter receivers and not receivers. Promising!
 
-One feature of R that I really appreciate (especially compared to Stata) is that I can skip steps and directly insert functions within other functions. For example if I know that I am not going to use the selected dataset again, we don't need to create it first. We can simply specify the selection criteria in the data argument of `t.test()` as shown below (we also did that in the charts above)
-
-```{r ch6-2,eval=T, warning=F,include=T,echo=T,message=TRUE}
+```{r merge6-hint-1}
 # Conduct a t test on analysisdata restricted to year 4
-t.test(test_score~letter,data=analysisdata%>%filter(year==4))
+t.test(test_score~letter,filter(analysisdata,year==4))
 ```
+
+But what is the right interpretation of the test result?
+
+```{r quiz2}
+quiz(
+  question("What is the correct interpretation of the test?",
+    answer("The p-value is 0.65949, and using a 5% (or even higher) significance level we therefore cannot reject the null hypothesis that the difference in means between letter receivers and non-receivers is zero.In other words, the test score before was significantly different across letter receivers and not receivers." ),
+        answer("The p-value is 0.5097, and using a 5% (or even higher) significance level we therefore cannot reject the null hypothesis that the difference in means between letter receivers and non-receivers is zero. In other words, the test score before was not significantly different across letter receivers and not receivers.", correct = TRUE),
+       answer("The p-value is 0.5097, and using a 5% (or even higher) significance level we therefore  reject the null hypothesis that the difference in means between letter receivers and non-receivers is zero. In other words, the test score before was significantly different across letter receivers and not receivers.")
+  )
+)
+```
+
+
+
+One feature of R that I really appreciate (especially compared to Stata) is that I can skip steps and directly insert functions within other functions. For example if I know that I am not going to use the selected dataset again, we don't need to create it first. We can simply specify the selection criteria in the data argument of `t.test()` as shown by the hints to the code block above, where we use year 4 instaed of year 5.
+
+
 
 ### 6.2 A publication ready table of mean comparisons
 
-If we want to create a nice looking balancing table and insert it in Latex or Word, we can use `datasummary_balance()` from the *modelsummary* package. We load the *estimatr* package because it enables `datasummary_balance()` to calculate and include the pairwise t-tests.
+If we want to create a nice looking balancing table and insert it in Word, we can use `datasummary_balance()` from the *modelsummary* package. We load the *estimatr* package because it enables `datasummary_balance()` to calculate and include the pairwise t-tests directly into the table
 
 
 ```{r ch6-3,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
-# t test
+# Load libraries
 library(modelsummary)
 library(estimatr)
 # Filter and modify data
@@ -721,12 +809,14 @@ datasummary_balance(~Treated,
 
 
 ```
-The table suggests that all variables are well balanced across treated (receiving a letter) and untreated. 
+This looks nice!The table suggests that all variables are well balanced across treated (receiving a letter) and untreated. 
 
-As before, we can simply add the option `output=tab_balancing.docx` if we want to export the table to Microsoft Word, or `output=tab_balancing.tex` if we want a Latex table.
+As before, we can simply add the option `output=tab_balancing.docx` if we want to export the table to Microsoft Word.
 
 
-<br><br><br><br><br><br>
+```{r}
+knitr::knit_exit()
+```
 
 ##  7 Ordinary Least Squares 
 
