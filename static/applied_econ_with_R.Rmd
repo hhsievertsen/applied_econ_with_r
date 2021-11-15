@@ -33,76 +33,62 @@ library("openxlsx")
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-# Welcome!
+## Welcome!
 
-### Hi!{-}
+Hi!
 
 
-Welcome to this introduction to Applied Economics with R. This tutorial is written for Applied Economics students at the University of Bristol. 
+This tutorial is written for Applied Economics students at the University of Bristol.
 
 
 **How this works**
 
-- The tutorial is structured as a complete research project starting with loading the raw data. 
-- All data used is directly downloadable (see the next section). You should therefore be able to download and reproduce all results. 
-- The tutorial  mainly consists of code blocks  and the resulting output.  Every now and then I include some references to how I would do the same task in Stata or key differences to Stata. 
-- This tutorial is a work in progress project, so please let me know if you find mistakes, a particularly unclear sections, or if you have suggestions for improvements (just send an email to h.h.sievertsen@bristol.ac.uk).
-- For source files check the github repository [github.com/hhsievertsen/applied_econ_with_r](https://github.com/hhsievertsen/applied_econ_with_r).
-
-
-**Other tutorials**
-
-- I highly recommend the tutorials by Grant McDermott. For example [The R Intro (mainly for Stata users)](https://raw.githack.com/grantmcdermott/R-intro/master/rIntro.html) and [The R regression intro](https://raw.githack.com/grantmcdermott/R-intro/master/regression-intro.html). Grant has a also developed an impressive online resource of slides, notes, and examples on R, github, & Programming here: [Data science for economists](https://github.com/uo-ec607/lectures).
-
-
-
-
+- The tutorial is structured as a complete research project starting with loading the raw data and ending with regression coefficients. 
+- There are two tutorials. This one is the **static** version. To try the **dynamic** version go to: [applied_econ_with_R_dynamic](https://hhsievertsen.shinyapps.io/applied_econ_with_R_dynamic) (the cover the same material).
+- The tutorial aims at covering the same methods we covered in Stata during the term.
+- All data used is directly downloadable. You should therefore be able to download the data and try the methods in R on your own computer. 
+- The tutorial mainly consists of code blocks  and the resulting output.  Every now and then I include some references to how I would do the same task in Stata or key differences to Stata. 
 
 I appreciate feedback, thanks.
 
-Hans  (version 0.5 - April 2 , 2021)
-
-
-<br><br><br><br><br><br>
-
-# 1 Research Question  & Data
+Hans  (November 11 , 2021)
 
 
 
-## 1.1 Research Question
+<br>
 
-Throughout this tutorial our empirical objective is to answer the following **fictitious** research question:
+## 1 Research question  & data
+
+
+You will only see the above content in the output.
+
+
+### 1.1 The research question
+
+Our goal is to answer the following **fictitious** research question:
   
 > Does attending a summer school improve test scores?
   
-The research question will be addressed using a **fictitious simulated dataset**. 
+The research question will be addressed using a **fictitious simulated** dataset. 
 
-## 1.2 The fictitious setting
+### 1.2 The fictitious setting
 
-The research question is inspired by papers such as [Matsudaira (2007)](https://www.sciencedirect.com/science/article/pii/S0304407607001194?casa_token=hnnF764CKPoAAAAA:5b9WhCManNDsdW4SmOHnnzNr0fZIarW8s6EsvpQW7MdUt470eNPmN2T8IFCsNc6Iajew5tEeNA) and the survey on interventions low SES students by  by [Dietrichson et al ( 2017)](https://journals.sagepub.com/doi/abs/10.3102/0034654316687036). 
+The research question is inspired by papers such as [Matsudaira (2007)](https://www.sciencedirect.com/science/article/pii/S0304407607001194?casa_token=hnnF764CKPoAAAAA:5b9WhCManNDsdW4SmOHnnzNr0fZIarW8s6EsvpQW7MdUt470eNPmN2T8IFCsNc6Iajew5tEeNA) and the survey on interventions for low SES students by  by [Dietrichson et al ( 2017)](https://journals.sagepub.com/doi/abs/10.3102/0034654316687036). 
 
 The  **fictitious** setting is as follows:
   
-  - In the summer break between year 5 and year 6, (corresponding to age 10) there is an optional summer school (or academic summer camp). 
-
+- In the summer break between year 5 and year 6, (roughly corresponding to age 10) there is an optional summer school. 
 - The  summer school  could be focusing on the school curriculum, or it could be focused on skills that lead to improved schooling outcomes (for example "grit" as in [Alan et al (2019)](https://academic.oup.com/qje/article-abstract/134/3/1121/5342089?redirectedFrom=fulltext)).
-
-- The summer school is free, but enrollment requires actively involvement by parents.
-
+- The summer school is free, but enrollment requires active involvement by parents.
 - We are interested in whether participation in the summer school improves child outcomes. 
 
 
-* There was a Randomised Controlled Trial (*RCT*), where some families were randomised into receiving a letter reminding them of the summer school. We will exploit this for  **hypothesis testing**,  **regressions**, and applying an **instrumental variables** approach.
 
-* We have test score measures before and treatment allowing us to test the effect of the summer school in a **difference-in-differences** approach.
-
-
-
-## 1.3  The fictitious data
+### 1.3  The fictitious data
 
 We have three datasets to study the research question:
   
-  1.  [school_data_1.csv](https://raw.githubusercontent.com/hhsievertsen/applied_econ_with_r/main/data/school_data_1.csv) 
+1.  [school_data_1.csv](https://raw.githubusercontent.com/hhsievertsen/applied_econ_with_r/main/data/school_data_1.csv) 
 
 - We use this as example on how to **load data stored in a csv format**.
 - This dataset contains information about person id, school id, an indicator variable that takes the value of 1 if the individual participated in the summer school, information about gender, parental income and parental schooling, and test scores in year 5 (before the treatment) and year 6. 
@@ -110,7 +96,7 @@ We have three datasets to study the research question:
 
 2.  [school_data_2.dta](https://github.com/hhsievertsen/applied_econ_with_r/raw/main/data/school_data_2.dta) 
 
-- We use this as example on **how to load data stored in a Stata format**.
+- We use this as example on **how to load data stored in Stata format**.
 - This dataset contains information about person id, which enables us to link it to the first dataset. We will use this to practice **merging** data.
 - The dataset also contains information about whether the individual received a reminder letter. 
 
@@ -124,11 +110,13 @@ We have three datasets to study the research question:
 
 Let's get started!
 
+<br><br><br><br><br><br>
 
 
-# 2 Loading & Cleaning the Data
+## 2 Loading & merging the data
 
-## 2.1 Installing and loading a "package"
+
+### 2.1 Installing and loading a "package"
 
 The first item on our to do list is to load the datasets. The first dataset is in a csv format. There are several ways to load a csv document into R. I am going to use `read_csv()` from the *readr* package. Before we can use this package we need to install it. We install a package with the `install.packages()` function, where we insert the name of the package in parenthesis. This procedure corresponds to *ssc install outreg* to install outreg in Stata. 
 
@@ -144,32 +132,35 @@ To load the *readr* package we run the following command:
 library("readr")
 ```
 
+While we only have to install a package once on each computer, we have load it in every new session. 
 
-## 2.2 Loading a csv data file 
+### 2.2 Loading a csv data file 
 
-Having installed *readr* we are now ready to use the `read_csv()` function to load our first dataset. We will load the dataset *school_data_1.csv* by inserting the path to the file in the parenthesis: 
+Having installed *readr* we are now ready to use the `read_csv()` function to load our first dataset. We will load the dataset *school_data_1.csv* by inserting the path to the file in the parenthesis. In the example below we first load the *readr* package to illustrate that we have to load it in every new session. However, in later code blocks we'll leave out the `library()` call for packages that have already been loaded.
+
+PS. note also that we include comments in code block below. Comments are lines that R ignores and these lines always start with a `#` symbol.
 
 ```{r ch2-3,eval=F, include=T,echo=T, out.width=500,fig.align="center"}
-# load readr
+# load readr package
 library("readr")
 # load data
 read_csv("C:/Users/hhs/school_data_1.csv")
 ```
-
-Stata users would now expect that the dataset is loaded in the memory and everything I do now relates to this dataset. Stata users will be disappointed. When R executes the command above it loads the data, but then it says: "Hey, Hans didn't tell me what to do with the dataset, so I will just print the contents of it and forget it." 
-
-While Stata (at least in older versions) is based on having one dataset loaded at a time, we can have many datasets loaded at once in R. Therefore, to identify the dataset we need to give it a name. In this example we tell R to store the new dataset under the name *school_data_1* I use the *assignment operator* `<-`, but `=` would also work. However, it is a good habit to use the assignment operator, because it makes life a bit easier once we get to scoping (if we get there). Ignore this for now, and move on.
-
-
-```{r ch2-4,eval=F, include=T,echo=T, out.width=500,fig.align="center"}
-# load readr
-library("readr")
-# load data and assign it to an object with the name school_data_1
-school_data_1<-read_csv("C:/Users/hhs/school_data_1.csv")
+```{r ch2-3a,eval=T, include=T,echo=F, out.width=500,fig.align="center"}
+print(school_data_1)
 ```
 
 
-Very good! I might ignore `library()` in subsequent code blocks and examples to save space. Once you've started R and you've run the `library()` command once, you don't have to run it again before you close and restart R again.
+
+Stata users would now expect that the dataset is loaded in the memory and everything I do now relates to this dataset. Stata users will be disappointed. When R executes the command above it loads the data, but then it says: "Hey, Hans didn't tell me what to do with the dataset, so I will just print the contents of it and forget it." 
+
+While Stata (at least in older versions) is based on having one dataset loaded at a time, we can have many datasets loaded at once in R. Therefore, to identify the dataset we need to give it a name. In this example we tell R to store the new dataset under the name *school_data_1* we use the *assignment operator* `<-`, but `=` would also work. However, it is a good habit to use the assignment operator, because it makes life a bit easier in more advanced situations that will meet later on your R journey (not in this tutorial). 
+
+
+```{r ch2-4,eval=F, include=T,echo=T, out.width=500,fig.align="center"}
+# load data and assign it to an object with the name school_data_1
+school_data_1<-read_csv("C:/Users/hhs/school_data_1.csv")
+```
 
 In Stata my first step after loading the data is typically to use *browse* to take a look at the data. In R we can do that with `View(school_data_1)`. I will not show that command here. Instead I will present the function `head()` that prints the head of the dataset with the first 6 rows. 
 
@@ -178,8 +169,7 @@ In Stata my first step after loading the data is typically to use *browse* to ta
 head(school_data_1)
 ```
 
-
-## 2.3 Loading a Stata data file 
+### 2.3 Loading a Stata data file 
 
 We will now load a Stata dataset into R. To load a *dta* file I will use the  `read.dta13()` function from the *readstata13* package. The syntax is then very similar to the `read_csv()` syntax. This time we will use `tail()` to show the last 8 observations.
 
@@ -189,7 +179,7 @@ We will now load a Stata dataset into R. To load a *dta* file I will use the  `r
 library("readstata13")
 # use read.dta13 from readstata13 to load a Stata dataset
 school_data_2<- read.dta13("C:/Users/hhs/school_data_2.dta")
-# print the tail
+# print the 8 rows in the tail
 tail(school_data_2,n=8)
 ```
 ```{r ch2-7,eval=T, include=T,echo=F}
@@ -198,7 +188,7 @@ tail(school_data_2,n=8)
 
 
   
-## 2.4 Loading an xlsx file
+### 2.4 Loading an xlsx file
 
 Finally, we'll load the the *xlsx* file *school_data_3.xlsx* for that we'll use the `read.xlsx()` function from the *openxlsx* package. Again, the syntax is very similar to what we've seen before.  This time we will use the `glimpse()` function from the *dplyr* package to get a glimpse of the dataset. 
 
@@ -218,53 +208,41 @@ glimpse(school_data_3)
 ```
 
 
-## 2.5 Merging the datasets
+### 2.5 Merging the datasets
 
-Let's now load the three datasets. We will use the `merge()` function for that. The function `merge()` is included in  *base* R. We therefore do not need to install and load any packages to use it. In merge we first state the names of the two datasets to merge. We then tell R the column(s) to use to merge the two datasets with `by=....`. As a default R includes all rows that are observed in both datasets (based on the by variable), but we can  set `all=TRUE` to keep all rows from both datasets, or `all.x=TRUE` to keep all rows from the first dataset and all rows that were merged, and finally `all.y=TRUE` to keep all rows from the second dataset. The default behaviour of R corresponds to using the option *keep(3)* in Stata, and Stata's default option corresponds to using `all=TRUE` in R. 
+Let's now merge the three datasets. We will use the `merge()` function for that. In merge we first state the names of the two datasets to merge. We then tell R the column(s) to use to merge the two datasets with `by=....`. As a default R includes all rows that are observed in both datasets (based on the by variable), but we can  set `all=TRUE` to keep all rows from both datasets, or `all.x=TRUE` to keep all rows from the first dataset and all rows that were merged, and finally `all.y=TRUE` to keep all rows from the second dataset. The default behaviour of R corresponds to using the option *keep(3)* in Stata, and Stata's default option corresponds to using `all=TRUE` in R. 
+
+Here as example where merge the first two datasets. We then use the `dim()` function to get the dimensions of the new merged dataset in terms of the number of rows and the number of columns. 
+
+```{r ch2-9b,eval=T, include=T,echo=T}
+# merge school_data_1 with school_data_2
+school_data_merged<-merge(school_data_1,school_data_2,by="person_id")
+# dimensions
+dim(school_data_merged)
+```
+
+
+
+We note that the merged dataset has 3491 rows and 9 columns. We actually didn't check the number of rows in the raw datasets (that would have been a good thing to do; maybe you can do it by changing the code above?). If all rows are merged we should have the same number of rows as in the original dataset.  From above we knew that *school_data_1* has 8 columns and by merging the *school_data_2* on we also get the column with the information about whether the family receiving the letter, making it to in total 9 columns. 
+
 
 **Important difference to Stata:** A key difference between Stata and R merge is that in case a variable in the first dataset has the same name as a column in the second dataset, R will automatically rename the column names by adding suffices *.x* (the column from the first dataset) and *.y*  (the column from the second dataset). Stata just overwrites the columns. 
 
-In the code block below we
+In the block below we:
 
-1. Set working directory to our local folder. 
-2. Load the dataset *school_data_1.csv* as described above.
-3. Load the dataset *school_data_2.dta* as described above.
-4. Load the dataset *school_data_3.xlsx* as described above.
-5. Merge *school_data_1* and *school_data_2* by the *person_id* column and save the merged dataset under the name *school_data*.
-6. Merge *school_data_3* with *school_data* and overwrite *school_data*. Note in this case we merge by *person_id* and *school_id* columns. This is not necessary (because person_id is unique), but serves as an example on how to merge by more columns using `c()`.  name *school_data*.
-7. Use the `head()` to list the first 6 rows of the dataset.
+1. Merge *school_data_1* and *school_data_2* by the *person_id* column and save the merged dataset under the name *school_data*.
+2. Merge *school_data_3* with *school_data* and overwrite *school_data*. Note in this case we merge by *person_id* and *school_id* columns. This is not necessary (because person_id is unique), but serves as an example on how to merge by more columns using `c()`.  name *school_data*.
+3. Use the `summary()` function to obtain summary statistics of the variables.
 
-#### Code block 1 for lab session in Applied Economics
-```{r ch2-10,eval=F, include=T,echo=T, out.width=500,fig.align="center"}
-# Install packages (you only have to do this once)
-install.packages("readr")
-install.packages("openxlsx")
-install.packages("readstata13")
-install.packages("dplyr")
-# Load packages
-library("readr")
-library("openxlsx")
-library("readstata13")
-library("dplyr")
-# set working directory
-setwd("C:/Users/hhs/")
-# load the 3 datasets
-school_data_1<-read_csv("school_data_1.csv")
-school_data_2<-read.dta13("school_data_2.dta")
-school_data_3<-read.xlsx("school_data_3.xlsx")
+
+
+```{r ch2-10,eval=T, include=T,echo=T}
 # Merge school_data_1 and school_data_2 and save as school_data_merged 
 school_data_merged<-merge(school_data_1,school_data_2,by="person_id")
 # Merge school_data_3 with school_data_merged
 school_data_merged<-merge(school_data_merged,school_data_3,by=c("person_id","school_id"))
-# list the first 6 rows
-head(school_data_merged)
-```
-```{r ch2-10a,eval=T, warning=F,include=T,echo=F,message=FALSE}
-# school_data_merged 
-school_data_merged<-merge(school_data_1,school_data_2,by="person_id")
-# Merge school_data_3 with school_data_merged
-school_data_merged<-merge(school_data_merged,school_data_3,by=c("person_id","school_id"))
-head(school_data_merged)
+# summary statistics
+summary(school_data_merged)
 ```
 
 
@@ -272,22 +250,21 @@ head(school_data_merged)
 
 
 
-<br>
+## 3 Cleaning the data
 
-<center>
+### 3.1 Tidying the data
 
-<iframe src="https://giphy.com/embed/iXTrbbYMQBCMM" width="480" height="360" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/funny-star-trek-iXTrbbYMQBCMM"></a></p>
-</center>
+Now that we have merged the datasets,  we want to make sure that the merged dataset satisfies the  [Tidy Data Principles](https://vita.had.co.nz/papers/tidy-data.pdf). From these principles we know that the number of columns should correspond to the number of variables in the dataset. There are 10 variables in the dataset. 
+
+Let's now compare the number of variables to the number of columns:
+
+```{r ch3-1e,eval=T, include=T,echo=T}
+# Alternatively we can use the nrow() functions to get the number of columns
+ncol(school_data_merged)
+```
 
 
-
-# 3 Tidying and processing the data
-
-## 3.1 Tidying the data
-
-Now that we have merged the datasets we want to make sure that the merged dataset satisfies the  [Tidy Data Principles](https://vita.had.co.nz/papers/tidy-data.pdf). 
-
-To "make the the data tidy" we use the *tidyr* package and specifically, we use `pivot_longer()` which corresponds to *reshape long* in Stata.  See section 9.2 in my [R introduction](https://hhsievertsen.shinyapps.io/r_introduction/)  for details. 
+Oh no! The number of columns does not correspond to the number of variables. Let's sort this out. The issue is that the variables *test_year_5* contain information about the test score and the year. We need to separate this out. We can  use tools from the *tidyr* package to make the dataset tidy. Specifically, we use `pivot_longer()` which corresponds to *reshape long* in Stata.  See also section 9.2 in the [R introduction](https://hhsievertsen.shinyapps.io/r_introduction/)  for details. 
 
 ```{r ch3-1,eval=F, warning=F,include=T,echo=T}
 # load tidyr package
@@ -301,50 +278,50 @@ school_data_tidy<-school_data_merged%>%
          names_transform = list(year = as.integer),
          values_to = "test_score",
        )
-# use head to view the first 6 observations 
-head(school_data_tidy)
+# ncol to get the number of columns of the new dataset
+ncol(school_data_merged)
 ```
 
 ```{r ch3-2,eval=T, warning=F,include=T,echo=F,message=FALSE}
-head(school_data_tidy)
+ncol(school_data_merged)
 ```
 
 
+Hurray! We now have a dataset where the number columns correspond to the number of variables.
 
-## 3.2 Sample Selection
+### 3.2 Sample Selection
 
-We now have a dataset that satisfies the tidy data principles. The next task   is the sample selection.  The only sample selection we are concerned with in this exercise is missing values. We will use the `skim()` function  to assess how many missing values there are in our dataset.  `skim()` is one of my favourite functions in R to get an overview of the datasets, it comes  from the *skimr* package. 
+We now have a dataset that satisfies the tidy data principles. The next task before  is the sample selection.  The only sample selection we are concerned with in this exercise is missing values. We will use the `skim()` function  to assess how many missing values there are in our dataset.  `skim()` is one of my favourite functions in R to get an overview of the datasets, it comes  from the *skimr* package. 
 
 
-```{r ch3-3  ,eval=T, message=F,warning=F,include=T,echo=T,  out.width=500,fig.align="center"}
+```{r ch3-3,eval=T, warning=F,include=T,echo=F,message=FALSE}
 # Load skimr
 library("skimr")
 # Use skim() to skim the data
 skim(school_data_tidy)
 ```
 
- We can see how many observations and variables there are, the variable types, the number of missing values. The mean, standard deviations, percentiles, and we even get a small histogram. 
 
-We notice that the variable *parental_schooling* has 45 missing values and the variable *test score*  has 11 missing values. Let's assume that these values are missing at random and remove the rows. Here we use `filter()` for that. 
+ We can easily observe how many rows and columns there are, the variable types, the number of missing values. The mean, standard deviations, percentiles, and we even get a small histogram. 
+
+We observe that the column *parental_schooling* has 45 missing values and the variable *test_score*  has 11 missing values. Let's assume that these values are missing at random and remove these rows. Here we use `filter()` for that. The `filter()` function takes two arguments. First, the name of the original dataset, and secondly the condition a row must satisfy to be kept in the filtering process. The condition we want to satisfy is that `!is.na(parental_schooling)`. The `is.na()` is a function is true if the element in `( )` is missing. We use the `!` to achieve the opposite of that. In other words that parental schooling is not missing. 
 
 
-```{r ch3-4  ,eval=T, include=T,echo=T,  out.width=500,fig.align="center"}
+```{r ch3-4,eval=T, warning=F,include=T,echo=F,message=FALSE}
 # Select only rows with no missing values
-school_data_selected<-filter(school_data_tidy,
-                      !is.na(parental_schooling),!is.na(test_score))
-# Use skim() to skim the data
-skim(school_data_tidy)
+school_data_selected<-filter(school_data_tidy,!is.na(parental_schooling),!is.na(test_score))
+# Use skim() to skim the data again
+skim(school_data_selected)
 ```
-
 
 Very good! We've now created a new dataset containing only complete cases. Let's now create a nice looking table.
 
 
-## 3.3 Modifying the data
+### 3.3 Modifying the data
 
-Our next step is to make some modifications to the data. First, we will rename the *summercamp* variable to *summerschool*. We do that with the `rename()` function (suprise!).
+Our next step is to make some modifications to the data. First, we will rename the *summercamp* variable to *summerschool*. We do that with the `rename()` function. The `rename()` function has a similar syntax to filter. We first state the name of the original dataset and then the rename expression.
 
-```{r ch3-5,eval=T, warning=F,include=T,echo=T,message=FALSE}
+```{r ch3-5, warning=F,include=T,echo=F,message=FALSE}
 # rename summercamp to summerschool
 analysisdata<-rename(school_data_selected, summerschool=summercamp)
 # use head to view the first 6 observations 
@@ -354,14 +331,12 @@ head(analysisdata)
 Brilliant. In the next step we want to transform our *test_score* variable to have mean of zero and a standard deviation of one. Importantly we want to do this standardization within year. In Stata this would be a task for *bys year:*. In Stata we first specify what variable to group the data on, and the apply the functions *sd* and *mean* on that level.
 
 
-
-```{r ch3-6,eval=T, warning=F,include=T,echo=T,message=FALSE}
+```{r ch3-6, warning=F,include=T,echo=F,message=FALSE}
+# Standardize test score
 # Group analysisdata by year
 analysisdata<-group_by(analysisdata,year)
-# Rename test_score to test_score_raw
-analysisdata<-rename(analysisdata,test_score_raw=test_score)
 # Create a new variable with mutate
-analysisdata<-mutate(analysisdata,test_score=                                 (test_score_raw-mean(test_score_raw))/sd(test_score_raw))
+analysisdata<-mutate(analysisdata, test_score=(test_score-mean(test_score))/sd(test_score))
 # show mean of test_score
 print(paste("Mean of test score:",mean(analysisdata$test_score)))
 #show sd of test_score
@@ -376,52 +351,9 @@ In the example above we use
 - `mean()` and `sd()` to calculate means and standard deviations. Note that this only works because we already removed the missing values. If we apply `mean()` on a vector that includes missing values it will return a missing value unless we specify the option `na.rm = FALSE`. 
 
 
-The code block below combines the full sample selection and data processing.
+## 4 Descriptive Statistics 
 
-#### Code block 2 for lab session in Applied Economics
-
-
-```{r ch3-7  ,eval=F, message=F,warning=F,include=T,echo=T,  out.width=500,fig.align="center"}
-# Install packages (you only have to do this once)
-install.packages("tidyr")
-install.packages("skimr")
-# load packages
-library("tidyr")
-library("skimr")
-# make data tidy (make long)
-school_data_tidy<-pivot_longer(school_data_merged,
-         cols = starts_with("test_year"),
-         names_to = "year",
-         names_prefix = "test_year_",
-         names_transform = list(year = as.integer),
-         values_to = "test_score",
-       )
-# Select only rows with no missing values
-school_data_selected<-filter(school_data_tidy,
-                      !is.na(parental_schooling),!is.na(test_score))
-# Rename summercamp to summerschool
-analysisdata<-rename(school_data_selected, summerschool=summercamp)
-# Group analysisdata by year
-analysisdata<-group_by(analysisdata,year)
-# Rename test_score to test_score_raw
-analysisdata<-rename(analysisdata,test_score_raw=test_score)
-# Create a new variable with mutate
-analysisdata<-mutate(analysisdata,test_score=                                 (test_score_raw-mean(test_score_raw))/sd(test_score_raw))
-# Use skim() to skim the data in year 5
-skim(analysisdata%>%filter(year==5))
-```
-
-```{r ,eval=T, warning=F,include=T,echo=F,message=FALSE}
-# Use skim() to skim the data
-skim(analysisdata%>%filter(year==5))
-```
-
-
-# 4 Descriptive Statistics 
-
-We've now managed to load *csv*, *dta*, and *xlsx* files. We've also managed to merge them, restructure the dataset so that it follows the Tidy Data Principles, and we have removed missing values. The next step in our empirical project is to create some tables and charts to describe the dataset. From now on we'll assume that the dataset is loaded.
-
-
+We've now managed to load *csv*, *dta*, and *xlsx* files. We've also managed to merge them, restructure the dataset, and we have removed missing values. The next step in our empirical project is to create some tables and charts to describe the dataset. 
 
 Our goal is to create a table that shows means, standard deviations, and other statistics that gives us and the reader an impression of the dataset. We already know at least two ways to calculate summary statistics:
   
@@ -429,10 +361,11 @@ Our goal is to create a table that shows means, standard deviations, and other s
 
 2. `skim()` from the *skimr* package. 
 
-## 4.1 A quick way to create a nice looking table
+### 4.1 A quick way to create a nice looking table
 
 We will first use a cousin of `skim()` to create a table with summary statistics that can be exported to various formats, included Latex. The cousin comes from the *modelsummary* package and is called `datasummary_skim()`. Let's first create the default table:
-```{r ch4-1,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
+
+```{r ch4-1, warning=F,include=T,echo=F,message=FALSE}
 # load modelsummary
 library("modelsummary")
 # create a summary stat table
@@ -442,7 +375,7 @@ analysisdata%>%
   datasummary_skim()
 ```
 
-Let's now change the appearance of the table and export it to Latex. When exporting it to Latex, we can't have histogram', so we disable them. We specify `output="tab_summary_statistics.tex"` to write to a latex file. We can also export the table to other formats like a Microsoft Word document. 
+Let's  change the appearance of the table and export it to Word.  When exporting it to Latex, we can't have histogram', so we disable them. We specify `output="docx"` to write to a Word file. We can also export the table to other formats like LaTex. 
 
 ```{r ch4-2,eval=F, warning=F,include=T,echo=T,results="asis",message=FALSE}
 # load modelsummary
@@ -452,46 +385,37 @@ analysisdata%>%
   filter(year==2)%>%
   select(female,starts_with("paren"),letter,summerschool,test_score)%>%
   datasummary_skim( fmt="%.2f",
-                 histogram=FALSE, output="tab_summary_statistics.tex")
+                 histogram=FALSE, output="tab_summary_statistics.docx")
 ```
 
-
-The *tab_summary_statistics.tex* output looks as follows and is ready to be included in Latex:
-
-
-```
-\begin{table}[H]
-\centering
-\begin{tabular}[t]{lrrrrrrr}
-\toprule
-  & Unique (\#) & Missing (\%) & Mean & SD & Min & Median & Max\\
-\midrule
-female & 2 & 0 & 0.52 & 0.50 & 0.00 & 1.00 & 1.00\\
-parental\_schooling & 12 & 0 & 11.32 & 1.10 & 10.00 & 11.00 & 23.00\\
-parental\_lincome & 3486 & 0 & 14.56 & 0.69 & 12.67 & 14.52 & 19.45\\
-letter & 2 & 0 & 0.25 & 0.43 & 0.00 & 0.00 & 1.00\\
-test\_score & 3486 & 0 & 2.22 & 0.68 & -0.57 & 2.24 & 4.74\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-```
-Brilliant. But what if we want a table for Microsoft Word? We simply write `output="tab_summary_statistics.docx" instead.` 
-
-## 4.2 Custom tables 
-
-To customize our table of summary statistics a bit more we can use the function `datasummary()`. This function allows us to enter a *formula* expressing the layout of our table. Let's try it:
-
-```{r ch4-3,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
+```{r ch4-2b,eval=T, warning=F,include=T,echo=F,message=FALSE}
 # load modelsummary
 library("modelsummary")
-# create a summary stat table
+# create a summary stat table in Latex format
+analysisdata%>%
+  filter(year==2)%>%
+  select(female,starts_with("paren"),letter,summerschool,test_score)%>%
+  datasummary_skim( fmt="%.2f")
+```
 
-datasummary(female+parental_schooling+parental_lincome+
+Brilliant!
+
+
+
+
+### 4.2 Custom tables 
+
+To customize our table of summary statistics a bit more we can use the function `datasummary()` (from the modelsummary package, but we have already loaded that1). This function allows us to enter a *formula* for the structure of our table. 
+
+```{r merge3, warning=F,include=T,echo=F,message=FALSE}
+# create a summary stat table
+datasummary(female+parental_schooling+
               letter+test_score~Factor(summerschool)*(Mean+SD),
             sparse_header = FALSE,
             data=filter(analysisdata,year==2))
 ```
+
+
 
 In the example above we
 
@@ -504,17 +428,9 @@ In the example above we
 - Use `sparse_header = FALSE` to specify that we actually want to include the "summerschool" as a header. 
 
 
-<br>
 
-<center>
 
-<iframe src="https://giphy.com/embed/n8SkNR77udWlG" width="480" height="333" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/star-trek-wow-spock-n8SkNR77udWlG"></a></p>
-
-</center>
-
-<br>
-
-## 4.3 Variable names in tables
+### 4.3 Variable names in tables
 
 So far we've used variable names as labels in our table. In contrast to Stata, R allows for labels with white space, and we could therefore rename the variables to give nicer looking names in our table. However, we can also just assign a "label" when creating the table as shown below:
 
@@ -535,14 +451,13 @@ datasummary((`Female`=female)+
 ```
 
 
-## 4.4 Outputing to Microsoft Word or Latex
+### 4.4 Exporting our table to Microsoft Word 
 
 To save our `datasummary()` table to Microsoft Word or Latex, we use the same expression as with `datasummary_skim()`, as illustrated below: 
 
 ```{r ch4-6,eval=F, warning=F,include=T,echo=T,results="asis",message=FALSE}
 # load modelsummary
 library("modelsummary")
-#library("flextable")
 # create a summary stat table
 
 datasummary((`Female`=female)+
@@ -557,73 +472,46 @@ datasummary((`Female`=female)+
 ```
 
 
-## 4.4 Tables with Stargazer
-
-Before I met the datasummary package in R I created my Latex tables with `stargazer()` from the *stargazer* package. This function is super easy to use. Let us try it! To create a table of summary statistics we simply provide `stargazer()` with a data frame. The only challenge now is that so far we have worked with so called [tibble](https://blog.rstudio.com/2016/03/24/tibble-1-0-0/#:~:text=There%20are%20two%20main%20differences,to%20work%20with%20large%20data) and not data frames. We therefore first have to convert it into a data frame which we do with `as.data.frame()` as shown below.
-
-```{r ch4-7,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
-# load stargazer
-library("stargazer")
-# prepare data for stargazer
-data_for_stargazer<-analysisdata%>%
-                    select(female,parental_schooling,parental_lincome,letter,test_score)%>%
-                    filter(year==2)%>%
-                    as.data.frame()
-# create a summary stat table
-stargazer(data_for_stargazer,type="html")
-```
-
-<br>
-For more details about Stargazer [check the documentation here](https://cran.r-project.org/web/packages/stargazer/vignettes/stargazer.pdf). 
-
-# 5 Descriptive Charts
-
-The *ggplot* world is covered  in [R introduction](https://hhsievertsen.shinyapps.io/r_introduction/), but let us briefly cover a few charts here as well. You will also see more charts in later chapters.
 
 
-## 5.1 A scatter plot
 
-Our first chart is a scatter plot. We are just interested in whether test score is and parental income are correlated. We therefore create a scatter plot test scores in year 5 against parental income. We add a fitted line as well. 
+## 5 Descriptive charts
+
+The *ggplot* world is covered in detail in [R introduction](https://hhsievertsen.shinyapps.io/r_introduction_UoB_2/), but let us briefly cover a few charts here as well. You will also see more charts in later chapters.
+
+
+
+### 5.1 A scatter plot
+
+Our first chart is a scatter plot. We are interested in whether test score and parental income are correlated. We therefore create a scatter plot of test scores in year 5 against parental income. We add a fitted line as well. 
 
 In the following example we
 
-1. Initiate a `ggplot()` object usign the *analysisdata* filtered to only include year 5.
+1. Initiate a `ggplot()` object using the *analysisdata* filtered to only include year 5.
 2. Specify that *parental_lincome*  should be used on the x-axis and *test_score* on the y-axis in  `aes()` inside `ggplot()`.
 3. Use `geom_smooth()` to include a fitted line.
-4. Use `geom_point()` to add the scatter plot and set `alpha=0.1` to make it almost transparent. 
-5. Use `theme_classic()` to apply the classic theme. 
-
-#### Code block 3 for lab session in Applied Economics
+4. Use `geom_point()` to add the scatters.
 
 
-
-```{r ch5-1,eval=F, warning=F,include=T,echo=T,results="asis",message=FALSE, out.width=400,fig.align="center"}
-# install ggplot2
-install.packages("ggplot2")
+```{r merge4, warning=F,include=T,echo=F,message=FALSE}
 # load ggplot2
 library("ggplot2")
 # create a scatter plot with a fitted line
 ggplot(analysisdata%>%filter(year==5),  
        aes(x=parental_lincome,y=test_score))+
-       geom_smooth() +
-       geom_point(alpha=0.1)+
-       theme_classic()
-
+       geom_smooth(color="#145c21") +
+       geom_point(alpha=0.1,size=0.85,color="#63a668")+
+       theme(panel.background = element_rect(fill="#ededed",color="#ededed"),
+             plot.background = element_rect(fill="#ededed",color="#ededed"),
+             panel.grid.major = element_line(colour="#a3a3a3",size=0.1))+
+  labs(x="Log(Parental Income)",y="Test Score (Mean=0,SD=1)", title="Test scores & Parental income")
 ```
-```{r ,eval=T, warning=F,include=T,echo=F,message=FALSE}
-# load ggplot2
-library("ggplot2")
-# create a scatter plot with a fitted line
-ggplot(analysisdata%>%filter(year==5),  
-       aes(x=parental_lincome,y=test_score))+
-       geom_smooth() +
-       geom_point(alpha=0.1)+
-       theme_classic()
 
-```
-## 5.2 Bar chart and boxplot
 
-Okay, we observe that test score is correlated with parental income. That is not surprising. Now let's also create charts to assess whether summer school attendance is correlated with individual characteristics. We first create a scatter plot of parental schooling and test scores in year 5 (before the summer school). This is just like above, but with schooling instead of income. Secondly, we create a bar chart showing average test score in year 5 (before the summer school) by summer school attendance. Thirdly, we create box plots of parental income by summer school attendance. There are a few additional tricks in the following code:
+
+### 5.2 Bar chart and boxplot
+
+Okay, we observe that test score is correlated with parental income. That is not surprising. Now let's also create charts to assesses whether summer school attendance is correlated with individual characteristics. We first create a scatter plot of parental schooling and test scores in year 5 (before the summer school). This is just like above, but with schooling instead of income. Secondly, we create a bar chart showing average test score in year 5 (before the summer school) by summer school attendance. Thirdly, we create box plots of parental income by summer school attendance. There are a few additional tricks in the following code:
 
 
 - We first create the basic `ggplot()` object where we load the data and specify the theme. This object is called *rawchart*
@@ -666,7 +554,7 @@ ggsave("fig1.png")
 # Load patchwork 
 library("patchwork")
 # Create raw chart element
-rawchart<-ggplot(analysisdata%>%filter(year==4),x=as.factor(fill))+
+rawchart<-ggplot(filter(analysisdata,year==4),x=as.factor(fill))+
           theme_classic()
 # Create bar chart of pre summer school test score and summer school 
 p1<-rawchart+
@@ -692,25 +580,28 @@ The three charts above show us that test scores are correlated with parental bac
 knitr::include_graphics("images/selectionbias.png")
 ```
 
-## 5.3  Histogram & density  charts
-Let's compare the test score distribution in year 6 (after the summer school) for those who attended the summer school with those who did not. We create a histogram and add a line showing the estimated density distributions. We also change the colour scheme, the legend labels, the legend poistion, and a few minor tweaks. 
+### 5.3  Histogram & density  charts
+Let's compare the test score distribution in year 6 (after the summer school) for those who attended the summer school with those who did not. We create a histogram and add a line showing the estimated density distributions.
 
-```{r ch5-4,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE, out.width=500,fig.align='center'}
 
+```{r merge5, warning=F,include=T,echo=F,message=FALSE}
 # create a histogram and density chart
-ggplot(analysisdata%>%filter(year==6),
+ggplot(filter(analysisdata,year==6),
        aes(x=test_score,fill=as.factor(summerschool)))+
        geom_histogram(aes(y=..density..),bins = 50,alpha=0.5,
                        position="identity",color="white")+
-       geom_density(alpha=0.0,size=1,show_guide= FALSE)+
+       geom_density(alpha=0.0,size=1,show.legend= FALSE)+
        theme_minimal()+
        labs(y="Density",x="Test score",fill=" ")+
        scale_fill_brewer(palette="Set2",labels=c("No summer school","Summer school"))+
        theme(legend.position="top")
-  
 ```
 
-## 5.4  The Joy Division Album Cover chart
+
+
+
+
+### 5.4  The Joy Division Album Cover chart
 
 ```{r , echo=FALSE, fig.cap=" ", out.width = '40%',fig.align='center'}
 knitr::include_graphics("images/joydivision.png")
@@ -724,6 +615,7 @@ Our goal is to compare the test score distribution for those who received the su
 ```{r ch5-5,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE, out.width=750,fig.align='center'}
 # Load ggridges
 library("ggridges")
+
 # create a ggridges  chart
 ggplot(analysisdata,aes(y=as.factor(year),x=test_score,fill=as.factor(letter) ))+
         geom_density_ridges(  alpha = .7, scale=1.5,color = "white", from = -2.5, to = 2.5)+
@@ -740,49 +632,48 @@ ggplot(analysisdata,aes(y=as.factor(year),x=test_score,fill=as.factor(letter) ))
 
 The chart above tells a convincing story. In the first five years the distribution of test scores is essentially identical across those who received and those who did not receive a reminder letter. That indicates that the randomisation worked as intended. After year 5 the test score distribution of those who received a reminder letter shifted to the right compared to those who did not receive a letter suggesting a reduced form effect of the letter on our outcome. Let's analyse that in the next sections. 
 
-<br><br><br><br><br><br>
 
-# 6 Balancing table
+
+
+## 6 Balancing tables
 
 The last chart suggested that the letter that was randomly sent to some families to remind them about the summer school worked. The test score distribution of the children that received the letter shifted to the right. Importantly, the charts also suggested that there was no difference prior to the summer school. Let us now test that formally. 
 
-## 6.1 Pairwise t-test
+### 6.1 Pairwise t-test
 
-We can conduct a t-test in R using `t.test()`. Specifically, we specify the formula `test_score~letter` to test whether the average *test_score* is significantly different across the two groups specified by *letter*. Let's do that for year 5 data:
+We can conduct a t-test in R using `t.test()`. Specifically, we specify the formula `test_score~summerschool` to test whether the mean *test_score* is significantly different across the two groups specified by *summerschool*. Let's do that for year 5 data:
 
-#### Code block 4 for lab session in Applied Economics
 
-```{r ch6-1,eval=T, warning=F,include=T,echo=T,message=TRUE}
+
+```{r merge6, warning=F,include=T,echo=F,message=FALSE}
 # Filter year 5
 df<-analysisdata%>%filter(year==5)
 # Conduct a t test
-t.test(test_score~letter,data=df)
-```
-The test suggest that the mean test score prior to summer school was not difference across letter receivers and not receivers. That is a promising result!
-
-One feature of R that I really appreciate (especially compared to Stata) is that I can skip steps and directly insert functions within other functions. For example if I know that I am not going to use the selected dataset again, we don't need to create it first. We can simply specify the selection criteria in the data argument of `t.test()` as shown below (we also did that in the charts above)
-
-```{r ch6-2,eval=T, warning=F,include=T,echo=T,message=TRUE}
-# Conduct a t test on analysisdata restricted to year 4
-t.test(test_score~letter,data=analysisdata%>%filter(year==4))
+t.test(test_score~summerschool,data=df)
 ```
 
-## 6.2 A publication ready table of mean comparisons
 
-If we want to create a nice looking balancing table and insert it in Latex or Word, we can use `datasummary_balance()` from the *modelsummary* package. We load the *estimatr* package because it enables `datasummary_balance()` to calculate and include the pairwise t-tests.
+Note that  `df<-analysisdata%>%filter(year==5)` might look a bit unfamiliar to you. It simply a different way of writing `df<-filter(analysisdata,year==5)`.
+
+
+One feature of R that I really appreciate (especially compared to Stata) is that I can skip steps and directly insert functions within other functions. For example if I know that I am not going to use the selected dataset again, we don't need to create it first. 
+
+
+### 6.2 A publication ready table of mean comparisons
+
+If we want to create a nice looking balancing table and insert it in Word, we can use `datasummary_balance()` from the *modelsummary* package. We load the *estimatr* package because it enables `datasummary_balance()` to calculate and include the pairwise t-tests directly into the table
 
 
 ```{r ch6-3,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
-# t test
+# Load libraries
 library(modelsummary)
 library(estimatr)
 # Filter and modify data
-testdata<-analysisdata%>%
-         filter(year==5)%>%
-         ungroup()%>%
-         mutate(Treated=ifelse(letter==1,"Letter","No Letter"))%>%
-         select(female,parental_schooling,parental_lincome,test_score,Treated)%>%
-         rename(`Female`=female,
+testdata<-filter(analysisdata,year==5)
+testdata<-ungroup(testdata)
+testdata<-mutate(testdata,Treated=ifelse(letter==1,"Letter","No Letter"))
+testdata<-select(testdata,female,parental_schooling,parental_lincome,test_score,Treated)
+testdata<-rename(testdata,`Female`=female,
           `Parental schooling (years)`=parental_schooling,
           `Parental income (log)`=parental_lincome,
           `Test Score`=test_score)
@@ -797,13 +688,14 @@ datasummary_balance(~Treated,
 
 
 ```
-The table suggests that all variables are well balanced across treated (receiving a letter) and untreated. 
+This looks nice!The table suggests that all variables are well balanced across treated (receiving a letter) and untreated. 
 
-As before, we can simply add the option `output=tab_balancing.docx` if we want to export the table to Microsoft Word, or `output=tab_balancing.tex` if we want a Latex table.
+As before, we can simply add the option `output=tab_balancing.docx` if we want to export the table to Microsoft Word.
 
 
 
-#  7 Ordinary Least Squares 
+
+##  7 Ordinary Least Squares 
 
 
 Our goal is now to estimate the following reduced form relationship between test score in year 6 and an indicator for receiving a reminder letter using Ordinary Least Squares (OLS)
@@ -812,7 +704,7 @@ $testscore_i=\beta_0+\beta_1Letter_i+u_i$.
 
 
 
-## 7.1 OLS estimation with with `lm()` 
+### 7.1 OLS estimation with with `lm()` 
 
 We can run OLS  with `lm()` (linear models). We first enter a formula of the form:
 
@@ -822,60 +714,60 @@ followed by the
 
 - `data=...` command.
 
-Below is an example based on a univariate regression between testscore and the indicator for receiving the letter.
+Below is an example based on a univariate regression between testscore and the indicator for receiving the letter. 
 
-```{r ch7-1,eval=T, warning=F,include=T,echo=T,message=FALSE}
-# Ordinary Least Squares regression
-lm(test_score~letter,data=analysisdata%>%filter(year==6))
+```{r merge7,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
+# Our first ordinary least squares regression
+lm(test_score~letter,data=filter(analysisdata,year==6))
 ```
+
+
 
 The output from `lm()` is a bit disappointing.  But fear not. We can use the universal `summary()` function to get a bit more information out of `lm()`:
 
-```{r ch7-2,eval=T, warning=F,include=T,echo=T,message=FALSE}
-# Summary of Ordinary Least Squares regression
-summary(lm(test_score~letter,data=analysisdata%>%filter(year==6)))
+
+```{r merge8,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
+# Summary of ordinary least squares regression
+summary(lm(test_score~letter,data=filter(analysisdata,year==6)))
 ```
+
 
 A nice feature of R is that we can assign basically everything to a name and then use it later. In the code block below we first run a regression and store it under the name *model1*. We then later call these regression results back when using the `summary()` command. In the following example we include a few covariates in the regression: 
 
 
-#### Code block 5 for lab session in Applied Economics
 
-
-```{r ch7-3,eval=T, warning=F,include=T,echo=T,message=FALSE}
+```{r merge9,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
 #  Ordinary Least Squares regression
-model1<-lm(test_score~parental_schooling+parental_lincome+letter+female,data=analysisdata%>%filter(year==6))
+model1<-lm(test_score~parental_schooling+parental_lincome+letter+female,data=filter(analysisdata,year==6))
 # Summary of model1
 summary(model1)
 ```
 
-## 7.2 OLS with the felm() function
 
-I am a big fan of running regressions with **reghdfe** if in Stata. Luckily R has something quite similar. That is `felm()` from the *lfe* package. This function expects a formula of the form:
+### 7.2 OLS with the feols() function
 
-- `y~x1+x2+..|fixed effects|IV specification|cluster variables`
+I am a big fan of running regressions with **reghdfe** if in Stata. Luckily R has something quite similar. That is `feols()` from the *fixest* package. This function expects a formula of the form:
 
-If we don't have fixed effects, an IV specification, or cluster variables, we simply 
-insert a 0. See (The FELM documentation for extensive explanations)[https://www.rdocumentation.org/packages/lfe/versions/2.8-5.1/topics/felm].
+- `y~x1+x2+..|fixed effects|IV specification,cluster=..`
 
-In the following example we run a linear regression without fixed effects, but standard errors clustered on the school level. We specify `cmethod="reghdfe"` to mimic the clustering approach of *reghdfe*.
+In the following example we run a linear regression without fixed effects, but standard errors clustered on the school level. 
 
 ```{r ch7-4,eval=T, warning=F,include=T,echo=T,message=FALSE}
 # Load packages
-library(lfe)
+library(fixest)
 # Select data
-regdata<-analysisdata%>%filter(year==6)
+regdata<-filter(analysisdata,year==6)
 # Regression
-m1<-felm(test_score~letter+parental_lincome+female+parental_schooling|0|0|school_id
-            ,data=regdata, cmethod="reghdfe")
+m1<-feols(test_score~letter+parental_lincome+female+parental_schooling, cluster="school_id",data=regdata)
 # Summary of regression
 summary(m1)
 ```
 
-Brilliant. We let's now try to output such regressions to a nice looking table. We use the `modelsummary()` function from *modelsummary* for that. In the following example we
+
+Brilliant. Let's now try to output such regressions to a nice looking table. We use the `modelsummary()` function from *modelsummary* for that. In the following example we
 
 
-1. Run two regressions and store them as *models*.
+1. Run two regressions and store them as *models* in a list. The first regression is above, in the second regression we add fixed effects for year and school.
 
 2. Use `modelsummary()` to output the results of the regression results stored in *models*.
 
@@ -885,36 +777,113 @@ Brilliant. We let's now try to output such regressions to a nice looking table. 
 
 5. Specify the formatting of the numbers with `fmt=..`.
 
-6. Use *flextable* to format the layout (lines etc)
 
-```{r ch7-5,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
+
+
+```{r merge10,eval=T, warning=F,include=T,echo=T,message=FALSE}
 # Load flextable and modelsummary
-library("flextable")
-library("modelsummary")
+library(modelsummary)
+# Select data
+regdata<-filter(analysisdata,year==6)
 # Regressions
 models<-list(
-  m1<-felm(test_score ~letter+parental_schooling+parental_lincome+female|0|0|school_id
-            ,data=regdata, cmethod="reghdfe"),
-  m2<-felm(test_score ~letter+parental_schooling+parental_lincome+female|
-              school_id+year|0|school_id,data=regdata, cmethod="reghdfe")
+  m1<-feols(test_score~letter+parental_lincome+female+parental_schooling, cluster="school_id",data=regdata),
+  m2<-feols(test_score~letter+parental_lincome+female+parental_schooling|school_id+year, cluster="school_id",data=regdata)
   )
 # Generate table
 modelsummary(models, stars = TRUE,statistic = 'std.error',
              fmt= '%.4f',
+              coef_omit= '(Intercept)')
+```
+
+Just like in earlier examples, we can output our table to Microsoft Word or Latex with `output=..`. The results show that those received a letter have a 0.2SD higher test score in year 6. There are many other settings that we can specify to polish our table. But let us  move on.
+
+
+
+
+## 8 Logit & probit
+
+Okay, from section 6 we conclude that the randomization worked and that receiving the letter is as good as random. From section 7 we know that those that received a letter have a 0.2SD higher test score in year 6. But that is the intend to treat effect. Let us now scale that by the first stage effect. We are interested in the link between receiving a letter and attending the summer school: 
+
+$$summerschool_i=g(letter_i)$$
+
+
+
+### 8.1 Estimating the LPM with OLS
+
+Let us first consider the linear probability model and estimate
+
+$$summerschool_i=\beta1+\beta_2letter_i+\gamma'X_i+u_i$$
+
+We already know how to do that. We can use `lm()` or `felm()`, but let us use this as a change to add a row with the mean of the dependent variable. We do that by calculating the statistics we want to add and add them to the table with `add_rows=...` as shown below. 
+
+
+```{r ch8-1,eval=T, warning=F,include=T,echo=T,message=FALSE}
+# Estimate LPM (the first stage)
+models<-list(
+  m1<-feols(summerschool ~letter+parental_schooling+parental_lincome+female, cluster="school_id",data=regdata),
+  m2<-feols(summerschool ~letter+parental_schooling+parental_lincome+female| school_id+year,cluster="school_id",data=regdata)
+  )
+# Store the mean of dependent variable in a data frame
+added_stats<-tibble("Mean of Dep. ",m1=mean(regdata$summerschool),m2=mean(regdata$summerschool))
+# Generate table
+modelsummary(models, stars = TRUE,statistic = 'std.error',  
+             fmt= '%.4f',add_rows = added_stats,
               coef_omit= '(Intercept)', output = 'flextable')
 ```
 
-Just like in earlier examples, we can output our table to Microsoft Word or Latex with `output=..`. Note that we specify the type of standard errors in the `modelsummary()` function. Note that you can also use  [Stargazer](https://cran.r-project.org/web/packages/stargazer/vignettes/stargazer.pdf) for regression tables.
-<br><br>
-Brilliant!  The results show that those received a letter have a 0.2SD higher test score in year 6. There are many other settings that we can specify to polish our table. But let us  move on.
+So receiving the letter increases the likelihood of attending the summer school by 44% which is a about a 100% increase compared to the mean of 0.46.
 
-#  8 Instrumental Variables
+### 8.2 Logit & Probit
 
-We estimated the reduced form relationship between receiving a reminder letter and test scores to be 0.2SD. We have also estimated the first stage to be around 0.4. We would therefore conclude that attending the summer school increases test scores by about 0.2SD/0.4=0.5SD.
+We might not be happy with the linear probability model and decide to go for a logit or probit instead. Let's have a look at that.
+We can use `glm()` to estimate logit and probit models. We specify the link function as an option as shown below for probit (just change it to `=logit`, for logit). 
 
-Let us estimate the instrumental variable specification explicitly. I will show you two methods. 
 
-## 8.1 IV using the  ivreg() function. 
+```{r merge11,eval=T, warning=F,include=T,echo=T,message=FALSE}
+#  Estimate a binary outcomes model using a probit
+probit_results <- glm(summerschool ~letter, data = regdata, family = binomial(link="probit"))
+# Print the results
+summary(probit_results)
+```
+
+
+
+
+ Let's compute the average marginal effects.
+
+### 8.3 Marginal effects
+
+We can use `margins()` to obtain average marginal effects. We simply use the `margins()` function on the objects storing or probit and logit estimates. We can also include these directly in a nice looking table. 
+
+
+```{r ch8-4,eval=T, warning=F,include=T,echo=T,message=FALSE}
+# Load margins package
+library("margins")
+# Select data
+regdata<-filter(analysisdata,year==6)
+##  Estimate a binary outcomes model using a logit and probit
+logit_results <- glm(summerschool ~letter+parental_lincome+female+parental_schooling, data = regdata, family = binomial(link="logit"))
+probit_results <- glm(summerschool ~letter+parental_lincome+female+parental_schooling, data = regdata, family = binomial(link="probit"))
+# Estimate linear probability model
+lpm<-feols(summerschool ~letter+parental_schooling+parental_lincome+female, cluster="school_id",data=regdata)
+#  Compute marginal effects
+mfx_logit<- margins(logit_results)
+mfx_probit<- margins(probit_results)
+# Include in table
+modelsummary(list("LPM"=lpm,"Logit"=mfx_logit,"Probit"=mfx_probit))
+```
+
+The results are very similar across the columns, and we will proceed with the LPM in a two stage least squares approach to estimate the IV.
+
+
+
+
+## 9 Instrumental Variables
+
+We estimated the reduced form relationship between receiving a reminder letter and test scores to be 0.2SD. We have also estimated the first stage to be around 0.4, which gives a Wald Estimate for the IV of $IV=0.2/0.4=0.5$.  Let us estimate the instrumental variable specification explicitly to see whether it maps with our answer above. I will show you two methods. 
+
+### 9.1 IV using the  ivreg() function. 
 
 We first use the `ivreg()` function from the *AER* package. AER does not refer to the American Economic Review, but to Applied Economics with R. The syntax is as follows
 
@@ -923,155 +892,146 @@ We first use the `ivreg()` function from the *AER* package. AER does not refer t
 ```{r ch9-1,eval=T, warning=F,include=T,echo=T,message=FALSE}
 # Load the AER package
 library(AER)
+# Select data
+regdata<-filter(analysisdata,year==6)
 # Estimate IV specification with
 summary(ivreg(test_score~summerschool+female+parental_lincome+parental_schooling|
                          female+parental_lincome+parental_schooling+letter,data=regdata))
 ```
-The estimate is very close to the 0.5 we obtained above at 0.46SD. Note that we could be a bit skeptical about the standard errors above. 
+The estimate is very close to the 0.5 we obtained above at 0.46SD.  
 
-### 8.2 IV using the  felm() function. 
+### 9.2 IV using the  feols() function. 
 
-Let us now reuse the `felm()` function. Just like we can use *reghdfe* in Stata for IV, `felm()` also allows us to estimate IV specifications, as explained in section 7.2. 
+Let us now reuse the `feols()` function. Just like we can use *reghdfe* in Stata for IV, `felm()` also allows us to estimate IV specifications. We don't include fixed effect, so we simply set this part to 0. We then add a new part with the first stag 
 
-#### Code block 6 for lab session in Applied Economics
 
-```{r ,eval=F, warning=F,include=T,echo=T,results="asis", out.width=600,fig.align="center"}
-# Install lfe
-install.packages("lfe")
-# Load packages
-library(lfe)
-# Select data
-regdata<-analysisdata%>%filter(year==6)
+```{r ch9-2,eval=T, warning=F,include=T,echo=T,message=FALSE}
+
 # Estimate IV specification with felm 
-m1<-felm(test_score~parental_lincome+female+parental_schooling| # Outcome eq.
-           school_id|                                           # Fixed effects
-           (summerschool~letter)|                                 # First stage eq.
-           school_id                                            # Cluster var
-         ,data=regdata, cmethod="reghdfe")
+m1<-feols(test_score~parental_lincome+female+parental_schooling| # Outcome eq.
+           0|                                                    # Fixed effects
+           summerschool~letter                                   # First stage
+           ,cluster="school_id"                                  # Cluster var
+            ,data=regdata)
 # Summary of results
 summary(m1)
 ```
 
-```{r ch9-2 ,eval=T, warning=F,include=T,echo=F,message=FALSE}
-
-# Estimate IV specification with felm 
-m1<-felm(test_score~parental_lincome+female+parental_schooling| # Outcome eq.
-           school_id|                                           # Fixed effects
-           (summerschool~letter)|                               # First stage eq.
-           school_id                                            # Cluster var
-            ,data=regdata, cmethod="reghdfe")
-# Summary of results
-summary(m1)
-```
-The coefficient is now slightly larger at 0.47SD. The key difference is that we include fixed effects. Note that `felm()` tells us that the F-stat on the excluded instrument is 63. Moreover, we also have clustered standard errors now. 
+The coefficients are as above, but note that the standard errors are slightly different now, as we cluster them on the school level. Note also that `feols()` tells us that the F-stat on the excluded instrument is 686.
 
 
-## 8.3 A complete IV table
+
+
+### 9.3 A complete IV table
 
 Let us finish the IV section by creating a complete IV table showing the raw correlation between test score and summer school attendance, the reduced form, the first stage, and the IV estimate. 
 
-Note that in the example below we use `coef_map=` to rename coefficients, specify the coefficients to include, and to let two coefficients with different names appear in the same row (*summerschool1* and *summerschool(fit)* ).
+Note that in the example below we use `coef_map=` to rename coefficients, specify the coefficients to include, and to let two coefficients with different names appear in the same row (*summerschool* and *fit_summerschool* ).
 
-```{r ch9-3,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
-library("gt")
+
+
+```{r merge12,eval=T, warning=F,include=T,echo=T,message=FALSE}
 # Estimate OLS
-OLS<-felm(test_score~summerschool+parental_lincome+female+parental_schooling|school_id|0|school_id,data=regdata)
+OLS<-feols(test_score~summerschool+parental_lincome+female+parental_schooling,cluster="school_id",data=regdata)
 # Estimate reduced form 
-RF<-felm(test_score~letter+parental_lincome+female+parental_schooling|school_id|0|school_id,data=regdata)
+RF<-feols(test_score~letter+parental_lincome+female+parental_schooling,cluster="school_id",data=regdata)
 # Estimate first stage 
-FS<-felm(summerschool~letter+parental_lincome+female+parental_schooling|school_id|0|school_id,data=regdata)
+FS<-feols(summerschool~letter+parental_lincome+female+parental_schooling,cluster="school_id",data=regdata)
 # Estimate IV specification 
-IV<-felm(test_score~parental_lincome+female+parental_schooling| # Outcome eq.
-           school_id|                                           # Fixed effects
-           (summerschool~letter)|                               # First stage eq.
-           school_id                                            # Cluster var
-            ,data=regdata, cmethod="reghdfe")
+IV<-feols(test_score~parental_lincome+female+parental_schooling| # Outcome eq.
+           0|                                                    # Fixed effects
+           summerschool~letter                                   # First stage
+           ,cluster="school_id"                                  # Cluster var
+            ,data=regdata)
 # Combine results
-IVresults<-list("OLS"<-OLS,"RF"<-RF,"FS"<-FS,"IV"<-IV)
+IVresults<-list("OLS"=OLS,"RF"=RF,"FS"=FS,"IV"=IV)
 # Coefficients
-cm <- c('`summerschool(fit)`' = 'Summer School',
+cm <- c('fit_summerschool' = 'Summer School',
         'summerschool' = 'Summer School','parental_lincome' = 'Parental Income', 
         'letter' = 'Reminder letter', "female"="Female","parental_schooling"="Parental Schooling")
 # Output Table
 modelsummary(IVresults, stars = TRUE,statistic = 'std.error',  
-             fmt= '%.4f',coef_map=cm, output = 'gt'
-        )
+             fmt= '%.4f',coef_map=cm, output =      )
 ```
+
+
 
 The first column shows that ignoring the selection problem and estimating the relationship between test score and summer school conditional controls, leads to a coefficient of 0.78SD. As expected this coefficient is larger than the IV estimate of 0.47SD shown in the fourth column of the table. The descriptive charts in chapter 5 suggested that the children who attended the summer school already had better test scores before the summer school and that their parents have higher incomes and completed more years of education. The coefficient in the first column above is therefore likely capturing not only the causal effect of the summer school but also other unobserved characteristics that are positively linked to test scores and summer school attendance. 
 
-<br><br><br><br><br><br>
-
-#  9 Difference-in-Differences
 
 
-Our IV story analysis was quite convincing. It is based on a fictitious RCT and the coefficent was smaller than the "naive OLS" as we expected. But let us not stop here. Let us also explot that we have test scores of the children both before and after the summer school. We can therefore estimate a difference-in-differences specification:
 
-$$test\_score=\beta1+\beta_2summerschool_i+\beta_3after_i+\beta_4after_i\times summerschool+\gamma'X_i+u_i$$
+##  10 Difference-in-Differences
+
+
+Our IV story analysis was quite convincing. It is based on an RCT and the coefficient was smaller than the "naive OLS" as we expected. But let us not stop there. Let us also exploit that we have test scores of the children both before and after the summer school. We can therefore estimate a difference-in-differences specification:
+
+$$test_score=\beta1+\beta_2summerschool_i+\beta_3after_i+\beta_4after_i\times summerschool+\gamma'X_i+u_i$$
 
 Where after refers to test scores after attending the summer school. 
 
-##  9.1 Inspecting the common trends
+###  10.1 Inspecting the common trends
 
 A crucial assumption behind the difference-in-differences approach is that the treated and control groups would have similar developments over time in the absence of treatment. We therefore want to create line charts of test scores over year to see whether the trends are similar in years without treatment. 
 
-We use this as a change to first collapse the data on the year times summerschool level using `group_by()` and `summarise()`. In the example below we also
-
-- Use `theme_wsj()` from the *ggthemes* package to apply the chart sheme from the Wall Street Journal.
-- Use `geom_line()` to create a line chart.
-- Use `geom_point()` to add points to the line chart.
-- Use `geom_vline()` to add a vertical line. 
-- Use `guides()` to combine the colour and shape legends. Let's now create  line chart showing the test score by year. We use this 
-
-```{r ch10-1,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE, out.width=550,fig.align='center'}
-# Load ggthemes
-library("ggthemes")
-# Collapse data on year level
-collapsed_data<-analysisdata%>% 
-                group_by(year,summerschool)%>%
-                summarise(test_score=mean(test_score))
-# create a line chart
-ggplot(collapsed_data,aes(x=year,y=test_score,color=as.factor(summerschool),group=as.factor(summerschool)))+
-      geom_line(size=1)+ylim(-1,1)+
-      geom_point(aes(shape=as.factor(summerschool)),size=3)+
-      theme_wsj()+
-      theme(legend.position="top",axis.title = element_text(size=13))+
-      labs(color="",x ="Year", y="Test core")+
-      scale_color_manual(guide = "legend", values=c("#0e0e0e","#8a8a8a"),
-                         labels=c("No Summer School","Summer school"))+
-      geom_vline(xintercept=5.5, linetype="dotted",color="red")+
-      guides(shape=FALSE,colour = guide_legend(override.aes = list(shape = c(16, 17),
-         shape = c(16,17))))
+We use this as a change to first collapse the data on the year times summerschool level using `group_by()` and `summarise()`. 
 
 
-
+```{r merge14,eval=T, warning=F,include=T,echo=T,message=FALSE}
+# Collapse data on the year X summer school level
+df<-group_by(analysisdata,year,summerschool)
+# Calculate the mean test score by year
+df<-summarise(df,test_score=mean(test_score))
+# Create a chart
+ggplot(df,aes(x=year,y=test_score,color=as.factor(summerschool)))+
+  geom_line(size=1)+
+  theme_classic()+
+  theme(legend.position = "top")
 
 ```
 
+
+
+
 We observe a small drop in the treatment group just before the summer school and a small increase in the control group. That looks a bit worrying, but otherwise the trends are very similar. 
 
-## 9.2 Estimating the Difference-in-Differences model
+### 10.2 Estimating the Difference-in-Differences model
 
 
-We will now use the `felm()` function to estimate the the difference-in-differences specification. We first modify the data to create an after indicator, using `mutate()` and `ifelse()`. Secondly, we estimate 3 different difference-in-differences specifications. The first approach is the traditional approach with after, after X treated, and treated indicators. In the second approach we include year fixed effects instead of the after dummy. In the third approach we add controls. 
+Let's estimate the simple difference-in-differences model using only data on year 5 and year 6 with the `lm()` function. We first modify the data to create an after indicator, using `mutate()` and `ifelse()`. 
 
-```{r ch10-2,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
-library("gt")
+```{r ch10-2,eval=T, warning=F,include=T,echo=T,message=FALSE}
+# Select  year 5 and year 6 observations
+df<-analysisdata%>%filter(year%in%c(5,6))
+# Generate an after indicator and the interaction between after and summer school
+df<-mutate(df,after=ifelse(year==6,1,0),afterXsumerschool=after*summerschool)
+# Estimate the DiD regression and save the results in an element called m1
+m<-lm(test_score~summerschool+after+afterXsumerschool,data=df)
+# Print the results
+summary(m1)
+
+```
+
+Very good. We observe that the difference-in-differences coefficient is 0.61. Suggesting that attending the summer school increases the test scores by 0.61SD. That is somewhat larger than the estimate we got above with the IV approach. Maybe it is because we only use year 5 and 6 and we saw this odd trend going from year 5 to year 6. Let's therefore try to add all years. 
+
+
+We will  use the `feols()` function to estimate the the difference-in-differences specification on all years (we could also use `lm()`).  The first approach is the traditional approach with after, after X treated, and treated indicators. In the second approach we include year fixed effects instead of the after dummy. In the third approach we add controls. 
+
+
+```{r merge13,eval=T, warning=F,include=T,echo=T,message=FALSE}
 # Modify data
-df<-analysisdata%>%
-    mutate(after=ifelse(year>5,1,0),
-           afterXsummerschool=after*summerschool)%>%
-           rename(school=summerschool)
+df<-mutate(analysisdata,after=ifelse(year>5,1,0),afterXsummerschool=after*summerschool)
+df<-rename(df,school=summerschool)
 # Estimate DiD without controls and fixed effects
-m1<-felm(test_score~school+afterXsummerschool+after|0|0|school_id,data=df)
+m1<-feols(test_score~school+afterXsummerschool+after,cluster="school_id",data=df)
 # Estimate DiD without controls
-m2<-felm(test_score~school+afterXsummerschool|school_id+year|0|school_id,data=df)
-# Estimate DiD 
-m3<-felm(test_score~afterXsummerschool+school+parental_lincome+female+parental_schooling
-         |school_id+year|0|school_id,data=df)
+m2<-feols(test_score~school+afterXsummerschool|school_id+year,cluster="school_id",data=df)
+# Estimate DiD  with controls
+m3<-feols(test_score~afterXsummerschool+school+parental_lincome+female+parental_schooling
+         |school_id+year,cluster="school_id",data=df)
 # Leave year 5 out to avoid dip
-m4<-felm(test_score~afterXsummerschool+school+parental_lincome+female+parental_schooling
-         |school_id+year|0|school_id,data=df%>%filter(year!=5))
+m4<-feols(test_score~afterXsummerschool+school+parental_lincome+female+parental_schooling
+         |school_id+year,cluster="school_id",data=filter(df,year!=5))
 
 # Coefficients
 cm <- c('afterXsummerschool'  = 'Summer School X After',
@@ -1083,197 +1043,11 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
              fmt= '%.4f',coef_map=cm, output = 'gt'
         )
 ```
- The treatment effects estimate are all around 0.6SD, which is slightly larger than the IV estimate, but smaller than the "naive OLS. The last column above shows the DiD estimate excluding year 5 where we observe the worrying deviations from the trend. As expected, this specification gives a slightly smaller coefficient of 0.54SD. 
 
 
-
-#  10 Regression Discontinuity
-
-We have evidence from an RCT and from a difference-in-differences approach. But we love data and quasi-experimental variation. We know  with test scores below 1.5 in year 5 were encouraged to participate in the summer school. We will exploit this in a regression discontinuity approach.
- 
-
-## 10.1 A RDD plot 
-
-We start by plotting the share who participated in the summer school around the cutoff. We do this with `geom_point()` and `geom_smooth()`. But we first create two new datasets. One that is collapsed on the test score level and one that is just selected to region around the cutoff. 
-
-```{r ch11-1,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE, out.width=600,fig.align='center'}
-# Create dataset collapsed on bins
-rdd_collapsed<-analysisdata%>%
-     filter(year==5)%>%
-     mutate(test_score=floor(test_score_raw*10)/10)%>%
-     group_by(test_score)%>%
-     summarise(summerschool=mean(summerschool))%>%
-     filter(test_score>0,test_score<2.5)
-# Selected range
-rdd_raw<-analysisdata%>%
-     filter(year==5)%>%
-     filter(test_score_raw>0,test_score_raw<2.5)
-
-# Create RDD plot
-ggplot()+
-    geom_smooth(rdd_raw%>%filter(test_score_raw<1.5),
-                mapping=aes(x=test_score_raw,y=summerschool),method="lm", color="black")+    
-    geom_smooth(rdd_raw%>%filter(test_score_raw>1.5),
-                mapping=aes(x=test_score_raw,y=summerschool),method="lm", color="black")+    
-    geom_point(rdd_collapsed,mapping=aes(x=test_score,y=summerschool),alpha=0.5)+
-    ylim(-0.5,1.5)+
-    theme_minimal()
+The treatment effects estimate are all around 0.6SD, which is slightly larger than the IV estimate, but smaller than the "naive OLS. The last column above shows the DiD estimate excluding year 5 where we observe the worrying deviations from the trend. As expected, this specification gives a slightly smaller coefficient of 0.54SD, it is however, still slightly larger than our IV estimate. 
 
 
-
-```
-
-
-<center>
-
-<div class="tenor-gif-embed" data-postid="12385898" data-share-method="host" data-width="60%" data-aspect-ratio="1.3559322033898304"><a href="https://tenor.com/view/roller-coaster-state-fair-screaming-gif-12385898">Roller Coaster State Fair GIF</a> from <a href="https://tenor.com/search/rollercoaster-gifs">Rollercoaster GIFs</a></div><script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-
-Looks convincing! There is a clear drop in the probability of treatment around the cutoff of 1.5.
-
-
-
-</center>
-
-## 10.2 Balanced covariates & manipulation in forcing variable
-
-Before we estimate the RDD we first check whether parental background is balanced over the discontinuity and that there is no evidence of manipulation of the forcing variable. 
-
-The follow code block is long, but you should be able to understand all steps involved. 
-
-```{r ch11-2,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE, out.width=750,fig.align='center'}
-# Create dataset collapsed on bins
-rdd_collapsed<-analysisdata%>%
-  filter(year==5)%>%
-  mutate(test_score=floor(test_score_raw*10)/10)%>%
-  group_by(test_score)%>%
-  summarise(parental_schooling=mean(parental_schooling),
-            parental_lincome=mean(parental_lincome))%>%
-  filter(test_score>0,test_score<2.5)
-
-# Selected range
-rdd_raw<-analysisdata%>%
-  filter(year==5)%>%
-  filter(test_score_raw>0,test_score_raw<2.5)
-
-# Create RDD plot of parental income
-p1<-ggplot()+
-  geom_smooth(rdd_raw%>%filter(test_score_raw<1.5),
-              mapping=aes(x=test_score_raw,y=parental_lincome),method="lm", color="black")+    
-  geom_smooth(rdd_raw%>%filter(test_score_raw>1.5),
-              mapping=aes(x=test_score_raw,y=parental_lincome),method="lm", color="black")+    
-  geom_point(rdd_collapsed,mapping=aes(x=test_score,y=parental_lincome),alpha=0.5)+
-  theme_minimal()+labs(title="Parental Income (log)")
-
-# Create RDD plot of parental schooling
-p2<-ggplot()+
-  geom_smooth(rdd_raw%>%filter(test_score_raw<1.5),
-              mapping=aes(x=test_score_raw,y=parental_schooling),method="lm", color="black")+    
-  geom_smooth(rdd_raw%>%filter(test_score_raw>1.5),
-              mapping=aes(x=test_score_raw,y=parental_schooling),method="lm", color="black")+    
-  geom_point(rdd_collapsed,mapping=aes(x=test_score,y=parental_schooling),alpha=0.5)+
-  theme_minimal()+labs(title="Parental Schooling (years)")
-
-# Histogram of forcing variable
-p3<-ggplot(rdd_raw,aes(x=test_score_raw))+
-  geom_histogram(bins=100,color="white")+
-  geom_vline(xintercept=1.5)+
-  theme_minimal()+labs(title="Distribution of the forcing variable")
-
-# Patchwork  to combine charts  
-(p1+p2)/p3
-
-
-```
-
-Looks pretty balanced to me! 
-
-## 10.3 RDD regression 
-
-Finally we estimate an (old-fashioned) RD model as an IV with linear trends on both sides of the cutoff. To achieve this we first create a new dataset where the forcing variable is added as a separate collum
-
-```{r ch11-3,eval=T, warning=F,include=T,echo=T,message=FALSE, out.width=750,fig.align='center'}
-
-# "Forcing variable" data
-year5<-analysisdata%>%
-  filter(year==5)%>%
-  mutate(above=ifelse(test_score_raw>1.5,1,0), ie=test_score_raw*above, score=test_score_raw)%>%
-  ungroup()%>%
-  select(person_id,above,test_score_raw,ie,score)
-# Merge  forcing variable data to main data
-df<-merge(analysisdata,year5,by="person_id")
-df<-df%>%
-  filter(year==6)%>%
-  rename(summerschoolrdd=summerschool) # Rename to allow reuse later
-        
-    
-# RDD regression
-m_rdd<-felm(test_score~ie+score|0|(summerschoolrdd~above)|school_id,data=df)
-summary(m_rdd)
-
-```
-
-The RDD coefficient suggest that the summerschool improves test scores by 0.5SD. 
-
-
-
-# 11 Comparing all coefficients in  a plot
-
-Let us end  our analysis by comparing the estimated causal effect of the summer school based on the various approaches in a chart using `modelplot()`. 
-
-```{r ch12-1,eval=T, warning=F,include=T,echo=T,message=FALSE, out.width=650,fig.align='center'}
-
-# Combine all "preferred specifications"  in a list
-models<-list()
-models[['OLS']]<-OLS
-models[['RCT']]<-IV
-models[['DiD']]<-m4
-models[['RDD']]<-m_rdd
-
-
-# Coefficient renaming
-cm <- c('`summerschool(fit)`'  = 'RCT',
-        '`summerschoolrdd(fit)`'  = 'RDD',
-        'afterXsummerschool'='DiD',
-        'summerschool'='OLS')
-
-# Create plot of coefficients
-modelplot(models,coef_map=cm)+
-  labs(title="Coefficients: The effect of attending a summer school on test scores (in SD)",
-       caption ="Note: All data is fictitious.")+
-  theme(legend.position = "none")+
-  geom_vline(xintercept=0)
-
-```
-
-
-
-# Stata index
-
-- **bys year: egen x=..** An R example is provided in [section 3.3](https://hhsievertsen.github.io/applied_econ_with_r/#33_Modifying_the_data) <br>
-- **collapse**:  An R example is provided in [section 10.1](https://hhsievertsen.github.io/applied_econ_with_r/#101_Inspecting_the_common_trends) <br>
-- **merge**:  An R example is provided in [section 2.5](https://hhsievertsen.github.io/applied_econ_with_r/#25_Merging_the_datasets) <br>
-- **import csv**:  An R example is provided in [section 2.2](https://hhsievertsen.github.io/applied_econ_with_r/#22_Loading_a_csv_data_file) <br>
-- **import xlsx**:  An R example is provided in [section 2.4](https://hhsievertsen.github.io/applied_econ_with_r/#24_Loading_an_xlsx_file) <br>
-- **margins **:  An R example is provided in [section 8.3](https://hhsievertsen.github.io/applied_econ_with_r) <br>
-- **reg y x**:  An R example is provided in [section 7.1](https://hhsievertsen.github.io/applied_econ_with_r/#71_OLS_estimation_with_with_lm()) <br>
-- **reghdfe y x,absorb() cluster()**:  An R example is provided in [section 7.2](https://hhsievertsen.github.io/applied_econ_with_r/#72_OlS_with_the_felm()_function) <br>
-- **use "... .dta"**:  An R example is provided in [section 2.3](https://hhsievertsen.github.io/applied_econ_with_r/#23_Loading_a_Stata_data_file) <br>
-
-
-<br><br><br><br><br><br>
-
-
-<br><br><br><br><br>
+<br><br>
 **That is it!** You made it to the end of my tutorial. Well done!
 <br>
-<center>
-
-<iframe src="https://giphy.com/embed/mGK1g88HZRa2FlKGbz" width="480" height="400" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/Friends-episode-1-season-9-friends-tv-mGK1g88HZRa2FlKGbz"></a></p>
-
-
-<strong> Thanks!</strong><br><br>
-
-I would like to thank @stsumej, Grant McDermott, and Jacob Mazalale for identifying mistakes and/or suggesting improvements. E-mails about mistakes and suggestions for improvements are always very welcome and much appreciated. You can write to h.h.sievertsen@bristol.ac.uk. Thank you. 
-</center>
-
-

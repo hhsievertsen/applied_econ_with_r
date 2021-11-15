@@ -1,7 +1,8 @@
 ---
 title: "Applied Economics with R for UoB students"
 output: 
-   learnr::tutorial
+   learnr::tutorial:
+       theme: "united" 
 runtime: shiny_prerendered
 ---
 
@@ -10,7 +11,6 @@ runtime: shiny_prerendered
 
 ```{r setup, include=FALSE}
 
-require("emo")
 library("aewr")
 library("tidyverse")
 library("skimr")
@@ -33,7 +33,7 @@ This tutorial is written for Applied Economics students at the University of Bri
 
 **How this works**
 
-- The tutorial is structured as a complete research project starting with loading the raw data and ending with a chart comparing the estimates across approaches. 
+- There are two tutorials. This one is the **dynamic** version. To try the **static** version go to: [hhsievertsen.github.io/applied_econ_with_r/](https://hhsievertsen.github.io/applied_econ_with_r/) (the cover the same material).
 - The tutorial aims at covering the same methods we covered in Stata during the term.
 - All data used is directly downloadable. You should therefore be able to download the data and try the methods in R on your own computer. 
 - The tutorial mainly consists of code blocks  and the resulting output.  Every now and then I include some references to how I would do the same task in Stata or key differences to Stata. 
@@ -138,6 +138,8 @@ read_csv("C:/Users/hhs/school_data_1.csv")
 print(school_data_1)
 ```
 
+
+
 Stata users would now expect that the dataset is loaded in the memory and everything I do now relates to this dataset. Stata users will be disappointed. When R executes the command above it loads the data, but then it says: "Hey, Hans didn't tell me what to do with the dataset, so I will just print the contents of it and forget it." 
 
 While Stata (at least in older versions) is based on having one dataset loaded at a time, we can have many datasets loaded at once in R. Therefore, to identify the dataset we need to give it a name. In this example we tell R to store the new dataset under the name *school_data_1* we use the *assignment operator* `<-`, but `=` would also work. However, it is a good habit to use the assignment operator, because it makes life a bit easier in more advanced situations that will meet later on your R journey (not in this tutorial). 
@@ -217,7 +219,7 @@ We note that the merged dataset has 3491 rows and 9 columns. We actually didn't 
 
 **Important difference to Stata:** A key difference between Stata and R merge is that in case a variable in the first dataset has the same name as a column in the second dataset, R will automatically rename the column names by adding suffices *.x* (the column from the first dataset) and *.y*  (the column from the second dataset). Stata just overwrites the columns. 
 
-Now it is your turn, in the block below we want o 
+Now it is your turn, in the block below we want to 
 
 1. Merge *school_data_1* and *school_data_2* by the *person_id* column and save the merged dataset under the name *school_data*.
 2. Merge *school_data_3* with *school_data* and overwrite *school_data*. Note in this case we merge by *person_id* and *school_id* columns. This is not necessary (because person_id is unique), but serves as an example on how to merge by more columns using `c()`.  name *school_data*.
@@ -492,9 +494,7 @@ To save our `datasummary()` table to Microsoft Word or Latex, we use the same ex
 ```{r ch4-6,eval=F, warning=F,include=T,echo=T,results="asis",message=FALSE}
 # load modelsummary
 library("modelsummary")
-#library("flextable")
 # create a summary stat table
-
 datasummary((`Female`=female)+
             (`Parental schooling (years)`=parental_schooling)+
             (`Parental income (log)`=parental_lincome)+
@@ -679,7 +679,7 @@ Let's compare the test score distribution in year 6 (after the summer school) fo
 
 ```{r merge5, exercise=TRUE,  warning=FALSE, message=FALSE}
 # create a histogram and density chart
-ggplot(analysisdata%>%filter(year==6),
+ggplot(filter(analysisdata,year==6),
        aes(x=test_score,fill=as.factor(summerschool)))+
        geom_histogram(aes(y=..density..),bins = 50,alpha=0.5,
                        position="identity",color="white")+
@@ -688,11 +688,11 @@ ggplot(analysisdata%>%filter(year==6),
 
 ```{r merge5-hint-1}
 # create a histogram and density chart
-ggplot(analysisdata%>%filter(year==6),
+ggplot(filter(analysisdata,year==6),
        aes(x=test_score,fill=as.factor(summerschool)))+
        geom_histogram(aes(y=..density..),bins = 50,alpha=0.5,
                        position="identity",color="white")+
-       geom_density(alpha=0.0,size=1,show_legende= FALSE)+
+       geom_density(alpha=0.0,size=1,show.legend= FALSE)+
        theme_minimal()+
        labs(y="Density",x="Test score",fill=" ")+
        scale_fill_brewer(palette="Set2",labels=c("No summer school","Summer school"))+
@@ -753,29 +753,27 @@ We can conduct a t-test in R using `t.test()`. Specifically, we specify the form
 # Filter year 5
 df<-analysisdata%>%filter(year==5)
 # Conduct a t test
-t.test(test_score~letter,data=df)
+t.test(test_score~summerschool,data=df)
 ```
 
-```{r merge6-hint-1}
-# Conduct a t test on analysisdata restricted to year 4
-t.test(test_score~letter,filter(analysisdata,year==4))
-```
 
-But what is the right interpretation of the test result?
+
+
+Note that  `df<-analysisdata%>%filter(year==5)` might look a bit unfamiliar to you. It simply a different way of writing `df<-filter(analysisdata,year==5)`. But what is the right interpretation of the test result?
 
 ```{r quiz2}
 quiz(
   question("What is the correct interpretation of the test?",
-    answer("The p-value is 0.65949, and using a 5% (or even higher) significance level we therefore cannot reject the null hypothesis that the difference in means between letter receivers and non-receivers is zero.In other words, the test score before was significantly different across letter receivers and not receivers." ),
-        answer("The p-value is 0.5097, and using a 5% (or even higher) significance level we therefore cannot reject the null hypothesis that the difference in means between letter receivers and non-receivers is zero. In other words, the test score before was not significantly different across letter receivers and not receivers.", correct = TRUE),
-       answer("The p-value is 0.5097, and using a 5% (or even higher) significance level we therefore  reject the null hypothesis that the difference in means between letter receivers and non-receivers is zero. In other words, the test score before was significantly different across letter receivers and not receivers.")
+    answer("The p-value is < 2.2e-16, and using a 5% significance level we therefore  reject the null hypothesis that the difference in means between those who attended and those who did not attend is zero. In other words, the test score before was significantly different across those who attended and those who did not attend." , correct = TRUE),
+        answer("The p-value is < 2.2e-16, and using a 5% (or even higher) significance level we therefore cannot reject the null hypothesis that the difference in means between those who attended and those who did not attend is zero. In other words, the test score before was not significantly different across those who attended and those who did not attend."),
+       answer("The p-value is 0.2082893 , and using a 5% (or even higher) significance level we therefore  reject the null hypothesis that the difference in means between those who attended and those who did not attend is zero. In other words, the test score before was significantly different across those who attended and those who did not attend.")
   )
 )
 ```
 
 
 
-One feature of R that I really appreciate (especially compared to Stata) is that I can skip steps and directly insert functions within other functions. For example if I know that I am not going to use the selected dataset again, we don't need to create it first. We can simply specify the selection criteria in the data argument of `t.test()` as shown by the hints to the code block above, where we use year 4 instaed of year 5.
+One feature of R that I really appreciate (especially compared to Stata) is that I can skip steps and directly insert functions within other functions. For example if I know that I am not going to use the selected dataset again, we don't need to create it first. We can simply specify the selection criteria in the data argument of `t.test()` as shown by the hints to the code block above, where we use year 4 instead of year 5.
 
 
 
@@ -789,12 +787,11 @@ If we want to create a nice looking balancing table and insert it in Word, we ca
 library(modelsummary)
 library(estimatr)
 # Filter and modify data
-testdata<-analysisdata%>%
-         filter(year==5)%>%
-         ungroup()%>%
-         mutate(Treated=ifelse(letter==1,"Letter","No Letter"))%>%
-         select(female,parental_schooling,parental_lincome,test_score,Treated)%>%
-         rename(`Female`=female,
+testdata<-filter(analysisdata,year==5)
+testdata<-ungroup(testdata)
+testdata<-mutate(testdata,Treated=ifelse(letter==1,"Letter","No Letter"))
+testdata<-select(testdata,female,parental_schooling,parental_lincome,test_score,Treated)
+testdata<-rename(testdata,`Female`=female,
           `Parental schooling (years)`=parental_schooling,
           `Parental income (log)`=parental_lincome,
           `Test Score`=test_score)
@@ -814,9 +811,7 @@ This looks nice!The table suggests that all variables are well balanced across t
 As before, we can simply add the option `output=tab_balancing.docx` if we want to export the table to Microsoft Word.
 
 
-```{r}
-knitr::knit_exit()
-```
+
 
 ##  7 Ordinary Least Squares 
 
@@ -837,56 +832,77 @@ followed by the
 
 - `data=...` command.
 
-Below is an example based on a univariate regression between testscore and the indicator for receiving the letter.
+Below is an example based on a univariate regression between testscore and the indicator for receiving the letter. Try to change the code to also include parental_lincome in the regression (see hints).
 
-```{r ch7-1,eval=T, warning=F,include=T,echo=T,message=FALSE}
-# Ordinary Least Squares regression
-lm(test_score~letter,data=analysisdata%>%filter(year==6))
+```{r merge7, exercise=TRUE,  warning=FALSE, message=FALSE}
+# Our first ordinary least squares regression
+lm(test_score~letter,data=filter(analysisdata,year==6))
 ```
+
+```{r merge7-hint-1}
+# ... now also with parental_lincome
+lm(test_score~letter+parental_lincome,data=filter(analysisdata,year==6))
+```
+
 
 The output from `lm()` is a bit disappointing.  But fear not. We can use the universal `summary()` function to get a bit more information out of `lm()`:
 
-```{r ch7-2,eval=T, warning=F,include=T,echo=T,message=FALSE}
-# Summary of Ordinary Least Squares regression
-summary(lm(test_score~letter,data=analysisdata%>%filter(year==6)))
+
+```{r merge8, exercise=TRUE,  warning=FALSE, message=FALSE}
+# Summary of ordinary least squares regression
+summary(lm(test_score~letter,data=filter(analysisdata,year==6)))
 ```
 
-A nice feature of R is that we can assign basically everything to a name and then use it later. In the code block below we first run a regression and store it under the name *model1*. We then later call these regression results back when using the `summary()` command. In the following example we include a few covariates in the regression: 
+```{r merge8-hint-1}
+# ... now also with parental lincome
+summary(lm(test_score~letter+parental_lincome,data=filter(analysisdata,year==6)))
+```
 
-```{r ch7-3,eval=T, warning=F,include=T,echo=T,message=FALSE}
+
+A nice feature of R is that we can assign basically everything to a name and then use it later. In the code block below we first run a regression and store it under the name *model1*. We then later call these regression results back when using the `summary()` command (see hints!). In the following example we include a few covariates in the regression: 
+
+
+```{r merge9, exercise=TRUE,  warning=FALSE, message=FALSE}
 #  Ordinary Least Squares regression
-model1<-lm(test_score~parental_schooling+parental_lincome+letter+female,data=analysisdata%>%filter(year==6))
+model1<-lm(test_score~parental_schooling+parental_lincome+letter+female,data=filter(analysisdata,year==6))
+
+```
+
+```{r merge9-hint-1}
+#  Ordinary Least Squares regression
+model1<-lm(test_score~parental_schooling+parental_lincome+letter+female,data=filter(analysisdata,year==6))
 # Summary of model1
 summary(model1)
 ```
 
-### 7.2 OLS with the felm() function
 
-I am a big fan of running regressions with **reghdfe** if in Stata. Luckily R has something quite similar. That is `felm()` from the *lfe* package. This function expects a formula of the form:
+### 7.2 OLS with the feols() function
 
-- `y~x1+x2+..|fixed effects|IV specification|cluster variables`
+I am a big fan of running regressions with **reghdfe** if in Stata. Luckily R has something quite similar. That is `feols()` from the *fixest* package. This function expects a formula of the form:
 
-If we don't have fixed effects, an IV specification, or cluster variables, we simply 
-insert a 0. See (The FELM documentation for extensive explanations)[https://www.rdocumentation.org/packages/lfe/versions/2.8-5.1/topics/felm].
+- `y~x1+x2+..|fixed effects|IV specification,cluster=..`
 
-In the following example we run a linear regression without fixed effects, but standard errors clustered on the school level. We specify `cmethod="reghdfe"` to mimic the clustering approach of *reghdfe*.
+In the following example we run a linear regression without fixed effects, but standard errors clustered on the school level. 
 
 ```{r ch7-4,eval=T, warning=F,include=T,echo=T,message=FALSE}
 # Load packages
-library(lfe)
+library(fixest)
 # Select data
-regdata<-analysisdata%>%filter(year==6)
+regdata<-filter(analysisdata,year==6)
 # Regression
-m1<-felm(test_score~letter+parental_lincome+female+parental_schooling|0|0|school_id
-            ,data=regdata, cmethod="reghdfe")
+m1<-feols(test_score~letter+parental_lincome+female+parental_schooling, cluster="school_id",data=regdata)
 # Summary of regression
 summary(m1)
 ```
+```{r regdata}
+# Select data
+regdata<-filter(analysisdata,year==6)
+```
 
-Brilliant. We let's now try to output such regressions to a nice looking table. We use the `modelsummary()` function from *modelsummary* for that. In the following example we
+Brilliant. Let's now try to output such regressions to a nice looking table. We use the `modelsummary()` function from *modelsummary* for that. In the following example we
 
 
-1. Run two regressions and store them as *models*.
+1. Run two regressions and store them as *models* in a list. The first regression is above, in the second regression we add fixed effects for year and school.
 
 2. Use `modelsummary()` to output the results of the regression results stored in *models*.
 
@@ -896,34 +912,32 @@ Brilliant. We let's now try to output such regressions to a nice looking table. 
 
 5. Specify the formatting of the numbers with `fmt=..`.
 
-6. Use *flextable* to format the layout (lines etc)
 
-```{r ch7-5,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
-# Load flextable and modelsummary
-library(flextable)
+
+
+```{r merge10, exercise=TRUE,  warning=FALSE, message=FALSE,exercise.setup = "regdata"}
+# Load  modelsummary
 library(modelsummary)
+
 # Regressions
 models<-list(
-  m1<-felm(test_score ~letter+parental_schooling+parental_lincome+female|0|0|school_id
-            ,data=regdata, cmethod="reghdfe"),
-  m2<-felm(test_score ~letter+parental_schooling+parental_lincome+female|
-              school_id+year|0|school_id,data=regdata, cmethod="reghdfe")
+  m1<-feols(test_score~letter+parental_lincome+female+parental_schooling, cluster="school_id",data=regdata),
+  m2<-feols(test_score~letter+parental_lincome+female+parental_schooling|school_id+year, cluster="school_id",data=regdata)
   )
 # Generate table
 modelsummary(models, stars = TRUE,statistic = 'std.error',
              fmt= '%.4f',
-              coef_omit= '(Intercept)', output = 'flextable')
+              coef_omit= '(Intercept)')
 ```
 
-Just like in earlier examples, we can output our table to Microsoft Word or Latex with `output=..`. Note that we specify the type of standard errors in the `modelsummary()` function. Note that you can also use  [Stargazer](https://cran.r-project.org/web/packages/stargazer/vignettes/stargazer.pdf) for regression tables.
-<br><br>
-Brilliant!  The results show that those received a letter have a 0.2SD higher test score in year 6. There are many other settings that we can specify to polish our table. But let us  move on.
+Just like in earlier examples, we can output our table to Microsoft Word or Latex with `output=..`. The results show that those received a letter have a 0.2SD higher test score in year 6. There are many other settings that we can specify to polish our table. But let us  move on.
 
-<br><br><br><br><br><br>
+
+
 
 ## 8 Logit & probit
 
-Okay, from section 6 we conclude that the randomisation worked and that receiving the letter is as good as random. From section 7 we know that those that received a letter have a 0.2SD higher test score in year 6. But that is the intend to treat effect. Let us now scale that by the first stage effect. We are interested in the link between receiving a letter and attendign the summer school: 
+Okay, from section 6 we conclude that the randomization worked and that receiving the letter is as good as random. From section 7 we know that those that received a letter have a 0.2SD higher test score in year 6. But that is the intend to treat effect. Let us now scale that by the first stage effect. We are interested in the link between receiving a letter and attending the summer school: 
 
 $$summerschool_i=g(letter_i)$$
 
@@ -938,13 +952,11 @@ $$summerschool_i=\beta1+\beta_2letter_i+\gamma'X_i+u_i$$
 We already know how to do that. We can use `lm()` or `felm()`, but let us use this as a change to add a row with the mean of the dependent variable. We do that by calculating the statistics we want to add and add them to the table with `add_rows=...` as shown below. 
 
 
-```{r ch8-1,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
+```{r ch8-1,exercise=T,exercise.setup = "regdata"}
 # Estimate LPM (the first stage)
 models<-list(
-  m1<-felm(summerschool ~letter+parental_schooling+parental_lincome+female|0|0|school_id
-            ,data=regdata, cmethod="reghdfe"),
-  m2<-felm(summerschool ~letter+parental_schooling+parental_lincome+female|
-              school_id+year|0|school_id,data=regdata, cmethod="reghdfe")
+  m1<-feols(summerschool ~letter+parental_schooling+parental_lincome+female, cluster="school_id",data=regdata),
+  m2<-feols(summerschool ~letter+parental_schooling+parental_lincome+female| school_id+year,cluster="school_id",data=regdata)
   )
 # Store the mean of dependent variable in a data frame
 added_stats<-tibble("Mean of Dep. ",m1=mean(regdata$summerschool),m2=mean(regdata$summerschool))
@@ -954,54 +966,77 @@ modelsummary(models, stars = TRUE,statistic = 'std.error',
               coef_omit= '(Intercept)', output = 'flextable')
 ```
 
+So receiving the letter increases the likelihood of attending the summer school by 44% which is a about a 100% increase compared to the mean of 0.46.
 
 ### 8.2 Logit & Probit
 
-We can use `glm()` to estimate logit and probit models. We specify the link function as option as shown below for probit. 
+We might not be happy with the linear probability model and decide to go for a logit or probit instead. Let's have a look at that.
+We can use `glm()` to estimate logit and probit models. We specify the link function as an option as shown below for probit. 
 
-```{r ch8-2,eval=T, warning=F,include=T,echo=T,message=FALSE}
-##  Estimate a binary outcomes model using a probit
+
+```{r merge11, exercise=TRUE,  warning=FALSE, message=FALSE,exercise.setup = "regdata"}
+#  Estimate a binary outcomes model using a probit
 probit_results <- glm(summerschool ~letter, data = regdata, family = binomial(link="probit"))
 # Print the results
 summary(probit_results)
-
 ```
 
-and for logit (now with more controls)...
+```{r merge11-hint-1}
+# ... now a the logit: we simply change the link to "logit"
 
-```{r ch8-3,eval=T, warning=F,include=T,echo=T,message=FALSE}
 ##  Estimate a binary outcomes model using a logit
 logit_results <- glm(summerschool ~letter+parental_lincome+female+parental_schooling, data = regdata, family = binomial(link="logit"))
 # Print the results
 summary(logit_results)
 ```
 
-Note that the output about covers the beta coefficients. Let's compute the average marginal effects.
+
+Try to change the code above to get the logit estimates (see hints!). Let's compute the average marginal effects.
 
 ### 8.3 Marginal effects
 
 We can use `margins()` to obtain average marginal effects. We simply use the `margins()` function on the objects storing or probit and logit estimates. We can also include these directly in a nice looking table. 
 
-```{r ch8-4,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
-# ## Load margins package
-# library("margins")
-# ##  Compute marginal effects
-# mfx_logit<- margins(logit_results)
-# mfx_probit<-margins(probit_results)
-# # Include in table
-# modelsummary(list(mfx_logit,mfx_probit), output = 'flextable')
 
+```{r ch8-4,eval=T, warning=F,include=T,echo=T,message=FALSE}
+# Load margins package
+library("margins")
+# Select data
+regdata<-filter(analysisdata,year==6)
+##  Estimate a binary outcomes model using a logit and probit
+logit_results <- glm(summerschool ~letter+parental_lincome+female+parental_schooling, data = regdata, family = binomial(link="logit"))
+probit_results <- glm(summerschool ~letter+parental_lincome+female+parental_schooling, data = regdata, family = binomial(link="probit"))
+# Estimate linear probability model
+lpm<-feols(summerschool ~letter+parental_schooling+parental_lincome+female, cluster="school_id",data=regdata)
+#  Compute marginal effects
+mfx_logit<- margins(logit_results)
+mfx_probit<- margins(probit_results)
+# Include in table
+modelsummary(list("LPM"=lpm,"Logit"=mfx_logit,"Probit"=mfx_probit))
 ```
 
-The results show that receiving a reminder letter increases the likelihood of summer school attendance by 40-44 percentage points. The LPM coefficient is slightly larger than the Logit and Probit average marginal effects. 
+The results are very similar across the columns, and we will proceed with the LPM in a two stage least squares approach to estimate the IV.
 
-<br><br><br><br><br><br>
 
-## 9. Instrumental Variables
 
-We estimated the reduced form relationship between receiving a reminder letter and test scores to be 0.2SD. We have also estimated the first stage to be around 0.4. We would therefore conclude that attending the summer school increases test scores by about 0.2SD/0.4=0.5SD.
 
-Let us estimate the instrumental variable specification explicitly. I will show you two methods. 
+## 9 Instrumental Variables
+
+We estimated the reduced form relationship between receiving a reminder letter and test scores to be 0.2SD. We have also estimated the first stage to be around 0.4. What does this mean for the IV estimator (hint: use the Wald Estimator)? 
+
+
+```{r quiz3}
+quiz(
+  question("Given the reduced form estimate of 0.2SD and a first stage coefficient of 0.4, the IV estimate is expected to be",
+    answer("About 0.5  based on dividing the reduced form estimate of 0.2 by the first stage of 0.4.", correct = TRUE),
+    answer("About 0.08  based on multiplying the reduced form estimate of 0.2 by the first stage of 0.4."),
+    answer("About 0.2, because it is always the same as the reduced form")
+  )
+)
+```
+
+
+Let us estimate the instrumental variable specification explicitly to see whether it maps with our answer above. I will show you two methods. 
 
 ### 9.1 IV using the  ivreg() function. 
 
@@ -1012,71 +1047,104 @@ We first use the `ivreg()` function from the *AER* package. AER does not refer t
 ```{r ch9-1,eval=T, warning=F,include=T,echo=T,message=FALSE}
 # Load the AER package
 library(AER)
+# Select data
+regdata<-filter(analysisdata,year==6)
 # Estimate IV specification with
 summary(ivreg(test_score~summerschool+female+parental_lincome+parental_schooling|
                          female+parental_lincome+parental_schooling+letter,data=regdata))
 ```
-The estimate is very close to the 0.5 we obtained above at 0.46SD. Note that we could be a bit skeptical about the standard errors above. 
+The estimate is very close to the 0.5 we obtained above at 0.46SD.  
 
-### 9.2 IV using the  felm() function. 
+### 9.2 IV using the  feols() function. 
 
-Let us now reuse the `felm()` function. Just like we can use *reghdfe* in Stata for IV, `felm()` also allows us to estimate IV specifications, as explained in section 7.2. 
+Let us now reuse the `feols()` function. Just like we can use *reghdfe* in Stata for IV, `felm()` also allows us to estimate IV specifications. We don't include fixed effect, so we simply set this part to 0. We then add a new part with the first stag 
 
 
 ```{r ch9-2,eval=T, warning=F,include=T,echo=T,message=FALSE}
 
 # Estimate IV specification with felm 
-m1<-felm(test_score~parental_lincome+female+parental_schooling| # Outcome eq.
-           school_id|                                           # Fixed effects
-           (summerschool~letter)|                               # First stage eq.
-           school_id                                            # Cluster var
-            ,data=regdata, cmethod="reghdfe")
+m1<-feols(test_score~parental_lincome+female+parental_schooling| # Outcome eq.
+           0|                                                    # Fixed effects
+           summerschool~letter                                   # First stage
+           ,cluster="school_id"                                  # Cluster var
+            ,data=regdata)
 # Summary of results
 summary(m1)
 ```
-The coefficient is now slightly larger at 0.47SD. The key difference is that we include fixed effects. Note that `felm()` tells us that the F-stat on the excluded instrument is 63. Moreover, we also have clustered standard errors now. 
+
+The coefficients are as above, but note that the standard errors are slightly different now, as we cluster them on the school level. Note also that `feols()` tells us that the F-stat on the excluded instrument is 686.
+
+
 
 
 ### 9.3 A complete IV table
 
 Let us finish the IV section by creating a complete IV table showing the raw correlation between test score and summer school attendance, the reduced form, the first stage, and the IV estimate. 
 
-Note that in the example below we use `coef_map=` to rename coefficients, specify the coefficients to include, and to let two coefficients with different names appear in the same row (*summerschool1* and *summerschool(fit)* ).
+Note that in the example below we use `coef_map=` to rename coefficients, specify the coefficients to include, and to let two coefficients with different names appear in the same row (*summerschool* and *fit_summerschool* ).
 
-```{r ch9-3,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
-library("gt")
+Note that in the code block below I included a few "REPLACEME". The code will not work unless you change them to the right code. 
+
+
+```{r merge12, exercise=TRUE,  warning=FALSE, message=FALSE,exercise.setup = "regdata"}
 # Estimate OLS
-OLS<-felm(test_score~summerschool+parental_lincome+female+parental_schooling|school_id|0|school_id,data=regdata)
+OLS<-feols(test_score~summerschool+parental_lincome+female+parental_schooling,cluster="school_id",data=regdata)
 # Estimate reduced form 
-RF<-felm(test_score~letter+parental_lincome+female+parental_schooling|school_id|0|school_id,data=regdata)
+RF<-feols(REPLACEME~letter+parental_lincome+female+parental_schooling,cluster="school_id",data=regdata)
 # Estimate first stage 
-FS<-felm(summerschool~letter+parental_lincome+female+parental_schooling|school_id|0|school_id,data=regdata)
+FS<-feols(REPLACEME~letter+parental_lincome+female+parental_schooling,cluster="school_id",data=regdata)
 # Estimate IV specification 
-IV<-felm(test_score~parental_lincome+female+parental_schooling| # Outcome eq.
-           school_id|                                           # Fixed effects
-           (summerschool~letter)|                               # First stage eq.
-           school_id                                            # Cluster var
-            ,data=regdata, cmethod="reghdfe")
+IV<-feols(test_score~parental_lincome+female+parental_schooling| # Outcome eq.
+           0|                                                    # Fixed effects
+           REPLACEME~letter                                   # First stage
+           ,cluster="school_id"                                  # Cluster var
+            ,data=regdata)
 # Combine results
-IVresults<-list("OLS"<-OLS,"RF"<-RF,"FS"<-FS,"IV"<-IV)
+IVresults<-list("OLS"=OLS,"RF"=RF,"FS"=FS,"IV"=IV)
 # Coefficients
-cm <- c('`summerschool(fit)`' = 'Summer School',
+cm <- c('fit_summerschool' = 'Summer School',
         'summerschool' = 'Summer School','parental_lincome' = 'Parental Income', 
         'letter' = 'Reminder letter', "female"="Female","parental_schooling"="Parental Schooling")
 # Output Table
 modelsummary(IVresults, stars = TRUE,statistic = 'std.error',  
-             fmt= '%.4f',coef_map=cm, output = 'gt'
-        )
+             fmt= '%.4f',coef_map=cm,       )
 ```
+
+```{r merge12-hint-1}
+# Estimate OLS
+OLS<-feols(test_score~summerschool+parental_lincome+female+parental_schooling,cluster="school_id",data=regdata)
+# Estimate reduced form 
+RF<-feols(test_score~letter+parental_lincome+female+parental_schooling,cluster="school_id",data=regdata)
+# Estimate first stage 
+FS<-feols(summerschool~letter+parental_lincome+female+parental_schooling,cluster="school_id",data=regdata)
+# Estimate IV specification 
+IV<-feols(test_score~parental_lincome+female+parental_schooling| # Outcome eq.
+           0|                                                    # Fixed effects
+           summerschool~letter                                   # First stage
+           ,cluster="school_id"                                  # Cluster var
+            ,data=regdata)
+# Combine results
+IVresults<-list("OLS"=OLS,"RF"=RF,"FS"=FS,"IV"=IV)
+# Coefficients
+cm <- c('fit_summerschool' = 'Summer School',
+        'summerschool' = 'Summer School','parental_lincome' = 'Parental Income', 
+        'letter' = 'Reminder letter', "female"="Female","parental_schooling"="Parental Schooling")
+# Output Table
+modelsummary(IVresults, stars = TRUE,statistic = 'std.error',  
+             fmt= '%.4f',coef_map=cm, output =         )
+```
+
+
 
 The first column shows that ignoring the selection problem and estimating the relationship between test score and summer school conditional controls, leads to a coefficient of 0.78SD. As expected this coefficient is larger than the IV estimate of 0.47SD shown in the fourth column of the table. The descriptive charts in chapter 5 suggested that the children who attended the summer school already had better test scores before the summer school and that their parents have higher incomes and completed more years of education. The coefficient in the first column above is therefore likely capturing not only the causal effect of the summer school but also other unobserved characteristics that are positively linked to test scores and summer school attendance. 
 
-<br><br><br><br><br><br>
+
+
 
 ##  10 Difference-in-Differences
 
 
-Our IV story analysis was quite convincing. It is based on a fictitious RCT and the coefficent was smaller than the "naive OLS" as we expected. But let us not stop there. Let us also exploit that we have test scores of the children both before and after the summer school. We can therefore estimate a difference-in-differences specification:
+Our IV story analysis was quite convincing. It is based on an RCT and the coefficient was smaller than the "naive OLS" as we expected. But let us not stop there. Let us also exploit that we have test scores of the children both before and after the summer school. We can therefore estimate a difference-in-differences specification:
 
 $$test_score=\beta1+\beta_2summerschool_i+\beta_3after_i+\beta_4after_i\times summerschool+\gamma'X_i+u_i$$
 
@@ -1086,63 +1154,78 @@ Where after refers to test scores after attending the summer school.
 
 A crucial assumption behind the difference-in-differences approach is that the treated and control groups would have similar developments over time in the absence of treatment. We therefore want to create line charts of test scores over year to see whether the trends are similar in years without treatment. 
 
-We use this as a change to first collapse the data on the year times summerschool level using `group_by()` and `summarise()`. In the example below we also
-
-- Use `theme_wsj()` from the *ggthemes* package to apply the chart sheme from the Wall Street Journal.
-- Use `geom_line()` to create a line chart.
-- Use `geom_point()` to add points to the line chart.
-- Use `geom_vline()` to add a vertical line. 
-- Use `guides()` to combine the colour and shape legends. Let's now create  line chart showing the test score by year. We use this 
-
-```{r ch10-1,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE, out.width=550,fig.align='center'}
-# Load ggthemes
-library("ggthemes")
-# Collapse data on year level
-collapsed_data<-analysisdata%>% 
-                group_by(year,summerschool)%>%
-                summarise(test_score=mean(test_score))
-# create a line chart
-ggplot(collapsed_data,aes(x=year,y=test_score,color=as.factor(summerschool),group=as.factor(summerschool)))+
-      geom_line(size=1)+ylim(-1,1)+
-      geom_point(aes(shape=as.factor(summerschool)),size=3)+
-      theme_wsj()+
-      theme(legend.position="top",axis.title = element_text(size=13))+
-      labs(color="",x ="Year", y="Test core")+
-      scale_color_manual(guide = "legend", values=c("#0e0e0e","#8a8a8a"),
-                         labels=c("No Summer School","Summer school"))+
-      geom_vline(xintercept=5.5, linetype="dotted",color="red")+
-      guides(shape=FALSE,colour = guide_legend(override.aes = list(shape = c(16, 17),
-         shape = c(16,17))))
+We use this as a change to first collapse the data on the year times summerschool level using `group_by()` and `summarise()`. There are a few "REPLACEME"s that you need to replace in order to make the code run. Hint: check the hints if you are stuck!
 
 
-
+```{r merge14, exercise=TRUE,  warning=FALSE, message=FALSE,exercise.setup = "regdata"}
+# Collapse data on the year X summer school level
+df<-XYZ1(analysisdata,year,summerschool)
+# Calculate the mean test score by year
+df<-XYZ2(df,test_score=mean(test_score))
+# Create a chart
+ggplot(df,XYZ3(x=year,y=test_score,color=as.factor(summerschool)))+
+  geom_line(size=1)+
+  theme_classic()+
+  theme(legend.position = "top")
 
 ```
+
+```{r merge14-hint-1}
+# Collapse data on the year X summer school level
+df<-group_by(analysisdata,year,summerschool)
+# Calculate the mean test score by year
+df<-summarise(df,test_score=mean(test_score))
+# Create a chart
+ggplot(df,aes(x=year,y=test_score,color=as.factor(summerschool)))+
+  geom_line(size=1)+
+  theme_classic()+
+  theme(legend.position = "top")
+
+```
+
+
 
 We observe a small drop in the treatment group just before the summer school and a small increase in the control group. That looks a bit worrying, but otherwise the trends are very similar. 
 
 ### 10.2 Estimating the Difference-in-Differences model
 
 
-We will now use the `felm()` function to estimate the the difference-in-differences specification. We first modify the data to create an after indicator, using `mutate()` and `ifelse()`. Secondly, we estimate 3 different difference-in-differences specifications. The first approach is the traditional approach with after, after X treated, and treated indicators. In the second approach we include year fixed effects instead of the after dummy. In the third approach we add controls. 
+Let's estimate the simple difference-in-differences model using only data on year 5 and year 6 with the `lm()` function. We first modify the data to create an after indicator, using `mutate()` and `ifelse()`. 
 
-```{r ch10-2,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
-library("gt")
+```{r ch10-2,eval=T, warning=F,include=T,echo=T,message=FALSE}
+# Select  year 5 and year 6 observations
+df<-analysisdata%>%filter(year%in%c(5,6))
+# Generate an after indicator and the interaction between after and summer school
+df<-mutate(df,after=ifelse(year==6,1,0),afterXsumerschool=after*summerschool)
+# Estimate the DiD regression and save the results in an element called m1
+m<-lm(test_score~summerschool+after+afterXsumerschool,data=df)
+# Print the results
+summary(m1)
+
+```
+
+Very good. We observe that the difference-in-differences coefficient is 0.61. Suggesting that attending the summer school increases the test scores by 0.61SD. That is somewhat larger than the estimate we got above with the IV approach. Maybe it is because we only use year 5 and 6 and we saw this odd trend going from year 5 to year 6. Let's therefore try to add all years. 
+
+
+We will  use the `feols()` function to estimate the the difference-in-differences specification on all years (we could also use `lm()`).  The first approach is the traditional approach with after, after X treated, and treated indicators. In the second approach we include year fixed effects instead of the after dummy. In the third approach we add controls. 
+
+Note that I again added a few "REPLACEME" that you need to change before the code will run. Don't worry, you can always check the hints.
+
+
+```{r merge13, exercise=TRUE,  warning=FALSE, message=FALSE,exercise.setup = "regdata"}
 # Modify data
-df<-analysisdata%>%
-    mutate(after=ifelse(year>5,1,0),
-           afterXsummerschool=after*summerschool)%>%
-           rename(school=summerschool)
+df<-mutate(analysisdata,after=ifelse(year>5,1,0),afterXsummerschool=after*summerschool)
+df<-rename(df,school=summerschool)
 # Estimate DiD without controls and fixed effects
-m1<-felm(test_score~school+afterXsummerschool+after|0|0|school_id,data=df)
+m1<-feols(test_score~school+REPLACEME+after,cluster="school_id",data=df)
 # Estimate DiD without controls
-m2<-felm(test_score~school+afterXsummerschool|school_id+year|0|school_id,data=df)
-# Estimate DiD 
-m3<-felm(test_score~afterXsummerschool+school+parental_lincome+female+parental_schooling
-         |school_id+year|0|school_id,data=df)
+m2<-feols(test_score~school+afterXsummerschool|school_id+year,cluster="school_id",data=df)
+# Estimate DiD  with controls
+m3<-feols(test_score~afterXsummerschool+school+parental_lincome+female+parental_schooling
+         |school_id+year,cluster="school_id",data=df)
 # Leave year 5 out to avoid dip
-m4<-felm(test_score~afterXsummerschool+school+parental_lincome+female+parental_schooling
-         |school_id+year|0|school_id,data=df%>%filter(year!=5))
+m4<-feols(test_score~afterXsummerschool+school+parental_lincome+REPLACEME+parental_schooling
+         |school_id+year,cluster="school_id",data=filter(df,year!=5))
 
 # Coefficients
 cm <- c('afterXsummerschool'  = 'Summer School X After',
@@ -1154,5 +1237,37 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
              fmt= '%.4f',coef_map=cm, output = 'gt'
         )
 ```
- The treatment effects estimate are all around 0.6SD, which is slightly larger than the IV estimate, but smaller than the "naive OLS. The last column above shows the DiD estimate excluding year 5 where we observe the worrying deviations from the trend. As expected, this specification gives a slightly smaller coefficient of 0.54SD. 
 
+```{r merge13-hint-1}
+# Modify data
+df<-mutate(analysisdata,after=ifelse(year>5,1,0),afterXsummerschool=after*summerschool)
+df<-rename(df,school=summerschool)
+# Estimate DiD without controls and fixed effects
+m1<-feols(test_score~school+afterXsummerschool+after,cluster="school_id",data=df)
+# Estimate DiD without controls
+m2<-feols(test_score~school+afterXsummerschool|school_id+year,cluster="school_id",data=df)
+# Estimate DiD  with controls
+m3<-feols(test_score~afterXsummerschool+school+parental_lincome+female+parental_schooling
+         |school_id+year,cluster="school_id",data=df)
+# Leave year 5 out to avoid dip
+m4<-feols(test_score~afterXsummerschool+school+parental_lincome+female+parental_schooling
+         |school_id+year,cluster="school_id",data=filter(df,year!=5))
+
+# Coefficients
+cm <- c('afterXsummerschool'  = 'Summer School X After',
+        'school'        = 'Summer School',
+        'after'='After')
+# Output Table
+modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',  
+             statistic_override = vcov,
+             fmt= '%.4f',coef_map=cm, output = 'gt'
+        )
+```
+
+
+The treatment effects estimate are all around 0.6SD, which is slightly larger than the IV estimate, but smaller than the "naive OLS. The last column above shows the DiD estimate excluding year 5 where we observe the worrying deviations from the trend. As expected, this specification gives a slightly smaller coefficient of 0.54SD, it is however, still slightly larger than our IV estimate. 
+
+
+<br><br>
+**That is it!** You made it to the end of my tutorial. Well done!
+<br>
