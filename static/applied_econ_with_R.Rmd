@@ -294,7 +294,7 @@ Hurray! We now have a dataset where the number columns correspond to the number 
 We now have a dataset that satisfies the tidy data principles. The next task before  is the sample selection.  The only sample selection we are concerned with in this exercise is missing values. We will use the `skim()` function  to assess how many missing values there are in our dataset.  `skim()` is one of my favourite functions in R to get an overview of the datasets, it comes  from the *skimr* package. 
 
 
-```{r ch3-3,eval=T, warning=F,include=T,echo=F,message=FALSE}
+```{r ch3-3,eval=T, warning=F,include=T,echo=T,message=FALSE}
 # Load skimr
 library("skimr")
 # Use skim() to skim the data
@@ -307,7 +307,7 @@ skim(school_data_tidy)
 We observe that the column *parental_schooling* has 45 missing values and the variable *test_score*  has 11 missing values. Let's assume that these values are missing at random and remove these rows. Here we use `filter()` for that. The `filter()` function takes two arguments. First, the name of the original dataset, and secondly the condition a row must satisfy to be kept in the filtering process. The condition we want to satisfy is that `!is.na(parental_schooling)`. The `is.na()` is a function is true if the element in `( )` is missing. We use the `!` to achieve the opposite of that. In other words that parental schooling is not missing. 
 
 
-```{r ch3-4,eval=T, warning=F,include=T,echo=F,message=FALSE}
+```{r ch3-4,eval=T, warning=F,include=T,echo=T,message=FALSE}
 # Select only rows with no missing values
 school_data_selected<-filter(school_data_tidy,!is.na(parental_schooling),!is.na(test_score))
 # Use skim() to skim the data again
@@ -321,7 +321,7 @@ Very good! We've now created a new dataset containing only complete cases. Let's
 
 Our next step is to make some modifications to the data. First, we will rename the *summercamp* variable to *summerschool*. We do that with the `rename()` function. The `rename()` function has a similar syntax to filter. We first state the name of the original dataset and then the rename expression.
 
-```{r ch3-5, warning=F,include=T,echo=F,message=FALSE}
+```{r ch3-5, warning=F,include=T,echo=T,message=FALSE}
 # rename summercamp to summerschool
 analysisdata<-rename(school_data_selected, summerschool=summercamp)
 # use head to view the first 6 observations 
@@ -331,7 +331,7 @@ head(analysisdata)
 Brilliant. In the next step we want to transform our *test_score* variable to have mean of zero and a standard deviation of one. Importantly we want to do this standardization within year. In Stata this would be a task for *bys year:*. In Stata we first specify what variable to group the data on, and the apply the functions *sd* and *mean* on that level.
 
 
-```{r ch3-6, warning=F,include=T,echo=F,message=FALSE}
+```{r ch3-6, warning=F,include=T,echo=T,message=FALSE}
 # Standardize test score
 # Group analysisdata by year
 analysisdata<-group_by(analysisdata,year)
@@ -365,7 +365,7 @@ Our goal is to create a table that shows means, standard deviations, and other s
 
 We will first use a cousin of `skim()` to create a table with summary statistics that can be exported to various formats, included Latex. The cousin comes from the *modelsummary* package and is called `datasummary_skim()`. Let's first create the default table:
 
-```{r ch4-1, warning=F,include=T,echo=F,message=FALSE}
+```{r ch4-1, warning=F,include=T,echo=T,message=FALSE}
 # load modelsummary
 library("modelsummary")
 # create a summary stat table
@@ -388,7 +388,7 @@ analysisdata%>%
                  histogram=FALSE, output="tab_summary_statistics.docx")
 ```
 
-```{r ch4-2b,eval=T, warning=F,include=T,echo=F,message=FALSE}
+```{r ch4-2b,eval=T, warning=F,include=T,echo=T,message=FALSE}
 # load modelsummary
 library("modelsummary")
 # create a summary stat table in Latex format
@@ -407,7 +407,7 @@ Brilliant!
 
 To customize our table of summary statistics a bit more we can use the function `datasummary()` (from the modelsummary package, but we have already loaded that1). This function allows us to enter a *formula* for the structure of our table. 
 
-```{r merge3, warning=F,include=T,echo=F,message=FALSE}
+```{r merge3, warning=F,include=T,echo=T,message=FALSE}
 # create a summary stat table
 datasummary(female+parental_schooling+
               letter+test_score~Factor(summerschool)*(Mean+SD),
@@ -493,7 +493,7 @@ In the following example we
 4. Use `geom_point()` to add the scatters.
 
 
-```{r merge4, warning=F,include=T,echo=F,message=FALSE}
+```{r merge4, warning=F,include=T,echo=T,message=FALSE}
 # load ggplot2
 library("ggplot2")
 # create a scatter plot with a fitted line
@@ -584,7 +584,7 @@ knitr::include_graphics("images/selectionbias.png")
 Let's compare the test score distribution in year 6 (after the summer school) for those who attended the summer school with those who did not. We create a histogram and add a line showing the estimated density distributions.
 
 
-```{r merge5, warning=F,include=T,echo=F,message=FALSE}
+```{r merge5, warning=F,include=T,echo=T,message=FALSE}
 # create a histogram and density chart
 ggplot(filter(analysisdata,year==6),
        aes(x=test_score,fill=as.factor(summerschool)))+
@@ -645,7 +645,7 @@ We can conduct a t-test in R using `t.test()`. Specifically, we specify the form
 
 
 
-```{r merge6, warning=F,include=T,echo=F,message=FALSE}
+```{r merge6, warning=F,include=T,echo=T,message=FALSE}
 # Filter year 5
 df<-analysisdata%>%filter(year==5)
 # Conduct a t test
