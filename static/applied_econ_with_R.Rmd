@@ -821,8 +821,8 @@ We already know how to do that. We can use `lm()` or `felm()`, but let us use th
 ```{r ch8-1,eval=T, warning=F,include=T,echo=T,message=FALSE}
 # Estimate LPM (the first stage)
 models<-list(
-  m1<-feols(summerschool ~letter+parental_schooling+parental_lincome+female, cluster="school_id",data=regdata),
-  m2<-feols(summerschool ~letter+parental_schooling+parental_lincome+female| school_id+year,cluster="school_id",data=regdata)
+  m1<-feols(summerschool ~letter, cluster="school_id",data=regdata),
+  m2<-feols(summerschool ~letter+parental_schooling+parental_lincome+female,cluster="school_id",data=regdata)
   )
 # Store the mean of dependent variable in a data frame
 added_stats<-tibble("Mean of Dep. ",m1=mean(regdata$summerschool),m2=mean(regdata$summerschool))
