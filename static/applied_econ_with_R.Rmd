@@ -716,7 +716,7 @@ followed by the
 
 Below is an example based on a univariate regression between testscore and the indicator for receiving the letter. 
 
-```{r merge7,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
+```{r merge7,eval=T, warning=F,include=T,echo=T,message=FALSE}
 # Our first ordinary least squares regression
 lm(test_score~letter,data=filter(analysisdata,year==6))
 ```
@@ -726,7 +726,7 @@ lm(test_score~letter,data=filter(analysisdata,year==6))
 The output from `lm()` is a bit disappointing.  But fear not. We can use the universal `summary()` function to get a bit more information out of `lm()`:
 
 
-```{r merge8,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
+```{r merge8,eval=T, warning=F,include=T,echo=T,message=FALSE}
 # Summary of ordinary least squares regression
 summary(lm(test_score~letter,data=filter(analysisdata,year==6)))
 ```
