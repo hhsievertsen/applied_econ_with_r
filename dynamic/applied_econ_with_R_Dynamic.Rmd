@@ -963,7 +963,7 @@ added_stats<-tibble("Mean of Dep. ",m1=mean(regdata$summerschool),m2=mean(regdat
 # Generate table
 modelsummary(models, stars = TRUE,statistic = 'std.error',  
              fmt= '%.4f',add_rows = added_stats,
-              coef_omit= '(Intercept)', output = 'flextable')
+              coef_omit= '(Intercept)')
 ```
 
 So receiving the letter increases the likelihood of attending the summer school by 44% which is a about a 100% increase compared to the mean of 0.46.
@@ -1107,7 +1107,7 @@ cm <- c('fit_summerschool' = 'Summer School',
         'letter' = 'Reminder letter', "female"="Female","parental_schooling"="Parental Schooling")
 # Output Table
 modelsummary(IVresults, stars = TRUE,statistic = 'std.error',  
-             fmt= '%.4f',coef_map=cm,       )
+             fmt= '%.4f',coef_map=cm)
 ```
 
 ```{r merge12-hint-1}
@@ -1131,7 +1131,7 @@ cm <- c('fit_summerschool' = 'Summer School',
         'letter' = 'Reminder letter', "female"="Female","parental_schooling"="Parental Schooling")
 # Output Table
 modelsummary(IVresults, stars = TRUE,statistic = 'std.error',  
-             fmt= '%.4f',coef_map=cm, output =         )
+             fmt= '%.4f',coef_map=cm)
 ```
 
 
@@ -1234,8 +1234,7 @@ cm <- c('afterXsummerschool'  = 'Summer School X After',
 # Output Table
 modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',  
              statistic_override = vcov,
-             fmt= '%.4f',coef_map=cm, output = 'gt'
-        )
+             fmt= '%.4f',coef_map=cm)
 ```
 
 ```{r merge13-hint-1}
@@ -1260,8 +1259,7 @@ cm <- c('afterXsummerschool'  = 'Summer School X After',
 # Output Table
 modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',  
              statistic_override = vcov,
-             fmt= '%.4f',coef_map=cm, output = 'gt'
-        )
+             fmt= '%.4f',coef_map=cm )
 ```
 
 

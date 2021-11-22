@@ -5,9 +5,9 @@ account: hhsievertsen
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 5130762
-bundleId: 5255543
+bundleId: 5255577
 url: https://hhsievertsen.shinyapps.io/applied_econ_with_R_dynamic/
-when: 1637012593.06481
-lastSyncTime: 1637012593.06481
+when: 1637013296.30073
+lastSyncTime: 1637013296.30073
 asMultiple: FALSE
 asStatic: FALSE
