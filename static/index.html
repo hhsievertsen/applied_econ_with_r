@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2021-11-22" />
+<meta name="date" content="2021-11-30" />
 
 <title>Applied Economics with R</title>
 
@@ -327,7 +327,7 @@ div.tocify {
 <address class="author_afil">
 University of Bristol<br><a class="author_email" href="mailto:#"><a href="mailto:h.h.sievertsen@bristol.ac.uk" class="email">h.h.sievertsen@bristol.ac.uk</a></a>
 </address>
-<h4 class="date">22 November 2021</h4>
+<h4 class="date">30 November 2021</h4>
 
 </div>
 
@@ -2345,13 +2345,28 @@ Test Score
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>model1<span class="ot">&lt;-</span><span class="fu">lm</span>(test_score<span class="sc">~</span>parental_schooling<span class="sc">+</span>parental_lincome<span class="sc">+</span>letter<span class="sc">+</span>female,<span class="at">data=</span><span class="fu">filter</span>(analysisdata,year<span class="sc">==</span><span class="dv">6</span>))</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of model1</span></span>
 <span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1)</span></code></pre></div>
-<p>Call: lm(formula = test_score ~ parental_schooling + parental_lincome + letter + female, data = filter(analysisdata, year == 6))</p>
-<p>Residuals: Min 1Q Median 3Q Max -2.44279 -0.50854 0.00346 0.48833 2.82276</p>
-<p>Coefficients: Estimate Std. Error t value Pr(&gt;|t|)<br />
-(Intercept) -14.55959 0.29291 -49.706 &lt; 2e-16 <strong><em> parental_schooling -0.02789 0.01876 -1.487 0.137<br />
-parental_lincome 1.01848 0.02988 34.086 &lt; 2e-16 </em></strong> letter 0.20557 0.02854 7.204 7.14e-13 *** female -0.01425 0.02464 -0.578 0.563<br />
-— Signif. codes: 0 ‘<em><strong>’ 0.001 ’</strong>’ 0.01 ’</em>’ 0.05 ‘.’ 0.1 ’ ’ 1</p>
-<p>Residual standard error: 0.7261 on 3476 degrees of freedom Multiple R-squared: 0.4734, Adjusted R-squared: 0.4728 F-statistic: 781.2 on 4 and 3476 DF, p-value: &lt; 2.2e-16</p>
+<pre><code>## 
+## Call:
+## lm(formula = test_score ~ parental_schooling + parental_lincome + 
+##     letter + female, data = filter(analysisdata, year == 6))
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.44279 -0.50854  0.00346  0.48833  2.82276 
+## 
+## Coefficients:
+##                     Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        -14.55959    0.29291 -49.706  &lt; 2e-16 ***
+## parental_schooling  -0.02789    0.01876  -1.487    0.137    
+## parental_lincome     1.01848    0.02988  34.086  &lt; 2e-16 ***
+## letter               0.20557    0.02854   7.204 7.14e-13 ***
+## female              -0.01425    0.02464  -0.578    0.563    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.7261 on 3476 degrees of freedom
+## Multiple R-squared:  0.4734, Adjusted R-squared:  0.4728 
+## F-statistic: 781.2 on 4 and 3476 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div id="ols-with-the-feols-function" class="section level3">
 <h3>7.2 OLS with the feols() function</h3>
@@ -2360,14 +2375,14 @@ parental_lincome 1.01848 0.02988 34.086 &lt; 2e-16 </em></strong> letter 0.20557
 <li><code>y~x1+x2+..|fixed effects|IV specification,cluster=..</code></li>
 </ul>
 <p>In the following example we run a linear regression without fixed effects, but standard errors clustered on the school level.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Select data</span></span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>regdata<span class="ot">&lt;-</span><span class="fu">filter</span>(analysisdata,year<span class="sc">==</span><span class="dv">6</span>)</span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Regression</span></span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>m1<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>letter<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling, <span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata)</span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of regression</span></span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fixest)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Select data</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>regdata<span class="ot">&lt;-</span><span class="fu">filter</span>(analysisdata,year<span class="sc">==</span><span class="dv">6</span>)</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Regression</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>m1<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>letter<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling, <span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata)</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of regression</span></span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div>
 <pre><code>## OLS estimation, Dep. Var.: test_score
 ## Observations: 3,481 
 ## Standard-errors: Clustered (school_id) 
@@ -2388,19 +2403,19 @@ parental_lincome 1.01848 0.02988 34.086 &lt; 2e-16 </em></strong> letter 0.20557
 <li><p>Specify that parentheses should include standard errors with <code>statistic=&#39;std.error&#39;</code>.</p></li>
 <li><p>Specify the formatting of the numbers with <code>fmt=..</code>.</p></li>
 </ol>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load flextable and modelsummary</span></span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Select data</span></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>regdata<span class="ot">&lt;-</span><span class="fu">filter</span>(analysisdata,year<span class="sc">==</span><span class="dv">6</span>)</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Regressions</span></span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>models<span class="ot">&lt;-</span><span class="fu">list</span>(</span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  m1<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>letter<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling, <span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata),</span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  m2<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>letter<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling<span class="sc">|</span>school_id<span class="sc">+</span>year, <span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata)</span>
-<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate table</span></span>
-<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(models, <span class="at">stars =</span> <span class="cn">TRUE</span>,<span class="at">statistic =</span> <span class="st">&#39;std.error&#39;</span>,</span>
-<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">fmt=</span> <span class="st">&#39;%.4f&#39;</span>,</span>
-<span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">coef_omit=</span> <span class="st">&#39;(Intercept)&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load flextable and modelsummary</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Select data</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>regdata<span class="ot">&lt;-</span><span class="fu">filter</span>(analysisdata,year<span class="sc">==</span><span class="dv">6</span>)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Regressions</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>models<span class="ot">&lt;-</span><span class="fu">list</span>(</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>  m1<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>letter<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling, <span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata),</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>  m2<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>letter<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling<span class="sc">|</span>school_id<span class="sc">+</span>year, <span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata)</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate table</span></span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(models, <span class="at">stars =</span> <span class="cn">TRUE</span>,<span class="at">statistic =</span> <span class="st">&#39;std.error&#39;</span>,</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">fmt=</span> <span class="st">&#39;%.4f&#39;</span>,</span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>              <span class="at">coef_omit=</span> <span class="st">&#39;(Intercept)&#39;</span>)</span></code></pre></div>
 <table style="NAborder-bottom: 0; width: auto !important; margin-left: auto; margin-right: auto;" class="table">
 <thead>
 <tr>
@@ -2636,18 +2651,18 @@ X
 <p>Let us first consider the linear probability model and estimate</p>
 <p><span class="math display">\[summerschool_i=\beta1+\beta_2letter_i+\gamma&#39;X_i+u_i\]</span></p>
 <p>We already know how to do that. We can use <code>lm()</code> or <code>felm()</code>, but let us use this as a change to add a row with the mean of the dependent variable. We do that by calculating the statistics we want to add and add them to the table with <code>add_rows=...</code> as shown below.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate LPM (the first stage)</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>models<span class="ot">&lt;-</span><span class="fu">list</span>(</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  m1<span class="ot">&lt;-</span><span class="fu">feols</span>(summerschool <span class="sc">~</span>letter, <span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata),</span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  m2<span class="ot">&lt;-</span><span class="fu">feols</span>(summerschool <span class="sc">~</span>letter<span class="sc">+</span>parental_schooling<span class="sc">+</span>parental_lincome<span class="sc">+</span>female,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata)</span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Store the mean of dependent variable in a data frame</span></span>
-<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>added_stats<span class="ot">&lt;-</span><span class="fu">tibble</span>(<span class="st">&quot;Mean of Dep. &quot;</span>,<span class="at">m1=</span><span class="fu">mean</span>(regdata<span class="sc">$</span>summerschool),<span class="at">m2=</span><span class="fu">mean</span>(regdata<span class="sc">$</span>summerschool))</span>
-<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate table</span></span>
-<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(models, <span class="at">stars =</span> <span class="cn">TRUE</span>,<span class="at">statistic =</span> <span class="st">&#39;std.error&#39;</span>,  </span>
-<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">fmt=</span> <span class="st">&#39;%.4f&#39;</span>,<span class="at">add_rows =</span> added_stats,</span>
-<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">coef_omit=</span> <span class="st">&#39;(Intercept)&#39;</span>, <span class="at">output =</span> <span class="st">&#39;flextable&#39;</span>)</span></code></pre></div>
-<template id="4764e2ed-2702-4e43-8a37-8144148ec1e1"><style>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate LPM (the first stage)</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>models<span class="ot">&lt;-</span><span class="fu">list</span>(</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  m1<span class="ot">&lt;-</span><span class="fu">feols</span>(summerschool <span class="sc">~</span>letter, <span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata),</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  m2<span class="ot">&lt;-</span><span class="fu">feols</span>(summerschool <span class="sc">~</span>letter<span class="sc">+</span>parental_schooling<span class="sc">+</span>parental_lincome<span class="sc">+</span>female,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata)</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Store the mean of dependent variable in a data frame</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>added_stats<span class="ot">&lt;-</span><span class="fu">tibble</span>(<span class="st">&quot;Mean of Dep. &quot;</span>,<span class="at">m1=</span><span class="fu">mean</span>(regdata<span class="sc">$</span>summerschool),<span class="at">m2=</span><span class="fu">mean</span>(regdata<span class="sc">$</span>summerschool))</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate table</span></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(models, <span class="at">stars =</span> <span class="cn">TRUE</span>,<span class="at">statistic =</span> <span class="st">&#39;std.error&#39;</span>,  </span>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">fmt=</span> <span class="st">&#39;%.4f&#39;</span>,<span class="at">add_rows =</span> added_stats,</span>
+<span id="cb50-11"><a href="#cb50-11" aria-hidden="true" tabindex="-1"></a>              <span class="at">coef_omit=</span> <span class="st">&#39;(Intercept)&#39;</span>, <span class="at">output =</span> <span class="st">&#39;flextable&#39;</span>)</span></code></pre></div>
+<template id="fd2983c9-3d5d-4743-98ec-5a94165e07b4"><style>
 .tabwid table{
   border-spacing:0px !important;
   border-collapse:collapse;
@@ -2681,12 +2696,12 @@ X
 .tabwid table tr {
 background-color: transparent;
 }
-</style><div class="tabwid"><style>.cl-2821eb78{}.cl-2819daaa{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-281a01b0{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-281a28a2{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-281a28a3{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-281a28a4{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-281a28a5{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-281a28a6{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table class="cl-2821eb78">
-<thead><tr style="overflow-wrap:break-word;"><td class="cl-281a28a6"><p class="cl-281a01b0"><span class="cl-2819daaa"> </span></p></td><td class="cl-281a28a6"><p class="cl-281a01b0"><span class="cl-2819daaa">Model 1</span></p></td><td class="cl-281a28a6"><p class="cl-281a01b0"><span class="cl-2819daaa">Model 2</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">letter</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">0.4428***</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">0.4434***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa"></span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">(0.0135)</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">(0.0137)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">parental_schooling</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa"></span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">0.0363**</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa"></span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa"></span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">(0.0118)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">parental_lincome</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa"></span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">0.1869***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa"></span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa"></span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">(0.0227)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">female</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa"></span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">0.0096</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa"></span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa"></span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">(0.0110)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a4"><p class="cl-281a01b0"><span class="cl-2819daaa">Num.Obs.</span></p></td><td class="cl-281a28a4"><p class="cl-281a01b0"><span class="cl-2819daaa">3481</span></p></td><td class="cl-281a28a4"><p class="cl-281a01b0"><span class="cl-2819daaa">3481</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">R2</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">0.147</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">0.255</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">R2 Adj.</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">0.146</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">0.254</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">R2 Within</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa"></span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">R2 Pseudo</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa"></span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">AIC</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">4487.0</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">4021.9</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">BIC</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">4499.3</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">4052.6</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">Log.Lik.</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">-2241.483</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">-2005.926</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">Std.Errors</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">by: school_id</span></p></td><td class="cl-281a28a2"><p class="cl-281a01b0"><span class="cl-2819daaa">by: school_id</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-281a28a3"><p class="cl-281a01b0"><span class="cl-2819daaa">Mean of Dep. </span></p></td><td class="cl-281a28a3"><p class="cl-281a01b0"><span class="cl-2819daaa">0.4642</span></p></td><td class="cl-281a28a3"><p class="cl-281a01b0"><span class="cl-2819daaa">0.4642</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td colspan="3" class="cl-281a28a5"><p class="cl-281a01b0"><span class="cl-2819daaa">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</span></p></td></tr></tfoot></table></div></template>
-<div class="flextable-shadow-host" id="3a8f4a61-8915-479a-8c1b-78f9d3b2fd86"></div>
+</style><div class="tabwid"><style>.cl-4c582ec4{}.cl-4c4c2908{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4c4c75e8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-4c4ceae6{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c4ceae7{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c4ceae8{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c4ceae9{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c4ceaea{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table class="cl-4c582ec4">
+<thead><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceaea"><p class="cl-4c4c75e8"><span class="cl-4c4c2908"> </span></p></td><td class="cl-4c4ceaea"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">Model 1</span></p></td><td class="cl-4c4ceaea"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">Model 2</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">letter</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">0.4428***</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">0.4434***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908"></span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">(0.0135)</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">(0.0137)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">parental_schooling</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908"></span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">0.0363**</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908"></span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908"></span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">(0.0118)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">parental_lincome</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908"></span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">0.1869***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908"></span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908"></span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">(0.0227)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">female</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908"></span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">0.0096</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908"></span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908"></span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">(0.0110)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae8"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">Num.Obs.</span></p></td><td class="cl-4c4ceae8"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">3481</span></p></td><td class="cl-4c4ceae8"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">3481</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">R2</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">0.147</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">0.255</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">R2 Adj.</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">0.146</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">0.254</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">R2 Within</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908"></span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">R2 Pseudo</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908"></span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">AIC</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">4487.0</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">4021.9</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">BIC</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">4499.3</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">4052.6</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">Log.Lik.</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">-2241.483</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">-2005.926</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">Std.Errors</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">by: school_id</span></p></td><td class="cl-4c4ceae6"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">by: school_id</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-4c4ceae7"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">Mean of Dep. </span></p></td><td class="cl-4c4ceae7"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">0.4642</span></p></td><td class="cl-4c4ceae7"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">0.4642</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td colspan="3" class="cl-4c4ceae9"><p class="cl-4c4c75e8"><span class="cl-4c4c2908">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</span></p></td></tr></tfoot></table></div></template>
+<div class="flextable-shadow-host" id="d24b90fd-fc45-494a-9764-4e9ed64ece4c"></div>
 <script>
-var dest = document.getElementById("3a8f4a61-8915-479a-8c1b-78f9d3b2fd86");
-var template = document.getElementById("4764e2ed-2702-4e43-8a37-8144148ec1e1");
+var dest = document.getElementById("d24b90fd-fc45-494a-9764-4e9ed64ece4c");
+var template = document.getElementById("fd2983c9-3d5d-4743-98ec-5a94165e07b4");
 var caption = template.content.querySelector("caption");
 if(caption) {
   caption.style.cssText = "display:block;text-align:center;";
@@ -2704,10 +2719,10 @@ fantome.appendChild(templateContent);
 <div id="logit-probit-1" class="section level3">
 <h3>8.2 Logit &amp; Probit</h3>
 <p>We might not be happy with the linear probability model and decide to go for a logit or probit instead. Let’s have a look at that. We can use <code>glm()</code> to estimate logit and probit models. We specify the link function as an option as shown below for probit (just change it to <code>=logit</code>, for logit).</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  Estimate a binary outcomes model using a probit</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>probit_results <span class="ot">&lt;-</span> <span class="fu">glm</span>(summerschool <span class="sc">~</span>letter, <span class="at">data =</span> regdata, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link=</span><span class="st">&quot;probit&quot;</span>))</span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(probit_results)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  Estimate a binary outcomes model using a probit</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>probit_results <span class="ot">&lt;-</span> <span class="fu">glm</span>(summerschool <span class="sc">~</span>letter, <span class="at">data =</span> regdata, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link=</span><span class="st">&quot;probit&quot;</span>))</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(probit_results)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## glm(formula = summerschool ~ letter, family = binomial(link = &quot;probit&quot;), 
@@ -2736,20 +2751,20 @@ fantome.appendChild(templateContent);
 <div id="marginal-effects" class="section level3">
 <h3>8.3 Marginal effects</h3>
 <p>We can use <code>margins()</code> to obtain average marginal effects. We simply use the <code>margins()</code> function on the objects storing or probit and logit estimates. We can also include these directly in a nice looking table.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load margins package</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;margins&quot;</span>)</span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Select data</span></span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>regdata<span class="ot">&lt;-</span><span class="fu">filter</span>(analysisdata,year<span class="sc">==</span><span class="dv">6</span>)</span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  Estimate a binary outcomes model using a logit and probit</span></span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>logit_results <span class="ot">&lt;-</span> <span class="fu">glm</span>(summerschool <span class="sc">~</span>letter<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling, <span class="at">data =</span> regdata, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link=</span><span class="st">&quot;logit&quot;</span>))</span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>probit_results <span class="ot">&lt;-</span> <span class="fu">glm</span>(summerschool <span class="sc">~</span>letter<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling, <span class="at">data =</span> regdata, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link=</span><span class="st">&quot;probit&quot;</span>))</span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate linear probability model</span></span>
-<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>lpm<span class="ot">&lt;-</span><span class="fu">feols</span>(summerschool <span class="sc">~</span>letter<span class="sc">+</span>parental_schooling<span class="sc">+</span>parental_lincome<span class="sc">+</span>female, <span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata)</span>
-<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a><span class="co">#  Compute marginal effects</span></span>
-<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>mfx_logit<span class="ot">&lt;-</span> <span class="fu">margins</span>(logit_results)</span>
-<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>mfx_probit<span class="ot">&lt;-</span> <span class="fu">margins</span>(probit_results)</span>
-<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Include in table</span></span>
-<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(<span class="st">&quot;LPM&quot;</span><span class="ot">=</span>lpm,<span class="st">&quot;Logit&quot;</span><span class="ot">=</span>mfx_logit,<span class="st">&quot;Probit&quot;</span><span class="ot">=</span>mfx_probit))</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load margins package</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;margins&quot;</span>)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Select data</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>regdata<span class="ot">&lt;-</span><span class="fu">filter</span>(analysisdata,year<span class="sc">==</span><span class="dv">6</span>)</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  Estimate a binary outcomes model using a logit and probit</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>logit_results <span class="ot">&lt;-</span> <span class="fu">glm</span>(summerschool <span class="sc">~</span>letter<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling, <span class="at">data =</span> regdata, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link=</span><span class="st">&quot;logit&quot;</span>))</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>probit_results <span class="ot">&lt;-</span> <span class="fu">glm</span>(summerschool <span class="sc">~</span>letter<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling, <span class="at">data =</span> regdata, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link=</span><span class="st">&quot;probit&quot;</span>))</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate linear probability model</span></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>lpm<span class="ot">&lt;-</span><span class="fu">feols</span>(summerschool <span class="sc">~</span>letter<span class="sc">+</span>parental_schooling<span class="sc">+</span>parental_lincome<span class="sc">+</span>female, <span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata)</span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="co">#  Compute marginal effects</span></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>mfx_logit<span class="ot">&lt;-</span> <span class="fu">margins</span>(logit_results)</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>mfx_probit<span class="ot">&lt;-</span> <span class="fu">margins</span>(probit_results)</span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Include in table</span></span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(<span class="st">&quot;LPM&quot;</span><span class="ot">=</span>lpm,<span class="st">&quot;Logit&quot;</span><span class="ot">=</span>mfx_logit,<span class="st">&quot;Probit&quot;</span><span class="ot">=</span>mfx_probit))</span></code></pre></div>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -3026,13 +3041,13 @@ by: school_id
 <ul>
 <li><code>ivreg(outcome equation| exogenous variables, data)</code></li>
 </ul>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the AER package</span></span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AER)</span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Select data</span></span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>regdata<span class="ot">&lt;-</span><span class="fu">filter</span>(analysisdata,year<span class="sc">==</span><span class="dv">6</span>)</span>
-<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate IV specification with</span></span>
-<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">ivreg</span>(test_score<span class="sc">~</span>summerschool<span class="sc">+</span>female<span class="sc">+</span>parental_lincome<span class="sc">+</span>parental_schooling<span class="sc">|</span></span>
-<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>                         female<span class="sc">+</span>parental_lincome<span class="sc">+</span>parental_schooling<span class="sc">+</span>letter,<span class="at">data=</span>regdata))</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the AER package</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(AER)</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Select data</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>regdata<span class="ot">&lt;-</span><span class="fu">filter</span>(analysisdata,year<span class="sc">==</span><span class="dv">6</span>)</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate IV specification with</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">ivreg</span>(test_score<span class="sc">~</span>summerschool<span class="sc">+</span>female<span class="sc">+</span>parental_lincome<span class="sc">+</span>parental_schooling<span class="sc">|</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>                         female<span class="sc">+</span>parental_lincome<span class="sc">+</span>parental_schooling<span class="sc">+</span>letter,<span class="at">data=</span>regdata))</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## ivreg(formula = test_score ~ summerschool + female + parental_lincome + 
@@ -3061,14 +3076,14 @@ by: school_id
 <div id="iv-using-the-feols-function." class="section level3">
 <h3>9.2 IV using the feols() function.</h3>
 <p>Let us now reuse the <code>feols()</code> function. Just like we can use <em>reghdfe</em> in Stata for IV, <code>felm()</code> also allows us to estimate IV specifications. We don’t include fixed effect, so we simply set this part to 0. We then add a new part with the first stag</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate IV specification with felm </span></span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>m1<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling<span class="sc">|</span> <span class="co"># Outcome eq.</span></span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>           <span class="dv">0</span><span class="sc">|</span>                                                    <span class="co"># Fixed effects</span></span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>           summerschool<span class="sc">~</span>letter                                   <span class="co"># First stage</span></span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>           ,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>                                  <span class="co"># Cluster var</span></span>
-<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>            ,<span class="at">data=</span>regdata)</span>
-<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of results</span></span>
-<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate IV specification with felm </span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>m1<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling<span class="sc">|</span> <span class="co"># Outcome eq.</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>           <span class="dv">0</span><span class="sc">|</span>                                                    <span class="co"># Fixed effects</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>           summerschool<span class="sc">~</span>letter                                   <span class="co"># First stage</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>           ,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>                                  <span class="co"># Cluster var</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>            ,<span class="at">data=</span>regdata)</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary of results</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div>
 <pre><code>## TSLS estimation, Dep. Var.: test_score, Endo.: summerschool, Instr.: letter
 ## Second stage: Dep. Var.: test_score
 ## Observations: 3,481 
@@ -3090,27 +3105,27 @@ by: school_id
 <h3>9.3 A complete IV table</h3>
 <p>Let us finish the IV section by creating a complete IV table showing the raw correlation between test score and summer school attendance, the reduced form, the first stage, and the IV estimate.</p>
 <p>Note that in the example below we use <code>coef_map=</code> to rename coefficients, specify the coefficients to include, and to let two coefficients with different names appear in the same row (<em>summerschool</em> and <em>fit_summerschool</em> ).</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate OLS</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>OLS<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>summerschool<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata)</span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate reduced form </span></span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>RF<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>letter<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata)</span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate first stage </span></span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>FS<span class="ot">&lt;-</span><span class="fu">feols</span>(summerschool<span class="sc">~</span>letter<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata)</span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate IV specification </span></span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>IV<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling<span class="sc">|</span> <span class="co"># Outcome eq.</span></span>
-<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>           <span class="dv">0</span><span class="sc">|</span>                                                    <span class="co"># Fixed effects</span></span>
-<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>           summerschool<span class="sc">~</span>letter                                   <span class="co"># First stage</span></span>
-<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>           ,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>                                  <span class="co"># Cluster var</span></span>
-<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>            ,<span class="at">data=</span>regdata)</span>
-<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine results</span></span>
-<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>IVresults<span class="ot">&lt;-</span><span class="fu">list</span>(<span class="st">&quot;OLS&quot;</span><span class="ot">=</span>OLS,<span class="st">&quot;RF&quot;</span><span class="ot">=</span>RF,<span class="st">&quot;FS&quot;</span><span class="ot">=</span>FS,<span class="st">&quot;IV&quot;</span><span class="ot">=</span>IV)</span>
-<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Coefficients</span></span>
-<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;fit_summerschool&#39;</span> <span class="ot">=</span> <span class="st">&#39;Summer School&#39;</span>,</span>
-<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;summerschool&#39;</span> <span class="ot">=</span> <span class="st">&#39;Summer School&#39;</span>,<span class="st">&#39;parental_lincome&#39;</span> <span class="ot">=</span> <span class="st">&#39;Parental Income&#39;</span>, </span>
-<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;letter&#39;</span> <span class="ot">=</span> <span class="st">&#39;Reminder letter&#39;</span>, <span class="st">&quot;female&quot;</span><span class="ot">=</span><span class="st">&quot;Female&quot;</span>,<span class="st">&quot;parental_schooling&quot;</span><span class="ot">=</span><span class="st">&quot;Parental Schooling&quot;</span>)</span>
-<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Output Table</span></span>
-<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(IVresults, <span class="at">stars =</span> <span class="cn">TRUE</span>,<span class="at">statistic =</span> <span class="st">&#39;std.error&#39;</span>,  </span>
-<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">fmt=</span> <span class="st">&#39;%.4f&#39;</span>,<span class="at">coef_map=</span>cm, <span class="at">output =</span>      )</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate OLS</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>OLS<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>summerschool<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata)</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate reduced form </span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>RF<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>letter<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata)</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate first stage </span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>FS<span class="ot">&lt;-</span><span class="fu">feols</span>(summerschool<span class="sc">~</span>letter<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>regdata)</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate IV specification </span></span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>IV<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling<span class="sc">|</span> <span class="co"># Outcome eq.</span></span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>           <span class="dv">0</span><span class="sc">|</span>                                                    <span class="co"># Fixed effects</span></span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>           summerschool<span class="sc">~</span>letter                                   <span class="co"># First stage</span></span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>           ,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>                                  <span class="co"># Cluster var</span></span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>            ,<span class="at">data=</span>regdata)</span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine results</span></span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>IVresults<span class="ot">&lt;-</span><span class="fu">list</span>(<span class="st">&quot;OLS&quot;</span><span class="ot">=</span>OLS,<span class="st">&quot;RF&quot;</span><span class="ot">=</span>RF,<span class="st">&quot;FS&quot;</span><span class="ot">=</span>FS,<span class="st">&quot;IV&quot;</span><span class="ot">=</span>IV)</span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Coefficients</span></span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;fit_summerschool&#39;</span> <span class="ot">=</span> <span class="st">&#39;Summer School&#39;</span>,</span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;summerschool&#39;</span> <span class="ot">=</span> <span class="st">&#39;Summer School&#39;</span>,<span class="st">&#39;parental_lincome&#39;</span> <span class="ot">=</span> <span class="st">&#39;Parental Income&#39;</span>, </span>
+<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;letter&#39;</span> <span class="ot">=</span> <span class="st">&#39;Reminder letter&#39;</span>, <span class="st">&quot;female&quot;</span><span class="ot">=</span><span class="st">&quot;Female&quot;</span>,<span class="st">&quot;parental_schooling&quot;</span><span class="ot">=</span><span class="st">&quot;Parental Schooling&quot;</span>)</span>
+<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Output Table</span></span>
+<span id="cb58-20"><a href="#cb58-20" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(IVresults, <span class="at">stars =</span> <span class="cn">TRUE</span>,<span class="at">statistic =</span> <span class="st">&#39;std.error&#39;</span>,  </span>
+<span id="cb58-21"><a href="#cb58-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">fmt=</span> <span class="st">&#39;%.4f&#39;</span>,<span class="at">coef_map=</span>cm, <span class="at">output =</span>      )</span></code></pre></div>
 <table style="NAborder-bottom: 0; width: auto !important; margin-left: auto; margin-right: auto;" class="table">
 <thead>
 <tr>
@@ -3454,29 +3469,29 @@ by: school_id
 <h3>10.1 Inspecting the common trends</h3>
 <p>A crucial assumption behind the difference-in-differences approach is that the treated and control groups would have similar developments over time in the absence of treatment. We therefore want to create line charts of test scores over year to see whether the trends are similar in years without treatment.</p>
 <p>We use this as a change to first collapse the data on the year times summerschool level using <code>group_by()</code> and <code>summarise()</code>.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Collapse data on the year X summer school level</span></span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span><span class="fu">group_by</span>(analysisdata,year,summerschool)</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the mean test score by year</span></span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span><span class="fu">summarise</span>(df,<span class="at">test_score=</span><span class="fu">mean</span>(test_score))</span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a chart</span></span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df,<span class="fu">aes</span>(<span class="at">x=</span>year,<span class="at">y=</span>test_score,<span class="at">color=</span><span class="fu">as.factor</span>(summerschool)))<span class="sc">+</span></span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span></span>
-<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Collapse data on the year X summer school level</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span><span class="fu">group_by</span>(analysisdata,year,summerschool)</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the mean test score by year</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span><span class="fu">summarise</span>(df,<span class="at">test_score=</span><span class="fu">mean</span>(test_score))</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a chart</span></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df,<span class="fu">aes</span>(<span class="at">x=</span>year,<span class="at">y=</span>test_score,<span class="at">color=</span><span class="fu">as.factor</span>(summerschool)))<span class="sc">+</span></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 <p>We observe a small drop in the treatment group just before the summer school and a small increase in the control group. That looks a bit worrying, but otherwise the trends are very similar.</p>
 </div>
 <div id="estimating-the-difference-in-differences-model" class="section level3">
 <h3>10.2 Estimating the Difference-in-Differences model</h3>
 <p>Let’s estimate the simple difference-in-differences model using only data on year 5 and year 6 with the <code>lm()</code> function. We first modify the data to create an after indicator, using <code>mutate()</code> and <code>ifelse()</code>.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select  year 5 and year 6 observations</span></span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span>analysisdata<span class="sc">%&gt;%</span><span class="fu">filter</span>(year<span class="sc">%in%</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>))</span>
-<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate an after indicator and the interaction between after and summer school</span></span>
-<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span><span class="fu">mutate</span>(df,<span class="at">after=</span><span class="fu">ifelse</span>(year<span class="sc">==</span><span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">afterXsumerschool=</span>after<span class="sc">*</span>summerschool)</span>
-<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the DiD regression and save the results in an element called m1</span></span>
-<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>m<span class="ot">&lt;-</span><span class="fu">lm</span>(test_score<span class="sc">~</span>summerschool<span class="sc">+</span>after<span class="sc">+</span>afterXsumerschool,<span class="at">data=</span>df)</span>
-<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
-<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select  year 5 and year 6 observations</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span>analysisdata<span class="sc">%&gt;%</span><span class="fu">filter</span>(year<span class="sc">%in%</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>))</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate an after indicator and the interaction between after and summer school</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span><span class="fu">mutate</span>(df,<span class="at">after=</span><span class="fu">ifelse</span>(year<span class="sc">==</span><span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">afterXsumerschool=</span>after<span class="sc">*</span>summerschool)</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the DiD regression and save the results in an element called m1</span></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>m<span class="ot">&lt;-</span><span class="fu">lm</span>(test_score<span class="sc">~</span>summerschool<span class="sc">+</span>after<span class="sc">+</span>afterXsumerschool,<span class="at">data=</span>df)</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the results</span></span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code></pre></div>
 <pre><code>## TSLS estimation, Dep. Var.: test_score, Endo.: summerschool, Instr.: letter
 ## Second stage: Dep. Var.: test_score
 ## Observations: 3,481 
@@ -3494,35 +3509,35 @@ by: school_id
 ##                       Wu-Hausman: stat =  38.0, p = 7.859e-10, on 1 and 3,475 DoF.</code></pre>
 <p>Very good. We observe that the difference-in-differences coefficient is 0.61. Suggesting that attending the summer school increases the test scores by 0.61SD. That is somewhat larger than the estimate we got above with the IV approach. Maybe it is because we only use year 5 and 6 and we saw this odd trend going from year 5 to year 6. Let’s therefore try to add all years.</p>
 <p>We will use the <code>feols()</code> function to estimate the the difference-in-differences specification on all years (we could also use <code>lm()</code>). The first approach is the traditional approach with after, after X treated, and treated indicators. In the second approach we include year fixed effects instead of the after dummy. In the third approach we add controls.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify data</span></span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span><span class="fu">mutate</span>(analysisdata,<span class="at">after=</span><span class="fu">ifelse</span>(year<span class="sc">&gt;</span><span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">afterXsummerschool=</span>after<span class="sc">*</span>summerschool)</span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span><span class="fu">rename</span>(df,<span class="at">school=</span>summerschool)</span>
-<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate DiD without controls and fixed effects</span></span>
-<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>m1<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>school<span class="sc">+</span>afterXsummerschool<span class="sc">+</span>after,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>df)</span>
-<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate DiD without controls</span></span>
-<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>m2<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>school<span class="sc">+</span>afterXsummerschool<span class="sc">|</span>school_id<span class="sc">+</span>year,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>df)</span>
-<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate DiD  with controls</span></span>
-<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>m3<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>afterXsummerschool<span class="sc">+</span>school<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling</span>
-<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>         <span class="sc">|</span>school_id<span class="sc">+</span>year,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>df)</span>
-<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Leave year 5 out to avoid dip</span></span>
-<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>m4<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>afterXsummerschool<span class="sc">+</span>school<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling</span>
-<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>         <span class="sc">|</span>school_id<span class="sc">+</span>year,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span><span class="fu">filter</span>(df,year<span class="sc">!=</span><span class="dv">5</span>))</span>
-<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Coefficients</span></span>
-<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;afterXsummerschool&#39;</span>  <span class="ot">=</span> <span class="st">&#39;Summer School X After&#39;</span>,</span>
-<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;school&#39;</span>        <span class="ot">=</span> <span class="st">&#39;Summer School&#39;</span>,</span>
-<span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;after&#39;</span><span class="ot">=</span><span class="st">&#39;After&#39;</span>)</span>
-<span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Output Table</span></span>
-<span id="cb61-20"><a href="#cb61-20" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(m1,m2,m3,m4), <span class="at">stars =</span> <span class="cn">TRUE</span>,<span class="at">statistic =</span> <span class="st">&#39;std.error&#39;</span>,  </span>
-<span id="cb61-21"><a href="#cb61-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">statistic_override =</span> vcov,</span>
-<span id="cb61-22"><a href="#cb61-22" aria-hidden="true" tabindex="-1"></a>             <span class="at">fmt=</span> <span class="st">&#39;%.4f&#39;</span>,<span class="at">coef_map=</span>cm, <span class="at">output =</span> <span class="st">&#39;gt&#39;</span></span>
-<span id="cb61-23"><a href="#cb61-23" aria-hidden="true" tabindex="-1"></a>        )</span></code></pre></div>
-<div id="iqbzrcefni" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify data</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span><span class="fu">mutate</span>(analysisdata,<span class="at">after=</span><span class="fu">ifelse</span>(year<span class="sc">&gt;</span><span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="at">afterXsummerschool=</span>after<span class="sc">*</span>summerschool)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span><span class="fu">rename</span>(df,<span class="at">school=</span>summerschool)</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate DiD without controls and fixed effects</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>m1<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>school<span class="sc">+</span>afterXsummerschool<span class="sc">+</span>after,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>df)</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate DiD without controls</span></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>m2<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>school<span class="sc">+</span>afterXsummerschool<span class="sc">|</span>school_id<span class="sc">+</span>year,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>df)</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate DiD  with controls</span></span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>m3<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>afterXsummerschool<span class="sc">+</span>school<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling</span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>         <span class="sc">|</span>school_id<span class="sc">+</span>year,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span>df)</span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Leave year 5 out to avoid dip</span></span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>m4<span class="ot">&lt;-</span><span class="fu">feols</span>(test_score<span class="sc">~</span>afterXsummerschool<span class="sc">+</span>school<span class="sc">+</span>parental_lincome<span class="sc">+</span>female<span class="sc">+</span>parental_schooling</span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>         <span class="sc">|</span>school_id<span class="sc">+</span>year,<span class="at">cluster=</span><span class="st">&quot;school_id&quot;</span>,<span class="at">data=</span><span class="fu">filter</span>(df,year<span class="sc">!=</span><span class="dv">5</span>))</span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Coefficients</span></span>
+<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a>cm <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;afterXsummerschool&#39;</span>  <span class="ot">=</span> <span class="st">&#39;Summer School X After&#39;</span>,</span>
+<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;school&#39;</span>        <span class="ot">=</span> <span class="st">&#39;Summer School&#39;</span>,</span>
+<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;after&#39;</span><span class="ot">=</span><span class="st">&#39;After&#39;</span>)</span>
+<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Output Table</span></span>
+<span id="cb62-20"><a href="#cb62-20" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(<span class="fu">list</span>(m1,m2,m3,m4), <span class="at">stars =</span> <span class="cn">TRUE</span>,<span class="at">statistic =</span> <span class="st">&#39;std.error&#39;</span>,  </span>
+<span id="cb62-21"><a href="#cb62-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">statistic_override =</span> vcov,</span>
+<span id="cb62-22"><a href="#cb62-22" aria-hidden="true" tabindex="-1"></a>             <span class="at">fmt=</span> <span class="st">&#39;%.4f&#39;</span>,<span class="at">coef_map=</span>cm, <span class="at">output =</span> <span class="st">&#39;gt&#39;</span></span>
+<span id="cb62-23"><a href="#cb62-23" aria-hidden="true" tabindex="-1"></a>        )</span></code></pre></div>
+<div id="ijrgocfbmc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#iqbzrcefni .gt_table {
+#ijrgocfbmc .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3547,7 +3562,7 @@ by: school_id
   border-left-color: #D3D3D3;
 }
 
-#iqbzrcefni .gt_heading {
+#ijrgocfbmc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3559,7 +3574,7 @@ by: school_id
   border-right-color: #D3D3D3;
 }
 
-#iqbzrcefni .gt_title {
+#ijrgocfbmc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3569,7 +3584,7 @@ by: school_id
   border-bottom-width: 0;
 }
 
-#iqbzrcefni .gt_subtitle {
+#ijrgocfbmc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3579,13 +3594,13 @@ by: school_id
   border-top-width: 0;
 }
 
-#iqbzrcefni .gt_bottom_border {
+#ijrgocfbmc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#iqbzrcefni .gt_col_headings {
+#ijrgocfbmc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3600,7 +3615,7 @@ by: school_id
   border-right-color: #D3D3D3;
 }
 
-#iqbzrcefni .gt_col_heading {
+#ijrgocfbmc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3620,7 +3635,7 @@ by: school_id
   overflow-x: hidden;
 }
 
-#iqbzrcefni .gt_column_spanner_outer {
+#ijrgocfbmc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3632,15 +3647,15 @@ by: school_id
   padding-right: 4px;
 }
 
-#iqbzrcefni .gt_column_spanner_outer:first-child {
+#ijrgocfbmc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#iqbzrcefni .gt_column_spanner_outer:last-child {
+#ijrgocfbmc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#iqbzrcefni .gt_column_spanner {
+#ijrgocfbmc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3652,7 +3667,7 @@ by: school_id
   width: 100%;
 }
 
-#iqbzrcefni .gt_group_heading {
+#ijrgocfbmc .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3674,7 +3689,7 @@ by: school_id
   vertical-align: middle;
 }
 
-#iqbzrcefni .gt_empty_group_heading {
+#ijrgocfbmc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3689,15 +3704,15 @@ by: school_id
   vertical-align: middle;
 }
 
-#iqbzrcefni .gt_from_md > :first-child {
+#ijrgocfbmc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#iqbzrcefni .gt_from_md > :last-child {
+#ijrgocfbmc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#iqbzrcefni .gt_row {
+#ijrgocfbmc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3716,7 +3731,7 @@ by: school_id
   overflow-x: hidden;
 }
 
-#iqbzrcefni .gt_stub {
+#ijrgocfbmc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3728,7 +3743,7 @@ by: school_id
   padding-left: 12px;
 }
 
-#iqbzrcefni .gt_summary_row {
+#ijrgocfbmc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3738,7 +3753,7 @@ by: school_id
   padding-right: 5px;
 }
 
-#iqbzrcefni .gt_first_summary_row {
+#ijrgocfbmc .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3748,7 +3763,7 @@ by: school_id
   border-top-color: #D3D3D3;
 }
 
-#iqbzrcefni .gt_grand_summary_row {
+#ijrgocfbmc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3758,7 +3773,7 @@ by: school_id
   padding-right: 5px;
 }
 
-#iqbzrcefni .gt_first_grand_summary_row {
+#ijrgocfbmc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3768,11 +3783,11 @@ by: school_id
   border-top-color: #D3D3D3;
 }
 
-#iqbzrcefni .gt_striped {
+#ijrgocfbmc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#iqbzrcefni .gt_table_body {
+#ijrgocfbmc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3781,7 +3796,7 @@ by: school_id
   border-bottom-color: #D3D3D3;
 }
 
-#iqbzrcefni .gt_footnotes {
+#ijrgocfbmc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3795,13 +3810,13 @@ by: school_id
   border-right-color: #D3D3D3;
 }
 
-#iqbzrcefni .gt_footnote {
+#ijrgocfbmc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#iqbzrcefni .gt_sourcenotes {
+#ijrgocfbmc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3815,41 +3830,41 @@ by: school_id
   border-right-color: #D3D3D3;
 }
 
-#iqbzrcefni .gt_sourcenote {
+#ijrgocfbmc .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#iqbzrcefni .gt_left {
+#ijrgocfbmc .gt_left {
   text-align: left;
 }
 
-#iqbzrcefni .gt_center {
+#ijrgocfbmc .gt_center {
   text-align: center;
 }
 
-#iqbzrcefni .gt_right {
+#ijrgocfbmc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#iqbzrcefni .gt_font_normal {
+#ijrgocfbmc .gt_font_normal {
   font-weight: normal;
 }
 
-#iqbzrcefni .gt_font_bold {
+#ijrgocfbmc .gt_font_bold {
   font-weight: bold;
 }
 
-#iqbzrcefni .gt_font_italic {
+#ijrgocfbmc .gt_font_italic {
   font-style: italic;
 }
 
-#iqbzrcefni .gt_super {
+#ijrgocfbmc .gt_super {
   font-size: 65%;
 }
 
-#iqbzrcefni .gt_footnote_marks {
+#ijrgocfbmc .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 65%;

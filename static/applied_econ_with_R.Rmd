@@ -736,7 +736,7 @@ A nice feature of R is that we can assign basically everything to a name and the
 
 
 
-```{r merge9,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
+```{r merge9,eval=T, warning=F,include=T,echo=T,message=FALSE}
 #  Ordinary Least Squares regression
 model1<-lm(test_score~parental_schooling+parental_lincome+letter+female,data=filter(analysisdata,year==6))
 # Summary of model1
