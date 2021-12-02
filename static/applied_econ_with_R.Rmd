@@ -279,11 +279,11 @@ school_data_tidy<-school_data_merged%>%
          values_to = "test_score",
        )
 # ncol to get the number of columns of the new dataset
-ncol(school_data_merged)
+ncol(school_data_tidy)
 ```
 
 ```{r ch3-2,eval=T, warning=F,include=T,echo=F,message=FALSE}
-ncol(school_data_merged)
+ncol(school_data_tidy)
 ```
 
 
@@ -1008,11 +1008,11 @@ df<-mutate(df,after=ifelse(year==6,1,0),afterXsumerschool=after*summerschool)
 # Estimate the DiD regression and save the results in an element called m1
 m<-lm(test_score~summerschool+after+afterXsumerschool,data=df)
 # Print the results
-summary(m1)
+summary(m)
 
 ```
 
-Very good. We observe that the difference-in-differences coefficient is 0.61. Suggesting that attending the summer school increases the test scores by 0.61SD. That is somewhat larger than the estimate we got above with the IV approach. Maybe it is because we only use year 5 and 6 and we saw this odd trend going from year 5 to year 6. Let's therefore try to add all years. 
+Very good. We observe that the difference-in-differences coefficient is 0.75. Suggesting that attending the summer school increases the test scores by 0.75SD. That is larger than the estimate we got above with the IV approach. Maybe it is because we only use year 5 and 6 and we saw this odd trend going from year 5 to year 6. Let's therefore try to add all years. 
 
 
 We will  use the `feols()` function to estimate the the difference-in-differences specification on all years (we could also use `lm()`).  The first approach is the traditional approach with after, after X treated, and treated indicators. In the second approach we include year fixed effects instead of the after dummy. In the third approach we add controls. 
