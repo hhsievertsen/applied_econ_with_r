@@ -77,3 +77,15 @@ school_data_3<-df3
 school_data_merged<-tibble(person_id,test_year_2,test_year_3,test_year_4,
                            test_year_7,test_year_8,test_year_9,test_year_10,learnings,school_id,letter,summercamp,female,parental_schooling,parental_lincome,
                            test_year_5,test_year_6)
+
+school_data_tidy<-school_data_merged%>%
+  pivot_longer(
+    cols = starts_with("test_year"),
+    names_to = "year",
+    names_prefix = "test_year_",
+    names_transform = list(year = as.integer),
+    values_to = "test_score",
+  )
+
+school_data_selected<-filter(school_data_tidy,!is.na(parental_schooling),!is.na(test_score))
+write_csv(school_data_selected,"analysisdata.csv")
