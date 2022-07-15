@@ -2,7 +2,7 @@ library(tidyverse)
 library(readstata13)
 library(openxlsx)
 # simulate a dataset
-setwd("C:/Users/hs17922/Dropbox/Work/Teaching/Applied_Economics_with_R/data")
+setwd("C:\\Github\\applied_econ_with_r\\data")
 rm(list=ls())
 set.seed(1909)
 # number of observations
@@ -22,10 +22,10 @@ noise<-rnorm(N)
 rct<-1*(runif(N)<0.25)
 #predetermined vars
 test_year_1<-2+0.5*ability+0.5*rnorm(N)
-test_year_2<-2+0.5*ability+0.4*rnorm(N)+0.1*test_year_1
-test_year_3<-2+0.5*ability+0.4*rnorm(N)+0.1*test_year_2
-test_year_4<-2+0.5*ability+0.4*rnorm(N)+0.1*test_year_3
-test_year_5<-2+0.5*ability+0.4*rnorm(N)+0.1*test_year_4
+test_year_2<-2+0.5*ability+0.4*rnorm(N)+0.1*test_year_1+0.1
+test_year_3<-2+0.5*ability+0.4*rnorm(N)+0.1*test_year_2+0.15
+test_year_4<-2+0.5*ability+0.4*rnorm(N)+0.1*test_year_3-0.05
+test_year_5<-2+0.5*ability+0.4*rnorm(N)+0.1*test_year_4+0.021
 belowcut<-1*(test_year_5<1.5)
 summary(belowcut)
 # treated
@@ -39,11 +39,11 @@ parental_schooling<-10+round(exp(0.5*ability+0.5*rnorm(N)))
 parental_lincome<-log(exp(0.33*parental_schooling+0.33*ability+0.33*rnorm(N))*50000)
 # outcomes
 
-test_year_6<-2+0.5*ability+0.3*rnorm(N)+0.1*test_year_5+0.4*treated
-test_year_7<-2+0.5*ability+0.3*rnorm(N)+0.1*test_year_6+0.4*treated
-test_year_8<-2+0.5*ability+0.3*rnorm(N)+0.1*test_year_7+0.4*treated
-test_year_9<-2+0.5*ability+0.3*rnorm(N)+0.1*test_year_8+0.4*treated
-test_year_10<-2+0.5*ability+0.3*rnorm(N)+0.1*test_year_9+0.4*treated
+test_year_6<-2+0.5*ability+0.3*rnorm(N)+0.1*test_year_5+0.4*treated+0.09
+test_year_7<-2+0.5*ability+0.3*rnorm(N)+0.05*test_year_6+0.05*test_year_5+0.35*treated+0.1251
+test_year_8<-2+0.5*ability+0.3*rnorm(N)+0.1*test_year_7+0.34*treated-0.075
+test_year_9<-2+0.5*ability+0.3*rnorm(N)+0.1*test_year_8+0.33*treated-0.095
+test_year_10<-2+0.5*ability+0.3*rnorm(N)+0.1*test_year_9+0.32*treated+0.04
 learnings<-log(exp(-2+0.5*test_year_10+0.5*ability+rnorm(N))*50000)
 summercamp=treated
 
@@ -74,3 +74,6 @@ write.xlsx(df3, 'school_data_3.xlsx')
 school_data_1<-df1
 school_data_2<-df2
 school_data_3<-df3
+school_data_merged<-tibble(person_id,test_year_2,test_year_3,test_year_4,
+                           test_year_7,test_year_8,test_year_9,test_year_10,learnings,school_id,letter,summercamp,female,parental_schooling,parental_lincome,
+                           test_year_5,test_year_6)
