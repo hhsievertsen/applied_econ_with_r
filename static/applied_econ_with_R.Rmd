@@ -279,11 +279,11 @@ school_data_tidy<-school_data_merged%>%
          values_to = "test_score",
        )
 # ncol to get the number of columns of the new dataset
-ncol(school_data_merged)
+ncol(school_data_tidy)
 ```
 
 ```{r ch3-2,eval=T, warning=F,include=T,echo=F,message=FALSE}
-ncol(school_data_merged)
+ncol(school_data_tidy)
 ```
 
 
@@ -716,7 +716,7 @@ followed by the
 
 Below is an example based on a univariate regression between testscore and the indicator for receiving the letter. 
 
-```{r merge7,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
+```{r merge7,eval=T, warning=F,include=T,echo=T,message=FALSE}
 # Our first ordinary least squares regression
 lm(test_score~letter,data=filter(analysisdata,year==6))
 ```
@@ -726,7 +726,7 @@ lm(test_score~letter,data=filter(analysisdata,year==6))
 The output from `lm()` is a bit disappointing.  But fear not. We can use the universal `summary()` function to get a bit more information out of `lm()`:
 
 
-```{r merge8,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
+```{r merge8,eval=T, warning=F,include=T,echo=T,message=FALSE}
 # Summary of ordinary least squares regression
 summary(lm(test_score~letter,data=filter(analysisdata,year==6)))
 ```
@@ -736,7 +736,7 @@ A nice feature of R is that we can assign basically everything to a name and the
 
 
 
-```{r merge9,eval=T, warning=F,include=T,echo=T,results="asis",message=FALSE}
+```{r merge9,eval=T, warning=F,include=T,echo=T,message=FALSE}
 #  Ordinary Least Squares regression
 model1<-lm(test_score~parental_schooling+parental_lincome+letter+female,data=filter(analysisdata,year==6))
 # Summary of model1
@@ -821,8 +821,8 @@ We already know how to do that. We can use `lm()` or `felm()`, but let us use th
 ```{r ch8-1,eval=T, warning=F,include=T,echo=T,message=FALSE}
 # Estimate LPM (the first stage)
 models<-list(
-  m1<-feols(summerschool ~letter+parental_schooling+parental_lincome+female, cluster="school_id",data=regdata),
-  m2<-feols(summerschool ~letter+parental_schooling+parental_lincome+female| school_id+year,cluster="school_id",data=regdata)
+  m1<-feols(summerschool ~letter, cluster="school_id",data=regdata),
+  m2<-feols(summerschool ~letter+parental_schooling+parental_lincome+female,cluster="school_id",data=regdata)
   )
 # Store the mean of dependent variable in a data frame
 added_stats<-tibble("Mean of Dep. ",m1=mean(regdata$summerschool),m2=mean(regdata$summerschool))
@@ -1008,11 +1008,11 @@ df<-mutate(df,after=ifelse(year==6,1,0),afterXsumerschool=after*summerschool)
 # Estimate the DiD regression and save the results in an element called m1
 m<-lm(test_score~summerschool+after+afterXsumerschool,data=df)
 # Print the results
-summary(m1)
+summary(m)
 
 ```
 
-Very good. We observe that the difference-in-differences coefficient is 0.61. Suggesting that attending the summer school increases the test scores by 0.61SD. That is somewhat larger than the estimate we got above with the IV approach. Maybe it is because we only use year 5 and 6 and we saw this odd trend going from year 5 to year 6. Let's therefore try to add all years. 
+Very good. We observe that the difference-in-differences coefficient is 0.75. Suggesting that attending the summer school increases the test scores by 0.75SD. That is larger than the estimate we got above with the IV approach. Maybe it is because we only use year 5 and 6 and we saw this odd trend going from year 5 to year 6. Let's therefore try to add all years. 
 
 
 We will  use the `feols()` function to estimate the the difference-in-differences specification on all years (we could also use `lm()`).  The first approach is the traditional approach with after, after X treated, and treated indicators. In the second approach we include year fixed effects instead of the after dummy. In the third approach we add controls. 

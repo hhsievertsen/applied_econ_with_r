@@ -308,11 +308,11 @@ school_data_tidy<-school_data_merged%>%
          values_to = "test_score",
        )
 # ncol to get the number of columns of the new dataset
-ncol(school_data_merged)
+ncol(school_data_tidy)
 ```
 
 ```{r ch3-2,eval=T, warning=F,include=T,echo=F,message=FALSE}
-ncol(school_data_merged)
+ncol(school_data_tidy)
 ```
 
 
@@ -955,7 +955,7 @@ We already know how to do that. We can use `lm()` or `felm()`, but let us use th
 ```{r ch8-1,exercise=T,exercise.setup = "regdata"}
 # Estimate LPM (the first stage)
 models<-list(
-  m1<-feols(summerschool ~letter+parental_schooling+parental_lincome+female, cluster="school_id",data=regdata),
+  m1<-feols(summerschool ~letter, cluster="school_id",data=regdata),
   m2<-feols(summerschool ~letter+parental_schooling+parental_lincome+female| school_id+year,cluster="school_id",data=regdata)
   )
 # Store the mean of dependent variable in a data frame
@@ -963,7 +963,7 @@ added_stats<-tibble("Mean of Dep. ",m1=mean(regdata$summerschool),m2=mean(regdat
 # Generate table
 modelsummary(models, stars = TRUE,statistic = 'std.error',  
              fmt= '%.4f',add_rows = added_stats,
-              coef_omit= '(Intercept)', output = 'flextable')
+              coef_omit= '(Intercept)')
 ```
 
 So receiving the letter increases the likelihood of attending the summer school by 44% which is a about a 100% increase compared to the mean of 0.46.
@@ -1107,7 +1107,7 @@ cm <- c('fit_summerschool' = 'Summer School',
         'letter' = 'Reminder letter', "female"="Female","parental_schooling"="Parental Schooling")
 # Output Table
 modelsummary(IVresults, stars = TRUE,statistic = 'std.error',  
-             fmt= '%.4f',coef_map=cm,       )
+             fmt= '%.4f',coef_map=cm)
 ```
 
 ```{r merge12-hint-1}
@@ -1131,7 +1131,7 @@ cm <- c('fit_summerschool' = 'Summer School',
         'letter' = 'Reminder letter', "female"="Female","parental_schooling"="Parental Schooling")
 # Output Table
 modelsummary(IVresults, stars = TRUE,statistic = 'std.error',  
-             fmt= '%.4f',coef_map=cm, output =         )
+             fmt= '%.4f',coef_map=cm)
 ```
 
 
@@ -1200,11 +1200,11 @@ df<-mutate(df,after=ifelse(year==6,1,0),afterXsumerschool=after*summerschool)
 # Estimate the DiD regression and save the results in an element called m1
 m<-lm(test_score~summerschool+after+afterXsumerschool,data=df)
 # Print the results
-summary(m1)
+summary(m)
 
 ```
 
-Very good. We observe that the difference-in-differences coefficient is 0.61. Suggesting that attending the summer school increases the test scores by 0.61SD. That is somewhat larger than the estimate we got above with the IV approach. Maybe it is because we only use year 5 and 6 and we saw this odd trend going from year 5 to year 6. Let's therefore try to add all years. 
+Very good. We observe that the difference-in-differences coefficient is 0.75. Suggesting that attending the summer school increases the test scores by 0.75SD. That is  larger than the estimate we got above with the IV approach. Maybe it is because we only use year 5 and 6 and we saw this odd trend going from year 5 to year 6. Let's therefore try to add all years. 
 
 
 We will  use the `feols()` function to estimate the the difference-in-differences specification on all years (we could also use `lm()`).  The first approach is the traditional approach with after, after X treated, and treated indicators. In the second approach we include year fixed effects instead of the after dummy. In the third approach we add controls. 
@@ -1234,8 +1234,7 @@ cm <- c('afterXsummerschool'  = 'Summer School X After',
 # Output Table
 modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',  
              statistic_override = vcov,
-             fmt= '%.4f',coef_map=cm, output = 'gt'
-        )
+             fmt= '%.4f',coef_map=cm)
 ```
 
 ```{r merge13-hint-1}
@@ -1260,8 +1259,7 @@ cm <- c('afterXsummerschool'  = 'Summer School X After',
 # Output Table
 modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',  
              statistic_override = vcov,
-             fmt= '%.4f',coef_map=cm, output = 'gt'
-        )
+             fmt= '%.4f',coef_map=cm )
 ```
 
 
