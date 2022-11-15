@@ -4,7 +4,7 @@ author:
   name: Hans H. Sievertsen
   affiliation: University of Bristol
   email: h.h.sievertsen@bristol.ac.uk
-date: "02 December 2021"
+date: "15 November 2022"
 output:
   html_document:
     theme: lumen 
@@ -33,14 +33,14 @@ This tutorial is written for Applied Economics students at the University of Bri
 **How this works**
 
 - The tutorial is structured as a complete research project starting with loading the raw data and ending with regression coefficients. 
-- There are two tutorials. This one is the **static** version. To try the **dynamic** version go to: [applied_econ_with_R_dynamic](https://hhsievertsen.shinyapps.io/applied_econ_with_R_dynamic) (the cover the same material).
+- There are two tutorials. This one is the **static** version. To try the **dynamic** version go to: [applied_econ_with_R_dynamic](https://hhsievertsen.shinyapps.io/applied_econ_with_R_dynamic) (they cover the same material).
 - The tutorial aims at covering the same methods we covered in Stata during the term.
 - All data used is directly downloadable. You should therefore be able to download the data and try the methods in R on your own computer. 
 - The tutorial mainly consists of code blocks  and the resulting output.  Every now and then I include some references to how I would do the same task in Stata or key differences to Stata. 
 
 I appreciate feedback, thanks.
 
-Hans  (November 11 , 2021)
+Hans  (November 15 , 2022)
 
 
 
@@ -140,7 +140,7 @@ read_csv("C:/Users/hhs/school_data_1.csv")
 ```
 
 ```
-## # A tibble: 3,491 x 8
+## # A tibble: 3,491 × 8
 ##    person_id school_id summercamp female parental_schooling parental_lincome
 ##        <int>     <int>      <dbl>  <dbl>              <dbl>            <dbl>
 ##  1         1         5          0      1                 10             12.9
@@ -153,7 +153,7 @@ read_csv("C:/Users/hhs/school_data_1.csv")
 ##  8         8        11          0      1                 13             15.0
 ##  9         9        23          1      1                 11             14.3
 ## 10        10         9          1      1                 11             13.8
-## # ... with 3,481 more rows, and 2 more variables: test_year_5 <dbl>,
+## # … with 3,481 more rows, and 2 more variables: test_year_5 <dbl>,
 ## #   test_year_6 <dbl>
 ```
 
@@ -179,7 +179,7 @@ head(school_data_1)
 ```
 
 ```
-## # A tibble: 6 x 8
+## # A tibble: 6 × 8
 ##   person_id school_id summercamp female parental_schooling parental_lincome
 ##       <int>     <int>      <dbl>  <dbl>              <dbl>            <dbl>
 ## 1         1         5          0      1                 10             12.9
@@ -188,7 +188,7 @@ head(school_data_1)
 ## 4         4         8          0      0                 12             14.6
 ## 5         5         9          1      0                 11             13.8
 ## 6         6        26          1      1                 11             14.7
-## # ... with 2 more variables: test_year_5 <dbl>, test_year_6 <dbl>
+## # … with 2 more variables: test_year_5 <dbl>, test_year_6 <dbl>
 ```
 
 ### 2.3 Loading a Stata data file 
@@ -207,7 +207,7 @@ tail(school_data_2,n=8)
 ```
 
 ```
-## # A tibble: 8 x 2
+## # A tibble: 8 × 2
 ##   person_id letter
 ##       <int>  <dbl>
 ## 1      3484      0
@@ -241,16 +241,16 @@ glimpse(school_data_3)
 ```
 ## Rows: 3,491
 ## Columns: 10
-## $ person_id    <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17~
-## $ test_year_2  <dbl> 1.090117, 1.246309, 2.726472, 2.693032, 1.660545, 2.22377~
-## $ test_year_3  <dbl> 1.914594, 1.154470, 2.269011, 2.413203, 1.828067, 2.27566~
-## $ test_year_4  <dbl> 2.065805, 1.582455, 3.247252, 1.479452, 1.361972, 2.38510~
-## $ test_year_7  <dbl> 2.377697, 1.747376, 3.017764, 2.637954, 1.904636, 3.37613~
-## $ test_year_8  <dbl> 2.032904, 2.444041, 3.361646, 3.021940, 2.109774, 3.24542~
-## $ test_year_9  <dbl> 1.493803, 1.663050, 3.387020, 2.761513, 2.285818, 2.96503~
-## $ test_year_10 <dbl> 1.880512, 1.833769, 2.968617, 2.088086, 1.845694, 3.30819~
-## $ learnings    <dbl> 10.236394, 8.278911, 8.966529, 8.876466, 8.770518, 10.484~
-## $ school_id    <int> 5, 14, 7, 8, 9, 26, 13, 11, 23, 9, 25, 15, 3, 4, 17, 7, 1~
+## $ person_id    <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17…
+## $ test_year_2  <dbl> 1.090117, 1.246309, 2.726472, 2.693032, 1.660545, 2.22377…
+## $ test_year_3  <dbl> 1.914594, 1.154470, 2.269011, 2.413203, 1.828067, 2.27566…
+## $ test_year_4  <dbl> 2.065805, 1.582455, 3.247252, 1.479452, 1.361972, 2.38510…
+## $ test_year_7  <dbl> 2.377697, 1.747376, 3.017764, 2.637954, 1.904636, 3.37613…
+## $ test_year_8  <dbl> 2.032904, 2.444041, 3.361646, 3.021940, 2.109774, 3.24542…
+## $ test_year_9  <dbl> 1.493803, 1.663050, 3.387020, 2.761513, 2.285818, 2.96503…
+## $ test_year_10 <dbl> 1.880512, 1.833769, 2.968617, 2.088086, 1.845694, 3.30819…
+## $ learnings    <dbl> 10.236394, 8.278911, 8.966529, 8.876466, 8.770518, 10.484…
+## $ school_id    <int> 5, 14, 7, 8, 9, 26, 13, 11, 23, 9, 25, 15, 3, 4, 17, 7, 1…
 ```
 
 
@@ -421,8 +421,8 @@ Table: Data summary
 
 **Variable type: numeric**
 
-|skim_variable      | n_missing| complete_rate|    mean|      sd|    p0|    p25|     p50|     p75|    p100|hist                                     |
-|:------------------|---------:|-------------:|-------:|-------:|-----:|------:|-------:|-------:|-------:|:----------------------------------------|
+|skim_variable      | n_missing| complete_rate|    mean|      sd|    p0|    p25|     p50|     p75|    p100|hist  |
+|:------------------|---------:|-------------:|-------:|-------:|-----:|------:|-------:|-------:|-------:|:-----|
 |person_id          |         0|             1| 1746.00| 1007.78|  1.00| 873.00| 1746.00| 2619.00| 3491.00|▇▇▇▇▇ |
 |school_id          |         0|             1|   15.66|    8.67|  1.00|   8.00|   15.00|   23.00|   30.00|▇▇▇▇▇ |
 |summercamp         |         0|             1|    0.46|    0.50|  0.00|   0.00|    0.00|    1.00|    1.00|▇▁▁▁▇ |
@@ -465,8 +465,8 @@ Table: Data summary
 
 **Variable type: numeric**
 
-|skim_variable      | n_missing| complete_rate|    mean|      sd|    p0|    p25|     p50|     p75|    p100|hist                                     |
-|:------------------|---------:|-------------:|-------:|-------:|-----:|------:|-------:|-------:|-------:|:----------------------------------------|
+|skim_variable      | n_missing| complete_rate|    mean|      sd|    p0|    p25|     p50|     p75|    p100|hist  |
+|:------------------|---------:|-------------:|-------:|-------:|-----:|------:|-------:|-------:|-------:|:-----|
 |person_id          |         0|             1| 1746.67| 1007.89|  1.00| 873.00| 1746.00| 2620.00| 3491.00|▇▇▇▇▇ |
 |school_id          |         0|             1|   15.66|    8.68|  1.00|   8.00|   15.00|   23.00|   30.00|▇▇▇▇▇ |
 |summercamp         |         0|             1|    0.46|    0.50|  0.00|   0.00|    0.00|    1.00|    1.00|▇▁▁▁▇ |
@@ -494,7 +494,7 @@ head(analysisdata)
 ```
 
 ```
-## # A tibble: 6 x 10
+## # A tibble: 6 × 10
 ##   person_id school_id summerschool female parental_schooling parental_lincome
 ##       <int>     <int>        <dbl>  <dbl>              <dbl>            <dbl>
 ## 1         1         5            0      1                 10             12.9
@@ -503,7 +503,7 @@ head(analysisdata)
 ## 4         1         5            0      1                 10             12.9
 ## 5         1         5            0      1                 10             12.9
 ## 6         1         5            0      1                 10             12.9
-## # ... with 4 more variables: letter <dbl>, learnings <dbl>, year <int>,
+## # … with 4 more variables: letter <dbl>, learnings <dbl>, year <int>,
 ## #   test_score <dbl>
 ```
 
@@ -599,6 +599,9 @@ analysisdata%>%
       stroke-linejoin: round;
       stroke-miterlimit: 10.00;
     }
+    .svglite text {
+      white-space: pre;
+    }
   </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
 </g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="-31.56" y="3.22" width="55.56" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
 </td>
@@ -619,6 +622,9 @@ analysisdata%>%
       stroke-linecap: round;
       stroke-linejoin: round;
       stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
     }
   </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
 </g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.78" y="3.73" width="4.44" height="7.94" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="6.22" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="10.67" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="15.11" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="19.56" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="24.00" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.44" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.89" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="37.33" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="41.78" y="3.22" width="4.44" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
@@ -641,6 +647,9 @@ analysisdata%>%
       stroke-linejoin: round;
       stroke-miterlimit: 10.00;
     }
+    .svglite text {
+      white-space: pre;
+    }
   </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
 </g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.78" y="3.22" width="3.42" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="5.20" y="9.46" width="3.42" height="2.20" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="8.62" y="10.86" width="3.42" height="0.80" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="12.03" y="11.39" width="3.42" height="0.27" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="15.45" y="11.55" width="3.42" height="0.12" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="18.87" y="11.60" width="3.42" height="0.065" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="22.29" y="11.65" width="3.42" height="0.014" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="25.71" y="11.65" width="3.42" height="0.014" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="29.13" y="11.66" width="3.42" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.55" y="11.66" width="3.42" height="0.0068" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="35.97" y="11.66" width="3.42" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="39.38" y="11.66" width="3.42" height="0.0034" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="42.80" y="11.66" width="3.42" height="0.0034" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
 </td>
@@ -661,6 +670,9 @@ analysisdata%>%
       stroke-linecap: round;
       stroke-linejoin: round;
       stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
     }
   </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
 </g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="0.68" y="11.52" width="3.28" height="0.14" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="3.96" y="10.44" width="3.28" height="1.22" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="7.23" y="7.25" width="3.28" height="4.41" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="10.51" y="3.29" width="3.28" height="8.37" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="13.79" y="3.22" width="3.28" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="17.06" y="7.61" width="3.28" height="4.06" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="20.34" y="10.13" width="3.28" height="1.54" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="23.62" y="11.14" width="3.28" height="0.53" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="26.89" y="11.40" width="3.28" height="0.26" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="30.17" y="11.60" width="3.28" height="0.058" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="33.44" y="11.62" width="3.28" height="0.042" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="36.72" y="11.66" width="3.28" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="40.00" y="11.65" width="3.28" height="0.017" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="43.27" y="11.65" width="3.28" height="0.0083" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
@@ -683,6 +695,9 @@ analysisdata%>%
       stroke-linejoin: round;
       stroke-miterlimit: 10.00;
     }
+    .svglite text {
+      white-space: pre;
+    }
   </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
 </g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.78" y="3.22" width="4.44" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="6.22" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="10.67" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="15.11" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="19.56" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="24.00" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.44" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.89" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="37.33" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="41.78" y="8.89" width="4.44" height="2.77" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
 </td>
@@ -704,6 +719,9 @@ analysisdata%>%
       stroke-linejoin: round;
       stroke-miterlimit: 10.00;
     }
+    .svglite text {
+      white-space: pre;
+    }
   </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
 </g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.78" y="3.22" width="4.44" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="6.22" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="10.67" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="15.11" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="19.56" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="24.00" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.44" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.89" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="37.33" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="41.78" y="4.35" width="4.44" height="7.31" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
 </td>
@@ -712,9 +730,9 @@ analysisdata%>%
    <td style="text-align:left;"> test_score </td>
    <td style="text-align:right;"> 3486 </td>
    <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> -0.0 </td>
+   <td style="text-align:right;"> −0.0 </td>
    <td style="text-align:right;"> 1.0 </td>
-   <td style="text-align:right;"> -4.1 </td>
+   <td style="text-align:right;"> −4.1 </td>
    <td style="text-align:right;"> 0.0 </td>
    <td style="text-align:right;"> 3.7 </td>
    <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"><defs><style type="text/css">
@@ -724,6 +742,9 @@ analysisdata%>%
       stroke-linecap: round;
       stroke-linejoin: round;
       stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
     }
   </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
 </g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="-0.32" y="11.65" width="2.83" height="0.012" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="2.51" y="11.66" width="2.83" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="5.35" y="11.59" width="2.83" height="0.073" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="8.18" y="11.41" width="2.83" height="0.26" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="11.01" y="11.07" width="2.83" height="0.60" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="13.85" y="9.85" width="2.83" height="1.81" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="16.68" y="7.63" width="2.83" height="4.03" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="19.51" y="5.36" width="2.83" height="6.30" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="22.35" y="3.95" width="2.83" height="7.71" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="25.18" y="3.22" width="2.83" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.01" y="4.90" width="2.83" height="6.77" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="30.85" y="7.82" width="2.83" height="3.85" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="33.68" y="10.10" width="2.83" height="1.56" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="36.51" y="10.97" width="2.83" height="0.69" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="39.35" y="11.43" width="2.83" height="0.23" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="42.18" y="11.59" width="2.83" height="0.073" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="45.01" y="11.65" width="2.83" height="0.012" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
@@ -789,6 +810,9 @@ analysisdata%>%
       stroke-linejoin: round;
       stroke-miterlimit: 10.00;
     }
+    .svglite text {
+      white-space: pre;
+    }
   </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
 </g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="-31.56" y="3.22" width="55.56" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
 </td>
@@ -809,6 +833,9 @@ analysisdata%>%
       stroke-linecap: round;
       stroke-linejoin: round;
       stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
     }
   </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
 </g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.78" y="3.73" width="4.44" height="7.94" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="6.22" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="10.67" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="15.11" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="19.56" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="24.00" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.44" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.89" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="37.33" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="41.78" y="3.22" width="4.44" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
@@ -831,6 +858,9 @@ analysisdata%>%
       stroke-linejoin: round;
       stroke-miterlimit: 10.00;
     }
+    .svglite text {
+      white-space: pre;
+    }
   </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
 </g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.78" y="3.22" width="3.42" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="5.20" y="9.46" width="3.42" height="2.20" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="8.62" y="10.86" width="3.42" height="0.80" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="12.03" y="11.39" width="3.42" height="0.27" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="15.45" y="11.55" width="3.42" height="0.12" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="18.87" y="11.60" width="3.42" height="0.065" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="22.29" y="11.65" width="3.42" height="0.014" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="25.71" y="11.65" width="3.42" height="0.014" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="29.13" y="11.66" width="3.42" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.55" y="11.66" width="3.42" height="0.0068" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="35.97" y="11.66" width="3.42" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="39.38" y="11.66" width="3.42" height="0.0034" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="42.80" y="11.66" width="3.42" height="0.0034" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
 </td>
@@ -851,6 +881,9 @@ analysisdata%>%
       stroke-linecap: round;
       stroke-linejoin: round;
       stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
     }
   </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
 </g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="0.68" y="11.52" width="3.28" height="0.14" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="3.96" y="10.44" width="3.28" height="1.22" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="7.23" y="7.25" width="3.28" height="4.41" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="10.51" y="3.29" width="3.28" height="8.37" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="13.79" y="3.22" width="3.28" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="17.06" y="7.61" width="3.28" height="4.06" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="20.34" y="10.13" width="3.28" height="1.54" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="23.62" y="11.14" width="3.28" height="0.53" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="26.89" y="11.40" width="3.28" height="0.26" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="30.17" y="11.60" width="3.28" height="0.058" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="33.44" y="11.62" width="3.28" height="0.042" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="36.72" y="11.66" width="3.28" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="40.00" y="11.65" width="3.28" height="0.017" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="43.27" y="11.65" width="3.28" height="0.0083" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
@@ -873,6 +906,9 @@ analysisdata%>%
       stroke-linejoin: round;
       stroke-miterlimit: 10.00;
     }
+    .svglite text {
+      white-space: pre;
+    }
   </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
 </g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.78" y="3.22" width="4.44" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="6.22" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="10.67" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="15.11" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="19.56" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="24.00" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.44" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.89" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="37.33" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="41.78" y="8.89" width="4.44" height="2.77" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
 </td>
@@ -894,6 +930,9 @@ analysisdata%>%
       stroke-linejoin: round;
       stroke-miterlimit: 10.00;
     }
+    .svglite text {
+      white-space: pre;
+    }
   </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
 </g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="1.78" y="3.22" width="4.44" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="6.22" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="10.67" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="15.11" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="19.56" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="24.00" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.44" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="32.89" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="37.33" y="11.66" width="4.44" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="41.78" y="4.35" width="4.44" height="7.31" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
 </td>
@@ -902,9 +941,9 @@ analysisdata%>%
    <td style="text-align:left;"> test_score </td>
    <td style="text-align:right;"> 3486 </td>
    <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> -0.00 </td>
+   <td style="text-align:right;"> −0.00 </td>
    <td style="text-align:right;"> 1.00 </td>
-   <td style="text-align:right;"> -4.13 </td>
+   <td style="text-align:right;"> −4.13 </td>
    <td style="text-align:right;"> 0.02 </td>
    <td style="text-align:right;"> 3.71 </td>
    <td style="text-align:right;">  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="svglite" width="48.00pt" height="12.00pt" viewBox="0 0 48.00 12.00"><defs><style type="text/css">
@@ -914,6 +953,9 @@ analysisdata%>%
       stroke-linecap: round;
       stroke-linejoin: round;
       stroke-miterlimit: 10.00;
+    }
+    .svglite text {
+      white-space: pre;
     }
   </style></defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs><clipPath id="cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw"><rect x="0.00" y="0.00" width="48.00" height="12.00"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwwLjAwfDEyLjAw)">
 </g><defs><clipPath id="cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw"><rect x="0.00" y="2.88" width="48.00" height="9.12"></rect></clipPath></defs><g clip-path="url(#cpMC4wMHw0OC4wMHwyLjg4fDEyLjAw)"><rect x="-0.32" y="11.65" width="2.83" height="0.012" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="2.51" y="11.66" width="2.83" height="0.00" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="5.35" y="11.59" width="2.83" height="0.073" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="8.18" y="11.41" width="2.83" height="0.26" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="11.01" y="11.07" width="2.83" height="0.60" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="13.85" y="9.85" width="2.83" height="1.81" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="16.68" y="7.63" width="2.83" height="4.03" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="19.51" y="5.36" width="2.83" height="6.30" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="22.35" y="3.95" width="2.83" height="7.71" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="25.18" y="3.22" width="2.83" height="8.44" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="28.01" y="4.90" width="2.83" height="6.77" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="30.85" y="7.82" width="2.83" height="3.85" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="33.68" y="10.10" width="2.83" height="1.56" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="36.51" y="10.97" width="2.83" height="0.69" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="39.35" y="11.43" width="2.83" height="0.23" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="42.18" y="11.59" width="2.83" height="0.073" style="stroke-width: 0.38; fill: #000000;"></rect><rect x="45.01" y="11.65" width="2.83" height="0.012" style="stroke-width: 0.38; fill: #000000;"></rect></g></svg>
@@ -944,10 +986,6 @@ datasummary(female+parental_schooling+
  <thead>
 <tr>
 <th style="empty-cells: hide;border-bottom:hidden;" colspan="1"></th>
-<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="4"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">summerschool</div></th>
-</tr>
-<tr>
-<th style="empty-cells: hide;border-bottom:hidden;" colspan="1"></th>
 <th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">0</div></th>
 <th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">1</div></th>
 </tr>
@@ -955,8 +993,8 @@ datasummary(female+parental_schooling+
    <th style="text-align:left;">   </th>
    <th style="text-align:right;"> Mean </th>
    <th style="text-align:right;"> SD </th>
-   <th style="text-align:right;"> Mean  </th>
-   <th style="text-align:right;"> SD  </th>
+   <th style="text-align:right;"> Mean </th>
+   <th style="text-align:right;"> SD </th>
   </tr>
  </thead>
 <tbody>
@@ -983,7 +1021,7 @@ datasummary(female+parental_schooling+
   </tr>
   <tr>
    <td style="text-align:left;"> test_score </td>
-   <td style="text-align:right;"> -0.29 </td>
+   <td style="text-align:right;"> −0.29 </td>
    <td style="text-align:right;"> 0.85 </td>
    <td style="text-align:right;"> 0.34 </td>
    <td style="text-align:right;"> 1.05 </td>
@@ -1031,10 +1069,6 @@ datasummary((`Female`=female)+
  <thead>
 <tr>
 <th style="empty-cells: hide;border-bottom:hidden;" colspan="1"></th>
-<th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="4"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">Attended summer school</div></th>
-</tr>
-<tr>
-<th style="empty-cells: hide;border-bottom:hidden;" colspan="1"></th>
 <th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">0</div></th>
 <th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2"><div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; ">1</div></th>
 </tr>
@@ -1042,8 +1076,8 @@ datasummary((`Female`=female)+
    <th style="text-align:left;">   </th>
    <th style="text-align:right;"> Mean </th>
    <th style="text-align:right;"> SD </th>
-   <th style="text-align:right;"> Mean  </th>
-   <th style="text-align:right;"> SD  </th>
+   <th style="text-align:right;"> Mean </th>
+   <th style="text-align:right;"> SD </th>
   </tr>
  </thead>
 <tbody>
@@ -1077,7 +1111,7 @@ datasummary((`Female`=female)+
   </tr>
   <tr>
    <td style="text-align:left;"> Test Score </td>
-   <td style="text-align:right;"> -0.29 </td>
+   <td style="text-align:right;"> −0.29 </td>
    <td style="text-align:right;"> 0.85 </td>
    <td style="text-align:right;"> 0.34 </td>
    <td style="text-align:right;"> 1.05 </td>
@@ -1284,7 +1318,7 @@ t.test(test_score~summerschool,data=df)
 ## 
 ## data:  test_score by summerschool
 ## t = -11.268, df = 2543.3, p-value < 2.2e-16
-## alternative hypothesis: true difference in means is not equal to 0
+## alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.4565390 -0.3211936
 ## sample estimates:
@@ -1341,8 +1375,8 @@ datasummary_balance(~Treated,
    <th style="text-align:left;">   </th>
    <th style="text-align:right;"> Mean </th>
    <th style="text-align:right;"> Std. Dev. </th>
-   <th style="text-align:right;"> Mean  </th>
-   <th style="text-align:right;"> Std. Dev.  </th>
+   <th style="text-align:right;"> Mean </th>
+   <th style="text-align:right;"> Std. Dev. </th>
    <th style="text-align:right;"> Diff. in Means </th>
    <th style="text-align:right;"> p </th>
   </tr>
@@ -1605,8 +1639,8 @@ modelsummary(models, stars = TRUE,statistic = 'std.error',
   </tr>
   <tr>
    <td style="text-align:left;"> female </td>
-   <td style="text-align:center;"> -0.0143 </td>
-   <td style="text-align:center;"> -0.0096 </td>
+   <td style="text-align:center;"> −0.0143 </td>
+   <td style="text-align:center;"> −0.0096 </td>
   </tr>
   <tr>
    <td style="text-align:left;">  </td>
@@ -1615,8 +1649,8 @@ modelsummary(models, stars = TRUE,statistic = 'std.error',
   </tr>
   <tr>
    <td style="text-align:left;"> parental_schooling </td>
-   <td style="text-align:center;"> -0.0279 </td>
-   <td style="text-align:center;"> -0.0306 </td>
+   <td style="text-align:center;"> −0.0279 </td>
+   <td style="text-align:center;"> −0.0306 </td>
   </tr>
   <tr>
    <td style="text-align:left;box-shadow: 0px 1px">  </td>
@@ -1631,37 +1665,17 @@ modelsummary(models, stars = TRUE,statistic = 'std.error',
   <tr>
    <td style="text-align:left;"> R2 </td>
    <td style="text-align:center;"> 0.473 </td>
-   <td style="text-align:center;"> 0.479 </td>
+   <td style="text-align:center;">  </td>
   </tr>
   <tr>
    <td style="text-align:left;"> R2 Adj. </td>
    <td style="text-align:center;"> 0.473 </td>
-   <td style="text-align:center;"> 0.474 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> R2 Within </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;"> 0.473 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> R2 Pseudo </td>
-   <td style="text-align:center;">  </td>
    <td style="text-align:center;">  </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> AIC </td>
-   <td style="text-align:center;"> 7655.3 </td>
-   <td style="text-align:center;"> 7673.6 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> BIC </td>
-   <td style="text-align:center;"> 7686.1 </td>
-   <td style="text-align:center;"> 7882.9 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Log.Lik. </td>
-   <td style="text-align:center;"> -3822.647 </td>
-   <td style="text-align:center;"> -3802.789 </td>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 0.73 </td>
+   <td style="text-align:center;"> 0.72 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Std.Errors </td>
@@ -1721,7 +1735,7 @@ modelsummary(models, stars = TRUE,statistic = 'std.error',
 ```
 
 ```{=html}
-<template id="88f0c57b-cea7-4841-b5f0-db3070fb9502"><style>
+<template id="dadeb32e-8f83-44ce-a83c-5fcaa3b7be3d"><style>
 .tabwid table{
   border-spacing:0px !important;
   border-collapse:collapse;
@@ -1729,10 +1743,11 @@ modelsummary(models, stars = TRUE,statistic = 'std.error',
   margin-left:auto;
   margin-right:auto;
   border-width: 0;
-  display: table;
-  margin-top: 1.275em;
-  margin-bottom: 1.275em;
   border-color: transparent;
+  caption-side: top;
+}
+.tabwid-caption-bottom table{
+  caption-side: bottom;
 }
 .tabwid_left table{
   margin-left:0;
@@ -1740,7 +1755,7 @@ modelsummary(models, stars = TRUE,statistic = 'std.error',
 .tabwid_right table{
   margin-right:0;
 }
-.tabwid td {
+.tabwid td, .tabwid th {
     padding: 0;
 }
 .tabwid a {
@@ -1755,22 +1770,14 @@ modelsummary(models, stars = TRUE,statistic = 'std.error',
 .tabwid table tr {
 background-color: transparent;
 }
-</style><div class="tabwid"><style>.cl-063fbebc{}.cl-06327c52{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-0632a47a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-0632f24a{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0632f24b{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0632f24c{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0632f24d{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0632f24e{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table class='cl-063fbebc'>
-```
-
-```{=html}
-<thead><tr style="overflow-wrap:break-word;"><td class="cl-0632f24e"><p class="cl-0632a47a"><span class="cl-06327c52"> </span></p></td><td class="cl-0632f24e"><p class="cl-0632a47a"><span class="cl-06327c52">Model 1</span></p></td><td class="cl-0632f24e"><p class="cl-0632a47a"><span class="cl-06327c52">Model 2</span></p></td></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">letter</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">0.4428***</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">0.4434***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52"></span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">(0.0135)</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">(0.0137)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">parental_schooling</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52"></span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">0.0363**</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52"></span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52"></span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">(0.0118)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">parental_lincome</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52"></span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">0.1869***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52"></span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52"></span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">(0.0227)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">female</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52"></span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">0.0096</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52"></span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52"></span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">(0.0110)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24c"><p class="cl-0632a47a"><span class="cl-06327c52">Num.Obs.</span></p></td><td class="cl-0632f24c"><p class="cl-0632a47a"><span class="cl-06327c52">3481</span></p></td><td class="cl-0632f24c"><p class="cl-0632a47a"><span class="cl-06327c52">3481</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">R2</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">0.147</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">0.255</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">R2 Adj.</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">0.146</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">0.254</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">R2 Within</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52"></span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">R2 Pseudo</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52"></span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52"></span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">AIC</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">4487.0</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">4021.9</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">BIC</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">4499.3</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">4052.6</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">Log.Lik.</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">-2241.483</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">-2005.926</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">Std.Errors</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">by: school_id</span></p></td><td class="cl-0632f24a"><p class="cl-0632a47a"><span class="cl-06327c52">by: school_id</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-0632f24b"><p class="cl-0632a47a"><span class="cl-06327c52">Mean of Dep. </span></p></td><td class="cl-0632f24b"><p class="cl-0632a47a"><span class="cl-06327c52">0.4642</span></p></td><td class="cl-0632f24b"><p class="cl-0632a47a"><span class="cl-06327c52">0.4642</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td  colspan="3"class="cl-0632f24d"><p class="cl-0632a47a"><span class="cl-06327c52">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</span></p></td></tr></tfoot></table></div></template>
-<div class="flextable-shadow-host" id="fc3617e4-2f0a-4206-bf86-0bcdee6dcfb4"></div>
-<script>
-var dest = document.getElementById("fc3617e4-2f0a-4206-bf86-0bcdee6dcfb4");
-var template = document.getElementById("88f0c57b-cea7-4841-b5f0-db3070fb9502");
-var caption = template.content.querySelector("caption");
-if(caption) {
-  caption.style.cssText = "display:block;text-align:center;";
-  var newcapt = document.createElement("p");
-  newcapt.appendChild(caption)
-  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+.katex-display {
+    margin: 0 0 !important;
 }
+</style><div class="tabwid"><style>.cl-f04ee550{}.cl-f04216fe{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f0475236{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f0477414{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f0477415{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f047741e{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1pt solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f047741f{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f0477420{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table class='cl-f04ee550'><thead><tr style="overflow-wrap:break-word;"><th class="cl-f0477414"><p class="cl-f0475236"><span class="cl-f04216fe"> </span></p></th><th class="cl-f0477414"><p class="cl-f0475236"><span class="cl-f04216fe">Model 1</span></p></th><th class="cl-f0477414"><p class="cl-f0475236"><span class="cl-f04216fe">Model 2</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">letter</span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">0.4428***</span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">0.4434***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe"></span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">(0.0135)</span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">(0.0137)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">parental_schooling</span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe"></span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">0.0363**</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe"></span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe"></span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">(0.0118)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">parental_lincome</span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe"></span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">0.1869***</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe"></span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe"></span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">(0.0227)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">female</span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe"></span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">0.0096</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe"></span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe"></span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">(0.0110)</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f047741e"><p class="cl-f0475236"><span class="cl-f04216fe">Num.Obs.</span></p></td><td class="cl-f047741e"><p class="cl-f0475236"><span class="cl-f04216fe">3481</span></p></td><td class="cl-f047741e"><p class="cl-f0475236"><span class="cl-f04216fe">3481</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">R2</span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">0.147</span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">0.255</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">R2 Adj.</span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">0.146</span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">0.254</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">RMSE</span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">0.46</span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">0.43</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">Std.Errors</span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">by: school_id</span></p></td><td class="cl-f0477415"><p class="cl-f0475236"><span class="cl-f04216fe">by: school_id</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-f047741f"><p class="cl-f0475236"><span class="cl-f04216fe">Mean of Dep. </span></p></td><td class="cl-f047741f"><p class="cl-f0475236"><span class="cl-f04216fe">0.464234415397874</span></p></td><td class="cl-f047741f"><p class="cl-f0475236"><span class="cl-f04216fe">0.464234415397874</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td  colspan="3"class="cl-f0477420"><p class="cl-f0475236"><span class="cl-f04216fe">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</span></p></td></tr></tfoot></table></div></template>
+<div class="flextable-shadow-host" id="6a5b7097-bf4f-4cdb-b81a-a4e576aaf78c"></div>
+<script>
+var dest = document.getElementById("6a5b7097-bf4f-4cdb-b81a-a4e576aaf78c");
+var template = document.getElementById("dadeb32e-8f83-44ce-a83c-5fcaa3b7be3d");
 var fantome = dest.attachShadow({mode: 'open'});
 var templateContent = template.content;
 fantome.appendChild(templateContent);
@@ -1860,7 +1867,7 @@ modelsummary(list("LPM"=lpm,"Logit"=mfx_logit,"Probit"=mfx_probit))
 <tbody>
   <tr>
    <td style="text-align:left;"> (Intercept) </td>
-   <td style="text-align:center;"> -2.783 </td>
+   <td style="text-align:center;"> −2.783 </td>
    <td style="text-align:center;">  </td>
    <td style="text-align:center;">  </td>
   </tr>
@@ -1921,8 +1928,8 @@ modelsummary(list("LPM"=lpm,"Logit"=mfx_logit,"Probit"=mfx_probit))
   <tr>
    <td style="text-align:left;"> Num.Obs. </td>
    <td style="text-align:center;"> 3481 </td>
-   <td style="text-align:center;"> 3481 </td>
-   <td style="text-align:center;"> 3481 </td>
+   <td style="text-align:center;">  </td>
+   <td style="text-align:center;">  </td>
   </tr>
   <tr>
    <td style="text-align:left;"> R2 </td>
@@ -1937,34 +1944,22 @@ modelsummary(list("LPM"=lpm,"Logit"=mfx_logit,"Probit"=mfx_probit))
    <td style="text-align:center;">  </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> R2 Within </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> R2 Pseudo </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-  </tr>
-  <tr>
    <td style="text-align:left;"> AIC </td>
-   <td style="text-align:center;"> 4021.9 </td>
+   <td style="text-align:center;">  </td>
    <td style="text-align:center;"> 3808.1 </td>
    <td style="text-align:center;"> 3813.8 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> BIC </td>
-   <td style="text-align:center;"> 4052.6 </td>
+   <td style="text-align:center;">  </td>
    <td style="text-align:center;"> 3838.9 </td>
    <td style="text-align:center;"> 3844.5 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> Log.Lik. </td>
-   <td style="text-align:center;"> -2005.926 </td>
-   <td style="text-align:center;"> -1899.039 </td>
-   <td style="text-align:center;"> -1901.884 </td>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 0.43 </td>
+   <td style="text-align:center;"> 0.43 </td>
+   <td style="text-align:center;"> 0.43 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Std.Errors </td>
@@ -2156,10 +2151,10 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   </tr>
   <tr>
    <td style="text-align:left;"> Female </td>
-   <td style="text-align:center;"> -0.0226 </td>
-   <td style="text-align:center;"> -0.0143 </td>
+   <td style="text-align:center;"> −0.0226 </td>
+   <td style="text-align:center;"> −0.0143 </td>
    <td style="text-align:center;"> 0.0096 </td>
-   <td style="text-align:center;"> -0.0187 </td>
+   <td style="text-align:center;"> −0.0187 </td>
   </tr>
   <tr>
    <td style="text-align:left;">  </td>
@@ -2170,10 +2165,10 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
   </tr>
   <tr>
    <td style="text-align:left;"> Parental Schooling </td>
-   <td style="text-align:center;"> -0.0551** </td>
-   <td style="text-align:center;"> -0.0279 </td>
+   <td style="text-align:center;"> −0.0551** </td>
+   <td style="text-align:center;"> −0.0279 </td>
    <td style="text-align:center;"> 0.0363** </td>
-   <td style="text-align:center;"> -0.0447* </td>
+   <td style="text-align:center;"> −0.0447* </td>
   </tr>
   <tr>
    <td style="text-align:left;box-shadow: 0px 1px">  </td>
@@ -2204,39 +2199,11 @@ modelsummary(IVresults, stars = TRUE,statistic = 'std.error',
    <td style="text-align:center;"> 0.577 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> R2 Within </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> R2 Pseudo </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-   <td style="text-align:center;">  </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> AIC </td>
-   <td style="text-align:center;"> 6698.9 </td>
-   <td style="text-align:center;"> 7655.3 </td>
-   <td style="text-align:center;"> 4021.9 </td>
-   <td style="text-align:center;"> 6884.8 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> BIC </td>
-   <td style="text-align:center;"> 6729.7 </td>
-   <td style="text-align:center;"> 7686.1 </td>
-   <td style="text-align:center;"> 4052.6 </td>
-   <td style="text-align:center;"> 6915.5 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Log.Lik. </td>
-   <td style="text-align:center;"> -3344.459 </td>
-   <td style="text-align:center;"> -3822.647 </td>
-   <td style="text-align:center;"> -2005.926 </td>
-   <td style="text-align:center;"> -3437.384 </td>
+   <td style="text-align:left;"> RMSE </td>
+   <td style="text-align:center;"> 0.63 </td>
+   <td style="text-align:center;"> 0.73 </td>
+   <td style="text-align:center;"> 0.43 </td>
+   <td style="text-align:center;"> 0.65 </td>
   </tr>
   <tr>
    <td style="text-align:left;"> Std.Errors </td>
@@ -2368,12 +2335,12 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
 ```
 
 ```{=html}
-<div id="lzotssahvh" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="noyrqygafs" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#lzotssahvh .gt_table {
+#noyrqygafs .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2398,7 +2365,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-left-color: #D3D3D3;
 }
 
-#lzotssahvh .gt_heading {
+#noyrqygafs .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2410,33 +2377,37 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#lzotssahvh .gt_title {
+#noyrqygafs .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#lzotssahvh .gt_subtitle {
+#noyrqygafs .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
   padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#lzotssahvh .gt_bottom_border {
+#noyrqygafs .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lzotssahvh .gt_col_headings {
+#noyrqygafs .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2451,7 +2422,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#lzotssahvh .gt_col_heading {
+#noyrqygafs .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2471,7 +2442,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   overflow-x: hidden;
 }
 
-#lzotssahvh .gt_column_spanner_outer {
+#noyrqygafs .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2483,15 +2454,15 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   padding-right: 4px;
 }
 
-#lzotssahvh .gt_column_spanner_outer:first-child {
+#noyrqygafs .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lzotssahvh .gt_column_spanner_outer:last-child {
+#noyrqygafs .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lzotssahvh .gt_column_spanner {
+#noyrqygafs .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2503,8 +2474,11 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   width: 100%;
 }
 
-#lzotssahvh .gt_group_heading {
-  padding: 8px;
+#noyrqygafs .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2525,7 +2499,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   vertical-align: middle;
 }
 
-#lzotssahvh .gt_empty_group_heading {
+#noyrqygafs .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2540,15 +2514,15 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   vertical-align: middle;
 }
 
-#lzotssahvh .gt_from_md > :first-child {
+#noyrqygafs .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lzotssahvh .gt_from_md > :last-child {
+#noyrqygafs .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lzotssahvh .gt_row {
+#noyrqygafs .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2567,7 +2541,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   overflow-x: hidden;
 }
 
-#lzotssahvh .gt_stub {
+#noyrqygafs .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2576,10 +2550,29 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#lzotssahvh .gt_summary_row {
+#noyrqygafs .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#noyrqygafs .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#noyrqygafs .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2589,17 +2582,26 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   padding-right: 5px;
 }
 
-#lzotssahvh .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+#noyrqygafs .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#lzotssahvh .gt_grand_summary_row {
+#noyrqygafs .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#noyrqygafs .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#noyrqygafs .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2609,7 +2611,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   padding-right: 5px;
 }
 
-#lzotssahvh .gt_first_grand_summary_row {
+#noyrqygafs .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2619,11 +2621,11 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-top-color: #D3D3D3;
 }
 
-#lzotssahvh .gt_striped {
+#noyrqygafs .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lzotssahvh .gt_table_body {
+#noyrqygafs .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2632,7 +2634,7 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-bottom-color: #D3D3D3;
 }
 
-#lzotssahvh .gt_footnotes {
+#noyrqygafs .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2646,13 +2648,16 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#lzotssahvh .gt_footnote {
+#noyrqygafs .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#lzotssahvh .gt_sourcenotes {
+#noyrqygafs .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2666,55 +2671,84 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
   border-right-color: #D3D3D3;
 }
 
-#lzotssahvh .gt_sourcenote {
+#noyrqygafs .gt_sourcenote {
   font-size: 90%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#lzotssahvh .gt_left {
+#noyrqygafs .gt_left {
   text-align: left;
 }
 
-#lzotssahvh .gt_center {
+#noyrqygafs .gt_center {
   text-align: center;
 }
 
-#lzotssahvh .gt_right {
+#noyrqygafs .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lzotssahvh .gt_font_normal {
+#noyrqygafs .gt_font_normal {
   font-weight: normal;
 }
 
-#lzotssahvh .gt_font_bold {
+#noyrqygafs .gt_font_bold {
   font-weight: bold;
 }
 
-#lzotssahvh .gt_font_italic {
+#noyrqygafs .gt_font_italic {
   font-style: italic;
 }
 
-#lzotssahvh .gt_super {
+#noyrqygafs .gt_super {
   font-size: 65%;
 }
 
-#lzotssahvh .gt_footnote_marks {
+#noyrqygafs .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
-  font-size: 65%;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#noyrqygafs .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#noyrqygafs .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#noyrqygafs .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#noyrqygafs .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#noyrqygafs .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#noyrqygafs .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"> </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Model 1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Model 2</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Model 3</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Model 4</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col"> </th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col">Model 1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col">Model 2</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col">Model 3</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col">Model 4</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
@@ -2755,39 +2789,19 @@ modelsummary(list(m1,m2,m3,m4), stars = TRUE,statistic = 'std.error',
 <td class="gt_row gt_center">27883</td></tr>
     <tr><td class="gt_row gt_left">R2</td>
 <td class="gt_row gt_center">0.233</td>
-<td class="gt_row gt_center">0.239</td>
-<td class="gt_row gt_center">0.532</td>
-<td class="gt_row gt_center">0.548</td></tr>
-    <tr><td class="gt_row gt_left">R2 Adj.</td>
-<td class="gt_row gt_center">0.232</td>
-<td class="gt_row gt_center">0.238</td>
-<td class="gt_row gt_center">0.532</td>
-<td class="gt_row gt_center">0.548</td></tr>
-    <tr><td class="gt_row gt_left">R2 Within</td>
-<td class="gt_row gt_center"></td>
-<td class="gt_row gt_center">0.231</td>
-<td class="gt_row gt_center">0.527</td>
-<td class="gt_row gt_center">0.543</td></tr>
-    <tr><td class="gt_row gt_left">R2 Pseudo</td>
-<td class="gt_row gt_center"></td>
 <td class="gt_row gt_center"></td>
 <td class="gt_row gt_center"></td>
 <td class="gt_row gt_center"></td></tr>
-    <tr><td class="gt_row gt_left">AIC</td>
-<td class="gt_row gt_center">80703.0</td>
-<td class="gt_row gt_center">80497.9</td>
-<td class="gt_row gt_center">65234.4</td>
-<td class="gt_row gt_center">57041.8</td></tr>
-    <tr><td class="gt_row gt_left">BIC</td>
-<td class="gt_row gt_center">80736.4</td>
-<td class="gt_row gt_center">80832.0</td>
-<td class="gt_row gt_center">65593.6</td>
-<td class="gt_row gt_center">57387.7</td></tr>
-    <tr><td class="gt_row gt_left">Log.Lik.</td>
-<td class="gt_row gt_center">-40347.490</td>
-<td class="gt_row gt_center">-40208.940</td>
-<td class="gt_row gt_center">-32574.202</td>
-<td class="gt_row gt_center">-28478.882</td></tr>
+    <tr><td class="gt_row gt_left">R2 Adj.</td>
+<td class="gt_row gt_center">0.232</td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left">RMSE</td>
+<td class="gt_row gt_center">0.88</td>
+<td class="gt_row gt_center">0.87</td>
+<td class="gt_row gt_center">0.68</td>
+<td class="gt_row gt_center">0.67</td></tr>
     <tr><td class="gt_row gt_left">FE: school_id</td>
 <td class="gt_row gt_center"></td>
 <td class="gt_row gt_center">X</td>

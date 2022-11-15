@@ -33,14 +33,14 @@ This tutorial is written for Applied Economics students at the University of Bri
 
 **How this works**
 
-- There are two tutorials. This one is the **dynamic** version. To try the **static** version go to: [hhsievertsen.github.io/applied_econ_with_r/](https://hhsievertsen.github.io/applied_econ_with_r/) (the cover the same material).
+- There are two tutorials. This one is the **dynamic** version. To try the **static** version go to: [hhsievertsen.github.io/applied_econ_with_r/](https://hhsievertsen.github.io/applied_econ_with_r/) (they cover the same material).
 - The tutorial aims at covering the same methods we covered in Stata during the term.
 - All data used is directly downloadable. You should therefore be able to download the data and try the methods in R on your own computer. 
 - The tutorial mainly consists of code blocks  and the resulting output.  Every now and then I include some references to how I would do the same task in Stata or key differences to Stata. 
 
 I appreciate feedback, thanks.
 
-Hans  (November 11 , 2021)
+Hans  (November 15 , 2022)
 
 
 <br><br><br><br><br><br>
