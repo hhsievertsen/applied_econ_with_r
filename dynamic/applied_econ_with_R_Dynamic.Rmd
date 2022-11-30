@@ -20,6 +20,7 @@ library("sjPlot")
 library("psych")
 library(learnr)
 library("openxlsx")
+library("flextable")
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
@@ -403,7 +404,7 @@ analysisdata%>%
   datasummary_skim()
 ```
 
-Let's  change the appearance of the table and export it to Word.  When exporting it to Latex, we can't have histogram', so we disable them. We specify `output="docx"` to write to a Word file. We can also export the table to other formats like LaTex. 
+Let's  change the appearance of the table and export it to Word.  When exporting it to Latex, we can't have histogram', so we disable them. We specify `output="docx"` to write to a Word file. We can also export the table to other formats like LaTex (note that this will not work in this dynamic version of the tutorial, but only on your own computer or in RStudio cloud). 
 
 ```{r ch4-2,eval=F, warning=F,include=T,echo=T,results="asis",message=FALSE}
 # load modelsummary
